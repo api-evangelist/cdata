@@ -1,27 +1,109 @@
 aid: cdata
-name: CData
-description: 'Provide real-time data access across enterprise apps. '
-type: Index
-position: Consumer
-access: 3rd-Party
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-tags:
-  - API
-created: '2025-06-05'
-modified: '2025-06-05'
 url: >-
   https://raw.githubusercontent.com/api-evangelist/cdata/refs/heads/main/apis.yml
-specificationVersion: '0.19'
 apis:
   - aid: cdata:cdata
     name: CData
-    description: 'Provide real-time data access across enterprise apps. '
-    humanURL: ' https://www.cdata.com/'
     tags:
       - API
+    humanURL: ' https://www.cdata.com/'
     properties:
-      - type: Documentation
-        url: ' https://www.cdata.com/'
+      - url: ' https://www.cdata.com/'
+        type: Documentation
+    description: 'Provide real-time data access across enterprise apps. '
+name: CData
+tags:
+  - Data
+  - Databases
+  - SQL
+  - NoSQL
+  - Data Access
+  - Data Connectivity
+type: Contract
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+access: 3rd-Party
+created: '2025-06-05'
+modified: '2025-07-15'
+position: Consuming
+description: >-
+  CData Software is a leading provider of data access and connectivity
+  solutions. Our standards-based connectors streamline data access and insulate
+  customers from the complexities of integrating with on-premise or cloud
+  databases, SaaS, APIs, NoSQL, and Big Data.
 maintainers:
   - FN: Kin Lane
     email: info@apievangelist.com
+specificationVersion: '0.19'
+common:
+  - name: CData Software - About Us
+    description: 'null'
+    url: https://www.cdata.com/company/
+    type: About
+  - name: CData Partnerships by Industry | Become One Today
+    description: 'null'
+    url: https://www.cdata.com/embedded/customers/
+    type: Partners
+  - name: CData Software - Testimonials
+    description: 'null'
+    url: https://www.cdata.com/company/testimonials.aspx
+    type: Testimonials
+  - name: CData Success Stories & Case Studies
+    description: 'null'
+    url: https://www.cdata.com/case-study/
+    type: CaseStudies
+  - name: CData Software - Technical Support
+    description: 'null'
+    url: https://www.cdata.com/support/
+    type: Support
+  - name: CData Software - Knowledge Base
+    description: 'null'
+    url: https://www.cdata.com/kb/
+    type: Knowledgebase
+  - name: CData Software - Blog
+    description: 'null'
+    url: https://www.cdata.com/blog/
+    type: Blog
+  - name: Learn from Our E-Books, Whitepapers, Webinars, and More
+    description: 'null'
+    url: https://www.cdata.com/resources/
+    type: WhitePapers
+  - name: Learn from Our E-Books, Whitepapers, Webinars, and More
+    description: 'null'
+    url: https://www.cdata.com/resources/
+    type: Webinars
+  - name: Join Us at These Upcoming In-Person and Virtual CData Events
+    description: 'null'
+    url: https://www.cdata.com/events/
+    type: Events
+  - name: CData Developer Center
+    description: 'null'
+    url: https://www.cdata.com/developers/
+    type: Portal
+  - name: CData Glossary Archive
+    description: 'null'
+    url: https://www.cdata.com/glossary/
+    type: Glossary
+  - name: CData Software - Video Gallery
+    description: 'null'
+    url: https://www.cdata.com/kb/video/
+    type: Videos
+  - name: Read the Latest News from CData
+    description: 'null'
+    url: https://www.cdata.com/company/press.aspx
+    type: PressReleases
+  - name: CData Software - Terms of use
+    description: 'null'
+    url: https://www.cdata.com/company/legal/terms/
+    type: TermsOfService
+  - name: CData Software - Privacy Policy
+    description: 'null'
+    url: https://www.cdata.com/company/legal/privacy/
+    type: PrivacyPolicy
+  - name: Security & Privacy - CData Software Trust Center
+    description: 'null'
+    url: https://www.cdata.com/security/
+    type: Security
+  - name: Security & Privacy - CData Software Trust Center
+    description: 'null'
+    url: https://www.cdata.com/security/
+    type: Compliance
