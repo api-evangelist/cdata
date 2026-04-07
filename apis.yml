@@ -4,8 +4,7 @@ url: >-
 apis:
   - aid: cdata:log-api
     name: CData Log API
-    tags:
-      - API
+    tags: []
     humanURL: https://cloud.cdata.com/docs/Log-API.html
     properties:
       - url: https://cloud.cdata.com/docs/Log-API.html
@@ -14,8 +13,7 @@ apis:
       Provide real-time data access across enterprise apps.
   - aid: cdata:metadata-api
     name: CData Metadata API
-    tags:
-      - API
+    tags: []
     humanURL: https://cloud.cdata.com/docs/Metadata-API.html
     properties:
       - url: https://cloud.cdata.com/docs/Metadata-API.html
@@ -24,8 +22,7 @@ apis:
       Provide real-time data access across enterprise apps.
   - aid: cdata:sql-api
     name: CData SQL API
-    tags:
-      - API
+    tags: []
     humanURL: https://cloud.cdata.com/docs/SQL-API.html
     properties:
       - url: https://cloud.cdata.com/docs/SQL-API.html
@@ -35,11 +32,11 @@ apis:
 name: CData
 tags:
   - Data
-  - Databases
-  - SQL
-  - NoSQL
   - Data Access
   - Data Connectivity
+  - Databases
+  - NoSQL
+  - SQL
 type: Contract
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 access: 3rd-Party
