@@ -10,7 +10,8 @@ apis:
     properties:
       - url: https://cloud.cdata.com/docs/Log-API.html
         type: Documentation
-    description: 'Provide real-time data access across enterprise apps. '
+    description: >-
+      Provide real-time data access across enterprise apps.
   - aid: cdata:metadata-api
     name: CData Metadata API
     tags:
@@ -19,7 +20,8 @@ apis:
     properties:
       - url: https://cloud.cdata.com/docs/Metadata-API.html
         type: Documentation
-    description: 'Provide real-time data access across enterprise apps. '
+    description: >-
+      Provide real-time data access across enterprise apps.
   - aid: cdata:sql-api
     name: CData SQL API
     tags:
@@ -28,7 +30,8 @@ apis:
     properties:
       - url: https://cloud.cdata.com/docs/SQL-API.html
         type: Documentation
-    description: 'Provide real-time data access across enterprise apps. '
+    description: >-
+      Provide real-time data access across enterprise apps.
 name: CData
 tags:
   - Data
