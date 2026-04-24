@@ -5,9 +5,9 @@ CData Software is a leading provider of data access and connectivity solutions. 
 
 ## Scope
 
-- **Type:** Contract 
-- **Position:** Consuming 
-- **Access:** 3rd-Party 
+- **Type:** Contract
+- **Position:** Consumer
+- **Access:** 3rd-Party
 
 ## Tags:
 
@@ -15,50 +15,117 @@ CData Software is a leading provider of data access and connectivity solutions. 
 
 ## Timestamps
 
-- **Created:** 2025-06-05 
-- **Modified:** 2025-07-15 
+- **Created:** 2025-06-05
+- **Modified:** 2026-04-23
 
 ## APIs
 
-### CData Log API
-Provide real-time data access across enterprise apps. 
-
-**Human URL:** [https://cloud.cdata.com/docs/Log-API.html](https://cloud.cdata.com/docs/Log-API.html)
-
-
-#### Tags:
-
- - API
-
-#### Properties
-
-- [Documentation](https://cloud.cdata.com/docs/Log-API.html)
-### CData Metadata API
-Provide real-time data access across enterprise apps. 
-
-**Human URL:** [https://cloud.cdata.com/docs/Metadata-API.html](https://cloud.cdata.com/docs/Metadata-API.html)
-
-
-#### Tags:
-
- - API
-
-#### Properties
-
-- [Documentation](https://cloud.cdata.com/docs/Metadata-API.html)
 ### CData SQL API
-Provide real-time data access across enterprise apps. 
+The CData Cloud SQL API provides HTTP-based access to execute SQL queries, batch operations, and stored procedures across all data sources configured in a CData Connect Cloud account. Real-time data access across enterprise apps.
 
 **Human URL:** [https://cloud.cdata.com/docs/SQL-API.html](https://cloud.cdata.com/docs/SQL-API.html)
 
-
 #### Tags:
 
- - API
+ - SQL, Query, REST, Data Access
 
 #### Properties
 
 - [Documentation](https://cloud.cdata.com/docs/SQL-API.html)
+- [Overview](https://cloud.cdata.com/docs/API.html)
+- [Authentication](https://cloud.cdata.com/docs/Authentication.html)
+
+### CData Metadata API
+The CData Cloud Metadata API exposes catalog information including schemas, tables, columns, keys, and stored procedures across every configured data source, enabling tools to introspect the connected sources before querying.
+
+**Human URL:** [https://cloud.cdata.com/docs/Metadata-API.html](https://cloud.cdata.com/docs/Metadata-API.html)
+
+#### Tags:
+
+ - Metadata, Catalog, Schemas, Data Access
+
+#### Properties
+
+- [Documentation](https://cloud.cdata.com/docs/Metadata-API.html)
+
+### CData Log API
+The CData Cloud Log API retrieves operational logs for queries, jobs, and connection events, enabling observability of the CData Connect Cloud service.
+
+**Human URL:** [https://cloud.cdata.com/docs/Log-API.html](https://cloud.cdata.com/docs/Log-API.html)
+
+#### Tags:
+
+ - Logs, Observability, Audit
+
+#### Properties
+
+- [Documentation](https://cloud.cdata.com/docs/Log-API.html)
+
+### CData Connection API
+The CData Cloud Connection API manages data source connections programmatically, allowing administrators to create, update, test, and delete connections to databases and SaaS applications.
+
+**Human URL:** [https://cloud.cdata.com/docs/Connection-API.html](https://cloud.cdata.com/docs/Connection-API.html)
+
+#### Tags:
+
+ - Connections, Data Sources, Administration
+
+#### Properties
+
+- [Documentation](https://cloud.cdata.com/docs/Connection-API.html)
+
+### CData Job API
+The CData Cloud Job API monitors background jobs such as replication, caching, and scheduled operations, exposing job state and history.
+
+**Human URL:** [https://cloud.cdata.com/docs/Job-API.html](https://cloud.cdata.com/docs/Job-API.html)
+
+#### Tags:
+
+ - Background Jobs, Monitoring, Replication
+
+#### Properties
+
+- [Documentation](https://cloud.cdata.com/docs/Job-API.html)
+
+### CData Account API
+The CData Cloud Account API manages account settings, workspaces, and user-level configuration for the CData Connect Cloud tenant.
+
+**Human URL:** [https://cloud.cdata.com/docs/Account-API.html](https://cloud.cdata.com/docs/Account-API.html)
+
+#### Tags:
+
+ - Account Management, Users, Administration
+
+#### Properties
+
+- [Documentation](https://cloud.cdata.com/docs/Account-API.html)
+
+### CData Audit API
+The CData Cloud Audit API tracks system activities and administrative events, supporting compliance and security monitoring requirements such as SOC 2 and GDPR.
+
+**Human URL:** [https://cloud.cdata.com/docs/Audit-API.html](https://cloud.cdata.com/docs/Audit-API.html)
+
+#### Tags:
+
+ - Audit, Compliance, Security
+
+#### Properties
+
+- [Documentation](https://cloud.cdata.com/docs/Audit-API.html)
+
+### CData OData API
+CData Connect Cloud exposes an OData v4 compatible API that allows any OData client to browse metadata and query data from any configured source, including Excel, Power BI, and other BI tools.
+
+**Human URL:** [https://cloud.cdata.com/docs/OData.html](https://cloud.cdata.com/docs/OData.html)
+
+#### Tags:
+
+ - OData, REST, Data Access
+
+#### Properties
+
+- [Documentation](https://cloud.cdata.com/docs/OData.html)
+- [Specification](https://www.odata.org/documentation/)
 
 ## Common Properties
 
@@ -81,12 +148,9 @@ Provide real-time data access across enterprise apps.
 - [Security](https://www.cdata.com/security/)
 - [Compliance](https://www.cdata.com/security/)
 - [AWSMarketplace](https://aws.amazon.com/marketplace/pp/prodview-jizwvan7n7sn6)
-- [Features](undefined)
-- [Integrations](undefined)
 
 ## Maintainers
 
 **FN:** Kin Lane
 
 **Email:** info@apievangelist.com
-
