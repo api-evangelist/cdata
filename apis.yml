@@ -135,6 +135,10 @@ kind: contract
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 access: 3rd-Party
 common:
+  - type: GitHubOrganization
+    url: https://github.com/cdatasoftware
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/cdatasoftware
   - url: https://www.cdata.com/company/
     name: CData Software - About Us
     type: About
