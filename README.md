@@ -1,17 +1,22 @@
 # CData (cdata)
+
 CData Software is a leading provider of data access and connectivity solutions. Our standards-based connectors streamline data access and insulate customers from the complexities of integrating with on-premise or cloud databases, SaaS, APIs, NoSQL, and Big Data.
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/cdata/refs/heads/main/apis.yml)
+**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/cdata/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/cdata/refs/heads/main/apis.yml)
 
 ## Scope
 
-- **Type:** Contract
 - **Position:** Consumer
 - **Access:** 3rd-Party
 
-## Tags:
+## Tags
 
- - Data, Databases, SQL, NoSQL, Data Access, Data Connectivity
+- Data
+- Data Access
+- Data Connectivity
+- Databases
+- NoSQL
+- SQL
 
 ## Timestamps
 
@@ -21,136 +26,181 @@ CData Software is a leading provider of data access and connectivity solutions. 
 ## APIs
 
 ### CData SQL API
+
 The CData Cloud SQL API provides HTTP-based access to execute SQL queries, batch operations, and stored procedures across all data sources configured in a CData Connect Cloud account. Real-time data access across enterprise apps.
 
-**Human URL:** [https://cloud.cdata.com/docs/SQL-API.html](https://cloud.cdata.com/docs/SQL-API.html)
+- **Human URL:** [https://cloud.cdata.com/docs/SQL-API.html](https://cloud.cdata.com/docs/SQL-API.html)
 
-#### Tags:
+#### Tags
 
- - SQL, Query, REST, Data Access
+- Data Access
+- Query
+- REST
+- SQL
 
 #### Properties
 
 - [Documentation](https://cloud.cdata.com/docs/SQL-API.html)
 - [Overview](https://cloud.cdata.com/docs/API.html)
 - [Authentication](https://cloud.cdata.com/docs/Authentication.html)
+- [Postman Collection](collections/cdata.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/cdata.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
 
 ### CData Metadata API
+
 The CData Cloud Metadata API exposes catalog information including schemas, tables, columns, keys, and stored procedures across every configured data source, enabling tools to introspect the connected sources before querying.
 
-**Human URL:** [https://cloud.cdata.com/docs/Metadata-API.html](https://cloud.cdata.com/docs/Metadata-API.html)
+- **Human URL:** [https://cloud.cdata.com/docs/Metadata-API.html](https://cloud.cdata.com/docs/Metadata-API.html)
 
-#### Tags:
+#### Tags
 
- - Metadata, Catalog, Schemas, Data Access
+- Catalog
+- Data Access
+- Metadata
+- Schemas
 
 #### Properties
 
 - [Documentation](https://cloud.cdata.com/docs/Metadata-API.html)
+- [Postman Collection](collections/cdata.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/cdata.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
 
 ### CData Log API
+
 The CData Cloud Log API retrieves operational logs for queries, jobs, and connection events, enabling observability of the CData Connect Cloud service.
 
-**Human URL:** [https://cloud.cdata.com/docs/Log-API.html](https://cloud.cdata.com/docs/Log-API.html)
+- **Human URL:** [https://cloud.cdata.com/docs/Log-API.html](https://cloud.cdata.com/docs/Log-API.html)
 
-#### Tags:
+#### Tags
 
- - Logs, Observability, Audit
+- Audit
+- Logs
+- Observability
 
 #### Properties
 
 - [Documentation](https://cloud.cdata.com/docs/Log-API.html)
+- [Postman Collection](collections/cdata.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/cdata.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
 
 ### CData Connection API
+
 The CData Cloud Connection API manages data source connections programmatically, allowing administrators to create, update, test, and delete connections to databases and SaaS applications.
 
-**Human URL:** [https://cloud.cdata.com/docs/Connection-API.html](https://cloud.cdata.com/docs/Connection-API.html)
+- **Human URL:** [https://cloud.cdata.com/docs/Connection-API.html](https://cloud.cdata.com/docs/Connection-API.html)
 
-#### Tags:
+#### Tags
 
- - Connections, Data Sources, Administration
+- Administration
+- Connections
+- Data Sources
 
 #### Properties
 
 - [Documentation](https://cloud.cdata.com/docs/Connection-API.html)
+- [Postman Collection](collections/cdata.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/cdata.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
 
 ### CData Job API
+
 The CData Cloud Job API monitors background jobs such as replication, caching, and scheduled operations, exposing job state and history.
 
-**Human URL:** [https://cloud.cdata.com/docs/Job-API.html](https://cloud.cdata.com/docs/Job-API.html)
+- **Human URL:** [https://cloud.cdata.com/docs/Job-API.html](https://cloud.cdata.com/docs/Job-API.html)
 
-#### Tags:
+#### Tags
 
- - Background Jobs, Monitoring, Replication
+- Background Jobs
+- Monitoring
+- Replication
 
 #### Properties
 
 - [Documentation](https://cloud.cdata.com/docs/Job-API.html)
+- [Postman Collection](collections/cdata.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/cdata.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
 
 ### CData Account API
+
 The CData Cloud Account API manages account settings, workspaces, and user-level configuration for the CData Connect Cloud tenant.
 
-**Human URL:** [https://cloud.cdata.com/docs/Account-API.html](https://cloud.cdata.com/docs/Account-API.html)
+- **Human URL:** [https://cloud.cdata.com/docs/Account-API.html](https://cloud.cdata.com/docs/Account-API.html)
 
-#### Tags:
+#### Tags
 
- - Account Management, Users, Administration
+- Account Management
+- Administration
+- Users
 
 #### Properties
 
 - [Documentation](https://cloud.cdata.com/docs/Account-API.html)
+- [Postman Collection](collections/cdata.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/cdata.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
 
 ### CData Audit API
+
 The CData Cloud Audit API tracks system activities and administrative events, supporting compliance and security monitoring requirements such as SOC 2 and GDPR.
 
-**Human URL:** [https://cloud.cdata.com/docs/Audit-API.html](https://cloud.cdata.com/docs/Audit-API.html)
+- **Human URL:** [https://cloud.cdata.com/docs/Audit-API.html](https://cloud.cdata.com/docs/Audit-API.html)
 
-#### Tags:
+#### Tags
 
- - Audit, Compliance, Security
+- Audit
+- Compliance
+- Security
 
 #### Properties
 
 - [Documentation](https://cloud.cdata.com/docs/Audit-API.html)
+- [Postman Collection](collections/cdata.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/cdata.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
 
 ### CData OData API
+
 CData Connect Cloud exposes an OData v4 compatible API that allows any OData client to browse metadata and query data from any configured source, including Excel, Power BI, and other BI tools.
 
-**Human URL:** [https://cloud.cdata.com/docs/OData.html](https://cloud.cdata.com/docs/OData.html)
+- **Human URL:** [https://cloud.cdata.com/docs/OData.html](https://cloud.cdata.com/docs/OData.html)
 
-#### Tags:
+#### Tags
 
- - OData, REST, Data Access
+- Data Access
+- OData
+- REST
 
 #### Properties
 
 - [Documentation](https://cloud.cdata.com/docs/OData.html)
 - [Specification](https://www.odata.org/documentation/)
+- [Postman Collection](collections/cdata.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/cdata.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
 
 ## Common Properties
 
+- [GitHub Organization](https://github.com/cdatasoftware)
+- [LinkedIn](https://www.linkedin.com/company/cdatasoftware)
 - [About](https://www.cdata.com/company/)
 - [Partners](https://www.cdata.com/embedded/customers/)
 - [Testimonials](https://www.cdata.com/company/testimonials.aspx)
-- [CaseStudies](https://www.cdata.com/case-study/)
+- [Case Studies](https://www.cdata.com/case-study/)
 - [Support](https://www.cdata.com/support/)
 - [Knowledgebase](https://www.cdata.com/kb/)
 - [Blog](https://www.cdata.com/blog/)
-- [WhitePapers](https://www.cdata.com/resources/)
+- [White Papers](https://www.cdata.com/resources/)
 - [Webinars](https://www.cdata.com/resources/)
 - [Events](https://www.cdata.com/events/)
 - [Portal](https://www.cdata.com/developers/)
 - [Glossary](https://www.cdata.com/glossary/)
 - [Videos](https://www.cdata.com/kb/video/)
-- [PressReleases](https://www.cdata.com/company/press.aspx)
-- [TermsOfService](https://www.cdata.com/company/legal/terms/)
-- [PrivacyPolicy](https://www.cdata.com/company/legal/privacy/)
+- [Press Releases](https://www.cdata.com/company/press.aspx)
+- [Terms of Service](https://www.cdata.com/company/legal/terms/)
+- [Privacy Policy](https://www.cdata.com/company/legal/privacy/)
 - [Security](https://www.cdata.com/security/)
 - [Compliance](https://www.cdata.com/security/)
-- [AWSMarketplace](https://aws.amazon.com/marketplace/pp/prodview-jizwvan7n7sn6)
+- [A W S Marketplace](https://aws.amazon.com/marketplace/pp/prodview-jizwvan7n7sn6)
+- [Features](undefined)
+- [Integrations](undefined)
 
 ## Maintainers
 
 **FN:** Kin Lane
-
 **Email:** info@apievangelist.com
