@@ -1,0 +1,183 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CData Connect Cloud SQL API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Query",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Execute a SQL query",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cloud.cdata.com/api/query",
+            "params": [
+              {
+                "name": "$top",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "$skip",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "$format",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Run a SELECT, INSERT, UPDATE, DELETE, or EXEC statement against a configured\ndata source. The data source is selected via the schema-qualified table name\n(for example `SELECT * FROM Salesforce1.Account`).\n"
+        },
+        {
+          "info": {
+            "name": "Execute a batch of SQL statements",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cloud.cdata.com/api/batch",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Execute a batch of SQL statements"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Procedures",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Execute a stored procedure",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cloud.cdata.com/api/exec",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Execute a stored procedure"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Metadata",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List configured data sources (catalogs)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cloud.cdata.com/api/catalogs"
+          },
+          "docs": "List configured data sources (catalogs)"
+        },
+        {
+          "info": {
+            "name": "List schemas in a catalog",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cloud.cdata.com/api/catalogs/:catalog/schemas",
+            "params": [
+              {
+                "name": "catalog",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List schemas in a catalog"
+        },
+        {
+          "info": {
+            "name": "List tables in a schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cloud.cdata.com/api/catalogs/:catalog/schemas/:schema/tables",
+            "params": [
+              {
+                "name": "catalog",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "schema",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List tables in a schema"
+        },
+        {
+          "info": {
+            "name": "List columns in a table",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cloud.cdata.com/api/catalogs/:catalog/schemas/:schema/tables/:table/columns",
+            "params": [
+              {
+                "name": "catalog",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "schema",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "table",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List columns in a table"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
