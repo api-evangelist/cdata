@@ -2,10 +2,20 @@
   "repo": "cdata",
   "feeds": [
     {
+      "source": "https://www.cdata.com/blog/rss/",
+      "feed_url": "https://www.cdata.com/blog/rss/",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
       "source": "https://www.cdata.com/blog/",
-      "error": "HTTPError"
+      "feed_url": "https://www.cdata.com/blog/rss/",
+      "title": "",
+      "saved": 0,
+      "method": "discovered"
     }
   ],
-  "post_count": 2,
-  "fetched": "2026-06-14T20:42:17Z"
+  "fetched": "2026-06-27T12:03:07Z",
+  "post_count": 6
 }
