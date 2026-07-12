@@ -1,0 +1,20 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/cdata-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: basicAuth
+  type: http
+  scheme: basic
+  description: Basic auth using CData Connect Cloud username and PAT/password
+  sources:
+  - openapi/cdata-openapi.yml
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  description: JWT bearer for CData Connect AI Embed
+  sources:
+  - openapi/cdata-openapi.yml
