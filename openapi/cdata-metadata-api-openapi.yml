@@ -1,0 +1,112 @@
+openapi: 3.1.0
+info:
+  title: CData Connect Cloud SQL Metadata API
+  description: 'The CData Cloud SQL API is a REST-compatible HTTP endpoint for executing SQL
+
+    queries, batch operations, and stored procedures across the data sources
+
+    configured in a CData Connect Cloud account. Results are returned in JSON.
+
+    Authentication is OAuth 2.0 / Basic auth for Standard Connect AI, or JWT for
+
+    Connect AI Embed. This best-effort OpenAPI is derived from the public docs at
+
+    https://docs.cloud.cdata.com/SQL-API.html and the documentation index at
+
+    https://docs.cloud.cdata.com/llms.txt.
+
+    '
+  version: 1.0.0
+  contact:
+    name: CData Software
+    url: https://www.cdata.com/cloud/
+servers:
+- url: https://cloud.cdata.com/api
+  description: CData Connect Cloud API
+security:
+- basicAuth: []
+- bearerAuth: []
+tags:
+- name: Metadata
+  description: Catalog/metadata exploration
+paths:
+  /catalogs:
+    get:
+      tags:
+      - Metadata
+      summary: List configured data sources (catalogs)
+      operationId: listCatalogs
+      responses:
+        '200':
+          description: Catalog list
+  /catalogs/{catalog}/schemas:
+    get:
+      tags:
+      - Metadata
+      summary: List schemas in a catalog
+      operationId: listSchemas
+      parameters:
+      - in: path
+        name: catalog
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Schema list
+  /catalogs/{catalog}/schemas/{schema}/tables:
+    get:
+      tags:
+      - Metadata
+      summary: List tables in a schema
+      operationId: listTables
+      parameters:
+      - in: path
+        name: catalog
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: schema
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Table list
+  /catalogs/{catalog}/schemas/{schema}/tables/{table}/columns:
+    get:
+      tags:
+      - Metadata
+      summary: List columns in a table
+      operationId: listColumns
+      parameters:
+      - in: path
+        name: catalog
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: schema
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: table
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Column list
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: Basic auth using CData Connect Cloud username and PAT/password
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT bearer for CData Connect AI Embed

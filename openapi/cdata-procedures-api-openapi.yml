@@ -1,0 +1,73 @@
+openapi: 3.1.0
+info:
+  title: CData Connect Cloud SQL Metadata Procedures API
+  description: 'The CData Cloud SQL API is a REST-compatible HTTP endpoint for executing SQL
+
+    queries, batch operations, and stored procedures across the data sources
+
+    configured in a CData Connect Cloud account. Results are returned in JSON.
+
+    Authentication is OAuth 2.0 / Basic auth for Standard Connect AI, or JWT for
+
+    Connect AI Embed. This best-effort OpenAPI is derived from the public docs at
+
+    https://docs.cloud.cdata.com/SQL-API.html and the documentation index at
+
+    https://docs.cloud.cdata.com/llms.txt.
+
+    '
+  version: 1.0.0
+  contact:
+    name: CData Software
+    url: https://www.cdata.com/cloud/
+servers:
+- url: https://cloud.cdata.com/api
+  description: CData Connect Cloud API
+security:
+- basicAuth: []
+- bearerAuth: []
+tags:
+- name: Procedures
+  description: Execute stored procedures
+paths:
+  /exec:
+    post:
+      tags:
+      - Procedures
+      summary: Execute a stored procedure
+      operationId: executeProcedure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - procedure
+              properties:
+                procedure:
+                  type: string
+                  description: Fully qualified procedure name (e.g., DataSource.ProcName)
+                parameters:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      value:
+                        type: string
+      responses:
+        '200':
+          description: Procedure result
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: Basic auth using CData Connect Cloud username and PAT/password
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT bearer for CData Connect AI Embed

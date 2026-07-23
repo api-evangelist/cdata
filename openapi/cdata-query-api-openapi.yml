@@ -1,0 +1,167 @@
+openapi: 3.1.0
+info:
+  title: CData Connect Cloud SQL Metadata Query API
+  description: 'The CData Cloud SQL API is a REST-compatible HTTP endpoint for executing SQL
+
+    queries, batch operations, and stored procedures across the data sources
+
+    configured in a CData Connect Cloud account. Results are returned in JSON.
+
+    Authentication is OAuth 2.0 / Basic auth for Standard Connect AI, or JWT for
+
+    Connect AI Embed. This best-effort OpenAPI is derived from the public docs at
+
+    https://docs.cloud.cdata.com/SQL-API.html and the documentation index at
+
+    https://docs.cloud.cdata.com/llms.txt.
+
+    '
+  version: 1.0.0
+  contact:
+    name: CData Software
+    url: https://www.cdata.com/cloud/
+servers:
+- url: https://cloud.cdata.com/api
+  description: CData Connect Cloud API
+security:
+- basicAuth: []
+- bearerAuth: []
+tags:
+- name: Query
+  description: Execute SQL queries and batch operations
+paths:
+  /query:
+    post:
+      tags:
+      - Query
+      summary: Execute a SQL query
+      description: 'Run a SELECT, INSERT, UPDATE, DELETE, or EXEC statement against a configured
+
+        data source. The data source is selected via the schema-qualified table name
+
+        (for example `SELECT * FROM Salesforce1.Account`).
+
+        '
+      operationId: executeQuery
+      parameters:
+      - in: query
+        name: $top
+        schema:
+          type: integer
+      - in: query
+        name: $skip
+        schema:
+          type: integer
+      - in: query
+        name: $format
+        schema:
+          type: string
+          enum:
+          - json
+          - csv
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - query
+              properties:
+                query:
+                  type: string
+                  description: SQL statement to execute
+                parameters:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      value:
+                        type: string
+                      dataType:
+                        type: string
+                defaultSchema:
+                  type: string
+      responses:
+        '200':
+          description: Query result set
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResult'
+        '400':
+          description: Invalid SQL or parameters
+        '401':
+          description: Unauthorized
+  /batch:
+    post:
+      tags:
+      - Query
+      summary: Execute a batch of SQL statements
+      operationId: executeBatch
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - query
+              - parameterSets
+              properties:
+                query:
+                  type: string
+                  description: Parameterized SQL statement
+                parameterSets:
+                  type: array
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        value:
+                          type: string
+      responses:
+        '200':
+          description: Batch results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  affectedRows:
+                    type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+components:
+  schemas:
+    QueryResult:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        rows:
+          type: integer
+        nextLink:
+          type: string
+          format: uri
+          description: Pagination URL when result set is large
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: Basic auth using CData Connect Cloud username and PAT/password
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT bearer for CData Connect AI Embed
