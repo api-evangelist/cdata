@@ -20,10 +20,9 @@ apis:
   - url: graphql/cdata-graphql.md
     type: GraphQL
   description: >-
-    The CData Cloud SQL API provides HTTP-based access to execute SQL
-    queries, batch operations, and stored procedures across all data
-    sources configured in a CData Connect Cloud account. Real-time data
-    access across enterprise apps.
+    The CData Cloud SQL API provides HTTP-based access to execute SQL queries, batch operations, and stored
+    procedures across all data sources configured in a CData Connect Cloud account. Real-time data access
+    across enterprise apps.
 - aid: cdata:metadata-api
   name: CData Metadata API
   tags:
@@ -36,9 +35,8 @@ apis:
   - url: https://cloud.cdata.com/docs/Metadata-API.html
     type: Documentation
   description: >-
-    The CData Cloud Metadata API exposes catalog information including
-    schemas, tables, columns, keys, and stored procedures across every
-    configured data source, enabling tools to introspect the connected
+    The CData Cloud Metadata API exposes catalog information including schemas, tables, columns, keys,
+    and stored procedures across every configured data source, enabling tools to introspect the connected
     sources before querying.
 - aid: cdata:log-api
   name: CData Log API
@@ -51,9 +49,8 @@ apis:
   - url: https://cloud.cdata.com/docs/Log-API.html
     type: Documentation
   description: >-
-    The CData Cloud Log API retrieves operational logs for queries,
-    jobs, and connection events, enabling observability of the CData
-    Connect Cloud service.
+    The CData Cloud Log API retrieves operational logs for queries, jobs, and connection events, enabling
+    observability of the CData Connect Cloud service.
 - aid: cdata:connection-api
   name: CData Connection API
   tags:
@@ -65,9 +62,8 @@ apis:
   - url: https://cloud.cdata.com/docs/Connection-API.html
     type: Documentation
   description: >-
-    The CData Cloud Connection API manages data source connections
-    programmatically, allowing administrators to create, update, test,
-    and delete connections to databases and SaaS applications.
+    The CData Cloud Connection API manages data source connections programmatically, allowing administrators
+    to create, update, test, and delete connections to databases and SaaS applications.
 - aid: cdata:job-api
   name: CData Job API
   tags:
@@ -79,9 +75,8 @@ apis:
   - url: https://cloud.cdata.com/docs/Job-API.html
     type: Documentation
   description: >-
-    The CData Cloud Job API monitors background jobs such as
-    replication, caching, and scheduled operations, exposing job state
-    and history.
+    The CData Cloud Job API monitors background jobs such as replication, caching, and scheduled operations,
+    exposing job state and history.
 - aid: cdata:account-api
   name: CData Account API
   tags:
@@ -93,8 +88,8 @@ apis:
   - url: https://cloud.cdata.com/docs/Account-API.html
     type: Documentation
   description: >-
-    The CData Cloud Account API manages account settings, workspaces,
-    and user-level configuration for the CData Connect Cloud tenant.
+    The CData Cloud Account API manages account settings, workspaces, and user-level configuration for
+    the CData Connect Cloud tenant.
 - aid: cdata:audit-api
   name: CData Audit API
   tags:
@@ -106,9 +101,8 @@ apis:
   - url: https://cloud.cdata.com/docs/Audit-API.html
     type: Documentation
   description: >-
-    The CData Cloud Audit API tracks system activities and
-    administrative events, supporting compliance and security
-    monitoring requirements such as SOC 2 and GDPR.
+    The CData Cloud Audit API tracks system activities and administrative events, supporting compliance
+    and security monitoring requirements such as SOC 2 and GDPR.
 - aid: cdata:odata-api
   name: CData OData API
   tags:
@@ -122,9 +116,35 @@ apis:
   - url: https://www.odata.org/documentation/
     type: Specification
   description: >-
-    CData Connect Cloud exposes an OData v4 compatible API that allows
-    any OData client to browse metadata and query data from any
-    configured source, including Excel, Power BI, and other BI tools.
+    CData Connect Cloud exposes an OData v4 compatible API that allows any OData client to browse metadata
+    and query data from any configured source, including Excel, Power BI, and other BI tools.
+- aid: cdata:cdata-metadata-api
+  name: CData Metadata API
+  description: Catalog/metadata exploration
+  humanURL: https://cloud.cdata.com/docs/SQL-API.html
+  tags:
+  - Metadata
+  properties:
+  - type: OpenAPI
+    url: openapi/cdata-metadata-api-openapi.yml
+- aid: cdata:cdata-procedures-api
+  name: CData Procedures API
+  description: Execute stored procedures
+  humanURL: https://cloud.cdata.com/docs/SQL-API.html
+  tags:
+  - Procedures
+  properties:
+  - type: OpenAPI
+    url: openapi/cdata-procedures-api-openapi.yml
+- aid: cdata:cdata-query-api
+  name: CData Query API
+  description: Execute SQL queries and batch operations
+  humanURL: https://cloud.cdata.com/docs/SQL-API.html
+  tags:
+  - Query
+  properties:
+  - type: OpenAPI
+    url: openapi/cdata-query-api-openapi.yml
 name: CData
 tags:
 - Data
@@ -134,7 +154,20 @@ tags:
 - NoSQL
 - SQL
 kind: contract
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cdata.png
 access: 3rd-Party
 common:
 - type: AgenticAccess
