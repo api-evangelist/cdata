@@ -1,0 +1,18 @@
+{
+  "provider": "cdata",
+  "sources": [
+    "cdata-metadata-api-openapi.yml",
+    "cdata-procedures-api-openapi.yml",
+    "cdata-query-api-openapi.yml"
+  ],
+  "outputs": [
+    "cdata-metadata-api-openapi.yml",
+    "cdata-procedures-api-openapi.yml",
+    "cdata-query-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
