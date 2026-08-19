@@ -1,0 +1,40 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CData Connect Cloud SQL Metadata Procedures API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Procedures",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Execute a stored procedure",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cloud.cdata.com/api/exec",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Execute a stored procedure"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

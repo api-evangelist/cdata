@@ -1,0 +1,72 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CData Connect Cloud SQL Metadata Query API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Query",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Execute a SQL query",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cloud.cdata.com/api/query",
+            "params": [
+              {
+                "name": "$top",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "$skip",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "$format",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Run a SELECT, INSERT, UPDATE, DELETE, or EXEC statement against a configured\ndata source. The data source is selected via the schema-qualified table name\n(for example `SELECT * FROM Salesforce1.Account`).\n"
+        },
+        {
+          "info": {
+            "name": "Execute a batch of SQL statements",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cloud.cdata.com/api/batch",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Execute a batch of SQL statements"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

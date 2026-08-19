@@ -1,0 +1,133 @@
+{
+  "item": [
+    {
+      "id": "14464306-f3ed-4386-89d4-1abbe88ef3e1",
+      "name": "Procedures",
+      "description": {
+        "content": "Execute stored procedures",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "267767a6-1a92-47ea-8979-857d9378a61d",
+          "name": "Execute a stored procedure",
+          "request": {
+            "name": "Execute a stored procedure",
+            "description": {},
+            "url": {
+              "path": [
+                "exec"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"procedure\": \"<string>\",\n  \"parameters\": [\n    {\n      \"name\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "14c8578d-6d38-4c70-869b-704dfd27877d",
+              "name": "Procedure result",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "exec"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"procedure\": \"<string>\",\n  \"parameters\": [\n    {\n      \"name\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://cloud.cdata.com/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "ef24adfc-4e7b-4fbf-bd70-305dcdf381f1",
+    "name": "CData Connect Cloud SQL Metadata Procedures API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The CData Cloud SQL API is a REST-compatible HTTP endpoint for executing SQL\nqueries, batch operations, and stored procedures across the data sources\nconfigured in a CData Connect Cloud account. Results are returned in JSON.\nAuthentication is OAuth 2.0 / Basic auth for Standard Connect AI, or JWT for\nConnect AI Embed. This best-effort OpenAPI is derived from the public docs at\nhttps://docs.cloud.cdata.com/SQL-API.html and the documentation index at\nhttps://docs.cloud.cdata.com/llms.txt.\n\n\nContact Support:\n Name: CData Software",
+      "type": "text/plain"
+    }
+  }
+}
