@@ -82,6 +82,10 @@ apis:
   tags:
   - Account Management
   - Administration
+  - User
+  tags_raw:
+  - Account Management
+  - Administration
   - Users
   humanURL: https://cloud.cdata.com/docs/Account-API.html
   properties:
