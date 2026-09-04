@@ -177,11 +177,12 @@ accessModel:
   try_now: true
   public: false
   label: Freemium · Self-serve signup
-  confidence: high
+  confidence: medium
   source:
   - plans
   - authentication
-  generated: '2026-07-22'
+  - security
+  generated: '2026-09-03'
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cdata.png
 access: 3rd-Party
@@ -571,7 +572,7 @@ common:
   - name: Zuora
 created: '2025-06-05'
 modified: '2026-04-23'
-position: Consumer
+position: Consuming
 description: >-
   CData Software is a leading provider of data access and connectivity
   solutions. Our standards-based connectors streamline data access and insulate
