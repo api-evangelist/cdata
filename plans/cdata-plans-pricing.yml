@@ -3,164 +3,146 @@ specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
 provider: CData
 providerId: cdata
+generated: '2026-09-05'
+method: searched
+source: https://www.cdata.com/ai/pricing/
+docs: https://www.cdata.com/ai/pricing/
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
-tags:
-  - Data
-  - Data Access
-  - Data Connectivity
-  - Databases
-  - NoSQL
-  - SQL
-description: Machine-readable plans and pricing scaffold for this API provider. Conforms to the API Commons
-  Plans schema. Tier limits and prices are scaffold defaults; replace with provider-published values.
+modified: '2026-09-05'
+supersedes: >-
+  The 2026-05-04 bulk-sweep scaffold that previously occupied this file (a generated
+  Free/Professional/Enterprise placeholder with invented 1,000-request quotas). Every figure
+  below is read from CData's published pricing page and from the Developer Edition page at
+  https://www.cdata.com/developers/ai/developer-edition/.
+fetch_note: >-
+  www.cdata.com sits behind a Cloudflare bot challenge that returns HTTP 403 "Just a moment"
+  to a plain crawler. The page was retrieved with an ordinary browser user-agent and header
+  set and returned HTTP 200 with the full pricing markup. The 403 is an edge policy, not a
+  missing page.
+tags: [Data, Data Access, Data Connectivity, Databases, NoSQL, SQL, Pricing]
+description: >-
+  Published plans for CData Connect AI, the product that carries the APIs in this record.
+  CData's other product lines (Drivers, Sync, Arc, API Server, DBAmp, Embed) are priced
+  separately and are not covered here.
+currency: USD
+billing_periods: [monthly, annual]
+annual_discount: '20%'
+plan_count: 4
 plans:
-  - id: cdata-free
-    name: Free
-    type: freemium
-    description: Free entry tier for the CData API surface. Intended for evaluation, prototyping, and
-      low-volume integrations. Real limits and pricing must be reconciled with the provider's published
-      plan documentation.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota across all included endpoints
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 1000
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the free tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 10
-        timeFrame: minute
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-    elements:
-      - name: Public Documentation
-      - name: Community Support
-      - name: Sandbox Access
-      - name: CData SQL API
-      - name: CData Metadata API
-      - name: CData Log API
-      - name: CData Connection API
-      - name: CData Job API
-      - name: CData Account API
-      - name: CData Audit API
-      - name: CData OData API
-  - id: cdata-pro
-    name: Professional
-    type: paid
-    description: Production tier for CData. Provides higher quotas, priority support, and access to the
-      broader API portfolio. Pricing placeholder; align with the provider's pricing page.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 100000
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1
-        price: TBD
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the professional tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 100
-        timeFrame: minute
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Overage
-        description: Per-request price after monthly quota is exceeded
-        name: overage
-        type: metered
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1000
-        price: TBD
-        userMultiplied: false
-    elements:
-      - name: All Production Endpoints
-      - name: Email Support
-      - name: SLA Targets
-      - name: Webhook Subscriptions
-      - name: CData SQL API
-      - name: CData Metadata API
-      - name: CData Log API
-      - name: CData Connection API
-      - name: CData Job API
-      - name: CData Account API
-      - name: CData Audit API
-      - name: CData OData API
-  - id: cdata-enterprise
-    name: Enterprise
-    type: enterprise
-    description: Custom-negotiated tier for CData. Includes dedicated capacity, contractual SLAs, security
-      review, data residency options, and named technical account management.
-    entries:
-      - label: API Requests
-        description: Negotiated request volume; -1 indicates uncapped subject to fair use
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: configurable
-        domains: []
-        unit: 1
-        price: custom
-        userMultiplied: false
-      - label: Rate Limit
-        description: Negotiated burst and steady-state rate
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 1000
-        timeFrame: minute
-        geo: configurable
-        domains: []
-        unit: 1
-        price: custom
-        userMultiplied: false
-    elements:
-      - name: Unlimited / Negotiated Volume
-      - name: 24/7 Dedicated Support
-      - name: Contractual SLA
-      - name: Security & Compliance Review
-      - name: Dedicated Account Manager
-      - name: Custom Data Residency
-      - name: CData SQL API
-      - name: CData Metadata API
-      - name: CData Log API
-      - name: CData Connection API
-      - name: CData Job API
-      - name: CData Account API
-      - name: CData Audit API
-      - name: CData OData API
+- id: cdata-developer-edition
+  name: Developer Edition
+  type: free
+  price: '0.00'
+  billing_period: null
+  credit_card_required: false
+  source: https://www.cdata.com/developers/ai/developer-edition/
+  description: >-
+    Free MCP access to Growth and Standard Connect AI data source connectors. Sized for
+    individual developers and small teams.
+  entries:
+  - {label: Data sources, name: data_sources, type: quota, limit: 5, unit: source}
+  - {label: Users, name: users, type: quota, limit: 5, unit: user}
+  - {label: Tool calls, name: tool_calls, type: quota, limit: 500, timeFrame: month, unit: call}
+  elements:
+  - Every Connect AI data source connector, accessed through MCP
+  - 'Both MCP servers: Query MCP and Management MCP (Management MCP is a Developer Edition exclusive)'
+  - Toolkits for source-specific tool extensions
+  - Connect Gateway for on-premises and network-restricted sources
+  - Playground for natural-language queries
+  - Sample agent scaffold (npx @cdatasoftware/create-agent)
+- id: cdata-standard
+  name: Standard
+  type: paid
+  price: '99.00'
+  billing_period: month
+  price_annual: '79.00'
+  price_annual_note: 79 USD per month billed annually; 99 USD per month billed monthly.
+  description: For individuals getting started with AI connectivity.
+  entries:
+  - {label: Users included, name: users, type: quota, limit: 1, unit: user}
+  - {label: Data sources included, name: data_sources, type: quota, limit: 1, unit: source}
+  - label: Connections per source
+    name: connections_per_source
+    type: quota
+    limit: 10
+    unit: connection
+    description: >-
+      Distinct query configurations within each connected system — tables, reports or objects.
+  elements:
+  - Standard data sources only
+  - Standard support
+  - Add-on users and sources available
+- id: cdata-growth
+  name: Growth
+  type: paid
+  price: '199.00'
+  billing_period: month
+  price_annual: '159.00'
+  price_annual_note: 159 USD per month billed annually; 199 USD per month billed monthly.
+  description: For individuals connecting multiple sources to AI.
+  entries:
+  - {label: Users included, name: users, type: quota, limit: 1, unit: user}
+  - {label: Data sources included, name: data_sources, type: quota, limit: 1, unit: source}
+  - {label: Connections per source, name: connections_per_source, type: quota, limit: 10, unit: connection}
+  elements:
+  - Everything in Standard
+  - Standard, Growth and Premium sources available
+  - Derived views
+  - Toolkits
+  - Add-on users and sources available
+- id: cdata-business
+  name: Business Plans
+  type: enterprise
+  price: custom
+  billing_period: annual
+  description: For teams building governed AI workflows. Annual contract; volume discounts available.
+  entries:
+  - {label: Data sources, name: data_sources, type: quota, limit: -1, unit: source, description: Custom number of data sources}
+  - {label: Connections per source, name: connections_per_source, type: quota, limit: -1, unit: connection, description: Custom}
+  - {label: Tool calls, name: tool_calls, type: quota, limit: -1, description: Pooled tool calls across the team}
+  elements:
+  - Everything in Growth
+  - Standard, Growth and Premium sources available
+  - Pooled tool calls
+  - Premium support
+  - Dedicated customer success
+  - Passthrough identity
+  - SCIM 2.0 support
+  - Enterprise SSO
+  - Regulated industry compliance
+  - Custom tools
+  - SIEM endpoints (Datadog Logs API, Splunk HEC)
+add_ons:
+- {name: Additional users, standard: '29.00', growth: '49.00', business: contact-sales, unit: user, note: annual pricing shown}
+- {name: Additional Standard sources, standard: '59.00', growth: '59.00', business: contact-sales, unit: source}
+- {name: Additional Growth sources, standard: null, growth: '129.00', business: contact-sales, unit: source, note: not offered on Standard}
+- {name: Additional Premium sources, standard: null, growth: '299.00', business: contact-sales, unit: source, note: not offered on Standard}
+pricing_note: >-
+  The add-on figures are the annual rates the page displays; it states "Annual pricing shown.
+  Monthly available at standard rates. Volume discounts on Business plans." The exact monthly
+  add-on rates are not published.
+metering:
+  unit: tool calls
+  note: >-
+    Consumption is metered in TOOL CALLS per month, not API requests — a pricing model that
+    follows the MCP surface rather than the REST one. Developer Edition is capped at 500 per
+    month; Standard and Growth publish no numeric tool-call allowance on the pricing page;
+    Business pools them across the team. The Billing tab in the product shows "what is
+    remaining in your current plan"
+    (https://docs.cloud.cdata.com/en/Settings/Billing.md), so the number exists per account
+    but is not published per tier.
+  payment_processor: Stripe (Manage Payment Method opens a Stripe-hosted portal)
+trial:
+  available: true
+  note: >-
+    Developer Edition is free with no credit card. A separate free trial exists for paid
+    tiers — the Billing page describes trial accounts and the release notes record removing
+    the Manage Payment Method button for trial users — but no trial length is published.
+other_products:
+  note: >-
+    CData Drivers, Sync, Arc, API Server, DBAmp and Embed are licensed separately, largely
+    through quote and through the AWS Marketplace listing already recorded in apis.yml. Their
+    pricing is not published as tiers and is out of scope for this artifact.
 maintainers:
-  - FN: Kin Lane
-    email: info@apievangelist.com
+- FN: Kin Lane
+  email: info@apievangelist.com

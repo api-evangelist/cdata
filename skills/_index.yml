@@ -1,0 +1,103 @@
+specification: API Commons AgentSkills
+specificationVersion: '0.1'
+provider: CData
+providerId: cdata
+generated: '2026-09-05'
+method: searched
+source: >-
+  https://docs.cloud.cdata.com/.well-known/agent-skills/cdata/skill.md and
+  https://github.com/CDataSoftware/connect-ai-skills (raw.githubusercontent.com/
+  CDataSoftware/connect-ai-skills/main/...). All three files below are CData's own,
+  saved VERBATIM. Nothing in this directory was authored by API Evangelist.
+note: >-
+  CData publishes Agent Skills as a product surface, not as an afterthought: a discovery
+  skill served from the docs host's /.well-known/agent-skills/ path (named by the A2A agent
+  card), plus a public repository of 20+ MIT-licensed skills installable with
+  `npx skills add CDataSoftware/connect-ai-skills`. A second repository,
+  CDataSoftware/cli-skills, covers the CData CLI. Because the provider publishes its own,
+  no skills were generated on CData's behalf.
+skills:
+- id: cdata
+  name: Cdata
+  file: cdata-connect-ai-published-skill.md
+  method: searched
+  source: https://docs.cloud.cdata.com/.well-known/agent-skills/cdata/skill.md
+  http_status: 200
+  content_type: text/markdown
+  bytes: 10629
+  api: CData Connect AI
+  description: >-
+    The discovery skill the A2A agent card points at. Product summary, when-to-use triggers,
+    connection status states, permission types, system roles, and the endpoint map (REST
+    https://cloud.cdata.com/api/query, OData https://cloud.cdata.com/api/odata/{workspace_name},
+    SQL Server tds.cdata.com:14333, MCP https://mcp.cloud.cdata.com/mcp).
+  frontmatter:
+    name: Cdata
+    metadata: {mintlify-proj: cdata, version: '1.0'}
+- id: connect-ai-base
+  name: CData Connect AI — Base Skill
+  file: cdata-connect-ai-base.md
+  method: searched
+  source: https://raw.githubusercontent.com/CDataSoftware/connect-ai-skills/main/skills/connect-ai-base/SKILL.md
+  http_status: 200
+  bytes: 14430
+  license: MIT
+  api: CData Connect AI MCP
+  operations:
+  - getInstructions
+  - getCatalogs
+  - getSchemas
+  - getTables
+  - getColumns
+  - queryData
+  description: >-
+    The required base skill — every connector-specific skill in the repository composes on
+    top of it. Encodes the mandatory discovery workflow (getInstructions before any
+    schema/table/column call), tool-availability confirmation via tool_search, query
+    construction patterns, SQL dialect guidance, and error recovery.
+- id: connect-ai-onboarding-claude-code
+  name: Connect AI onboarding for Claude Code
+  file: cdata-connect-ai-onboarding-claude-code.md
+  method: searched
+  source: https://raw.githubusercontent.com/CDataSoftware/connect-ai-skills/main/skills/onboarding/connect-ai-onboarding-claude-code/SKILL.md
+  http_status: 200
+  bytes: 22899
+  license: MIT
+  api: CData Connect AI MCP
+  description: >-
+    Guided first-time setup for Claude Code: create a Connect AI account, authenticate to the
+    MCP server (PAT by default, browser OAuth alternative), connect a data source, run a
+    first query.
+published_elsewhere:
+  repository: https://github.com/CDataSoftware/connect-ai-skills
+  install: npx skills add CDataSoftware/connect-ai-skills
+  connector_skills_listed_in_repo_readme: 18
+  families: [CRM, ERP, HCM, Accounting, Collaboration, Files, Marketing]
+  named:
+  - connect-ai-salesforce
+  - connect-ai-bullhorncrm
+  - connect-ai-dynamics365businesscentral
+  - connect-ai-workday
+  - connect-ai-quickbooksonline
+  - connect-ai-sageintacct
+  - connect-ai-stripe
+  - connect-ai-jira
+  - connect-ai-confluence
+  - connect-ai-airtable
+  - connect-ai-docusign
+  - connect-ai-googlecalendar
+  - connect-ai-googlesheets
+  - connect-ai-exchange
+  - connect-ai-gmail
+  - connect-ai-googledrive
+  - connect-ai-instagram
+  note: >-
+    Only the base and onboarding skills are mirrored here. The connector-specific skills
+    describe THIRD-PARTY data models (Salesforce, Workday, Stripe…) reached through Connect
+    AI, so they belong to those vendors' domains as much as to CData's; the repository is
+    linked rather than copied.
+  cli_skills_repository: https://github.com/CDataSoftware/cli-skills
+  cli_install: npx skills add CDataSoftware/cli-skills
+maintainers:
+- FN: Kin Lane
+  email: info@apievangelist.com

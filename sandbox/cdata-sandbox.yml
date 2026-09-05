@@ -1,0 +1,78 @@
+specification: API Commons Sandbox
+specificationVersion: '0.1'
+provider: CData
+providerId: cdata
+generated: '2026-09-05'
+method: searched
+source: >-
+  https://www.cdata.com/developers/ai/developer-edition/,
+  https://cloud.cdata.com/developer, https://www.cdata.com/ai/pricing/ and
+  https://docs.cloud.cdata.com/en/Playground.md.
+note: >-
+  CData publishes no test-mode key prefix, no test fixtures, no time simulation and no
+  sandbox tenant in the payments sense — there is nothing to fake, because every query runs
+  against the customer's own live systems. What it publishes instead is a free, real,
+  self-serve tier plus a hosted query surface, which is the closest thing this product
+  category has to a sandbox. Recorded honestly as such rather than stretched into
+  test-credential language CData does not use.
+sandbox_available: true
+mode: free-tier
+free_tier:
+  name: Connect AI Developer Edition
+  url: https://www.cdata.com/developers/ai/developer-edition/
+  signup: https://cloud.cdata.com/developer
+  price: free
+  credit_card_required: false
+  limits:
+    data_sources: 5
+    users: 5
+    tool_calls_per_month: 500
+  includes:
+  - Every Connect AI data source connector, reached through MCP
+  - Query MCP server (https://mcp.cloud.cdata.com/mcp)
+  - Management MCP server (https://mcp.cloud.cdata.com/mcp/mgmt) — a Developer Edition exclusive
+  - Toolkits for source-specific tool extensions
+  - Connect Gateway for on-premises and network-restricted sources
+  - Playground for natural-language queries
+  - 'Agent scaffold: npx @cdatasoftware/create-agent'
+  time_to_first_query: '30 minutes (CData''s own figure on https://www.cdata.com/developers/)'
+hosted_query_surface:
+  name: Playground
+  url: https://cloud.cdata.com/playground
+  docs: https://docs.cloud.cdata.com/en/Playground.md
+  description: >-
+    A hosted natural-language query interface with pre-wired guided onboarding for common
+    sources (Jira, GitHub, Slack). Formerly Data Copilot; renamed 2026-08-14. Lets a
+    developer exercise the platform without writing an integration first.
+test_credentials:
+  test_key_prefix: null
+  live_key_prefix: null
+  note: >-
+    No test-vs-live key distinction is published. Credentials are Personal Access Tokens
+    (generated at Settings > Personal Access Tokens) or service-account Client Id/Secret
+    pairs, and the same credential shape is used in Developer Edition and in production —
+    the tier differs, the token format does not.
+test_fixtures:
+  available: false
+  note: >-
+    No test cards, test accounts, seeded datasets or hosted test tokens. Not applicable to
+    the product: a Connect AI query returns whatever is in the customer's connected system.
+time_simulation:
+  available: false
+trigger_tooling:
+  available: false
+  note: >-
+    No fixture or event triggers. test_connection (Management MCP) is the nearest thing —
+    it exercises a connection end-to-end without querying data.
+free_driver_trials:
+  note: >-
+    Separately from Connect AI, CData offers free trials and free community licences for its
+    self-hosted drivers (Free Community Licenses for .NET and Python, Free JDBC Driver
+    Trials, and the CData CLI's free download path). These cover the driver product, not the
+    APIs in this record.
+  sources:
+  - https://www.cdata.com/developers/
+  - https://www.cdata.com/solutions/cli/
+maintainers:
+- FN: Kin Lane
+  email: info@apievangelist.com

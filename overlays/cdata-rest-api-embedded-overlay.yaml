@@ -1,0 +1,31 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enrichment overlay — CData Connect AI REST API Embedded
+  version: 1.0.0
+extends: cdata-rest-api-embedded-openapi.yml
+x-generated: '2026-09-05'
+x-method: generated
+x-source: Generated from openapi/cdata-rest-api-embedded-openapi.yml (CData's own document, saved verbatim
+  from https://docs.cloud.cdata.com/en/API/REST-API-Embedded.yaml) plus the artifacts in this repository.
+  The original OpenAPI is never mutated; this overlay carries every enhancement.
+actions:
+- target: $.info
+  description: Record catalog provenance for this document.
+  update:
+    x-apis-io-provider: cdata
+    x-apis-io-source: https://docs.cloud.cdata.com/en/API/REST-API-Embedded.yaml
+    x-apis-io-retrieved: '2026-09-05'
+    x-apis-io-http-status: 200
+    x-apis-io-verbatim: true
+- target: $.info
+  description: Cross-link the derived artifacts that describe this contract's runtime semantics.
+  update:
+    x-apis-io-artifacts:
+      authentication: authentication/cdata-authentication.yml
+      conventions: conventions/cdata-conventions.yml
+      errors: errors/cdata-problem-types.yml
+      lifecycle: lifecycle/cdata-lifecycle.yml
+      rate_limits: rate-limits/cdata-rate-limits.yml
+      plans: plans/cdata-plans-pricing.yml
+      conformance: conformance/cdata-conformance.yml
+      data_model: data-model/cdata-data-model.yml

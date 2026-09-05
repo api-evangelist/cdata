@@ -3,126 +3,96 @@ specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
 provider: CData
 providerId: cdata
+generated: '2026-09-05'
+method: searched
+source: >-
+  https://www.cdata.com/ai/pricing/, https://www.cdata.com/developers/ai/developer-edition/,
+  https://docs.cloud.cdata.com/en/Settings/Billing.md, and a full read of the API reference
+  under https://docs.cloud.cdata.com/en/API/ plus all seven first-party OpenAPI definitions.
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
-tags:
-  - Data
-  - Data Access
-  - Data Connectivity
-  - Databases
-  - NoSQL
-  - SQL
-  - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the CData API surface. Captures per-tier quotas,
-  burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to be replaced
-  with published provider limits.
-headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
-responseCodes:
-  throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
+modified: '2026-09-05'
+supersedes: >-
+  The 2026-05-04 bulk-sweep scaffold that previously occupied this file. It asserted
+  X-RateLimit-Limit / X-RateLimit-Remaining / X-RateLimit-Reset / RateLimit-Policy response
+  headers, 429 throttling, and per-minute limits of 10 / 100 / 1,000 by tier. None of that is
+  published by CData. It was invented, and it is removed here.
+limit_count: 3
+headers: {}
+headers_note: >-
+  CData publishes NO rate-limit response headers. Searched every response object in all seven
+  specs and the whole API reference for X-RateLimit-*, RateLimit-*, Retry-After and 429 — no
+  match anywhere. An agent gets no runtime signal about its remaining budget from the wire;
+  it has to read the Billing tab in the UI. This is the most consequential gap in CData's
+  runtime contract for autonomous consumers.
+response_codes:
+  throttled: null
+  quota_exceeded: null
+  note: >-
+    No 429 response is declared on any operation in any published specification. What happens
+    when a plan's tool-call allowance is exhausted is not documented.
+model:
+  unit: tool calls
+  window: month
+  scope: account
+  detail: >-
+    Consumption is metered as monthly TOOL CALLS against the subscription, not as a request
+    rate. There is no published per-second, per-minute or burst limit on any surface —
+    neither REST, OData, MCP nor the Management API.
 limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - CData SQL API
-      - CData Metadata API
-      - CData Log API
-      - CData Connection API
-      - CData Job API
-      - CData Account API
-      - CData Audit API
-      - CData OData API
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - CData SQL API
-      - CData Metadata API
-      - CData Log API
-      - CData Connection API
-      - CData Job API
-      - CData Account API
-      - CData Audit API
-      - CData OData API
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - CData SQL API
-      - CData Metadata API
-      - CData Log API
-      - CData Connection API
-      - CData Job API
-      - CData Account API
-      - CData Audit API
-      - CData OData API
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - CData SQL API
-      - CData Metadata API
-      - CData Log API
-      - CData Connection API
-      - CData Job API
-      - CData Account API
-      - CData Audit API
-      - CData OData API
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - CData SQL API
-      - CData Metadata API
-      - CData Log API
-      - CData Connection API
-      - CData Job API
-      - CData Account API
-      - CData Audit API
-      - CData OData API
-policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+- tier: developer-edition
+  name: Developer Edition monthly tool calls
+  scope: account
+  metric: tool_calls
+  limit: 500
+  timeFrame: month
+  source: https://www.cdata.com/developers/ai/developer-edition/
+  applies: [CData Connect AI MCP, CData Connect AI Management MCP]
+- tier: developer-edition
+  name: Developer Edition data sources
+  scope: account
+  metric: data_sources
+  limit: 5
+  timeFrame: null
+  source: https://www.cdata.com/developers/ai/developer-edition/
+- tier: standard-and-growth
+  name: Connections per source
+  scope: per-source
+  metric: connections
+  limit: 10
+  timeFrame: null
+  source: https://www.cdata.com/ai/pricing/
+  detail: >-
+    "Distinct query configurations within each connected system — tables, reports, or
+    objects." Business tier is custom. A structural cap rather than a rate limit, but it is
+    the only numeric ceiling the paid tiers publish.
+undocumented:
+  per_request_rate: true
+  burst: true
+  concurrency: true
+  paid_tier_tool_call_allowance: true
+  note: >-
+    Standard and Growth publish no numeric tool-call allowance; Business pools calls with no
+    figure. The account's remaining allowance is visible in the product's Billing tab
+    ("The Additional Usage section displays what is remaining in your current plan") but is
+    not published per tier and is not exposed through the API.
+downstream_limits:
+  note: >-
+    A material second-order limit that CData does not control: every Connect AI query is
+    executed against a third-party system, so the practical ceiling is often the SOURCE
+    system's rate limit (Salesforce, NetSuite, Workday…), not CData's. The pricing page
+    acknowledges this indirectly — Custom OAuth Apps let a customer authenticate with their
+    own registered app so that connections "appear under your credentials with dedicated rate
+    limits", i.e. the customer's own quota at the source rather than a shared one.
+  mitigation:
+  - Query cache (cache large datasets to a customer-provided Postgres database)
+  - Metadata caching, with clearConnectionMetadata to invalidate it
+  - Custom OAuth Apps for dedicated source-side rate limits
+static_egress_ips:
+  note: >-
+    Not a rate limit, but the related operational fact an integrator needs: Connect AI calls
+    out from a fixed set of addresses that must be allow-listed at the data source.
+  cidrs: ['52.224.0.160/28', '4.154.117.160/28']
+  source: https://docs.cloud.cdata.com/en/Settings/Siem-Endpoints.md
 maintainers:
-  - FN: Kin Lane
-    email: info@apievangelist.com
+- FN: Kin Lane
+  email: info@apievangelist.com

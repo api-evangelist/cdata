@@ -1,0 +1,135 @@
+specification: API Commons DataModel
+specificationVersion: '0.1'
+provider: CData
+providerId: cdata
+generated: '2026-09-05'
+method: derived
+source: >-
+  Derived from the component schemas and $ref graph of
+  openapi/cdata-management-api-openapi.yml and openapi/cdata-rest-api-embedded-openapi.yml,
+  plus the id-reference fields in their path parameters. Descriptions enriched from the
+  matching pages under https://docs.cloud.cdata.com/en/API/.
+note: >-
+  Two distinct object graphs, which should not be merged. The CONTROL PLANE (users, service
+  accounts, roles, permissions, workspaces, connections, jobs) is a conventional REST entity
+  model with typed schemas. The DATA PLANE has no fixed entity model at all: catalogs,
+  schemas, tables and columns are discovered at runtime from whatever the customer has
+  connected, and a query result is a generic result-set envelope rather than a typed
+  resource. That distinction is the product.
+control_plane:
+  entities:
+  - name: User
+    id_field: id
+    surface: Management API
+    fields: [id, email, first_name, last_name, status, scim_managed, external_id, created_at, created_by]
+    note: >-
+      external_id correlates the user with the identity provider; scim_managed marks whether
+      the IdP owns the record. Name fields are read-only when scim_managed is true.
+  - name: ServiceAccount
+    id_field: id
+    surface: Management API
+    fields: [id, name, description, status, client_id, external_id, created_at, created_by]
+    note: >-
+      client_id is the OAuth 2.0 client-credentials identity. Deactivating the account
+      immediately revokes every PAT it has issued.
+  - name: Role
+    id_field: role_id
+    surface: Management API
+    fields: [role_id, role_name, role_type, grant_type, group_id, group_name, granted_at]
+    note: >-
+      role_type distinguishes system from access roles. grant_type carries provenance —
+      direct, group-derived or workspace-derived — which is why a role removal can fail with
+      CANNOT_REMOVE_GROUP_DERIVED_ROLE.
+  - name: Permission
+    id_field: permission_id
+    surface: Management API
+    fields: [resource, operations, type]
+    note: >-
+      type must be `connection`; operations are the Connect AI verbs SELECT, INSERT, UPDATE,
+      DELETE, EXECUTE.
+  - name: Workspace
+    id_field: workspace_id
+    surface: Management API (referenced), Connect AI UI (managed)
+    note: >-
+      Referenced by id throughout the Management API (/users/{id}/workspaces/{workspace_id}/roles)
+      and by NAME on the data plane (the `workspace` query parameter, and the OData service
+      root /api/odata/{workspaceName}). There is no published CRUD endpoint for workspaces —
+      an entity the API references but does not manage.
+  - name: Group
+    id_field: id
+    surface: SCIM (provisioned), referenced by the Management API
+    note: >-
+      Error messages point at DELETE /groups/{id}/roles/{role_id}, so group endpoints exist,
+      but no /groups path is published in Management-API.yaml. A gap in the contract.
+  - name: Connection
+    id_field: id
+    surface: Connect AI Embed REST API, Management MCP
+    fields: [id, name, source]
+    note: >-
+      A configured link to one data source. Appears on the data plane as a CATALOG — the
+      metadata endpoint's catalogName is a connection name. This is the single most important
+      identity in the model: it is the join between the control plane and the data plane.
+  - name: Account (sub-account)
+    id_field: accountIdOrExternalId
+    surface: Connect AI Embed REST API
+    note: Embed tenancy — an ISV's customer. Addressable by CData id or by the ISV's external id.
+  - name: Job
+    id_field: jobId
+    surface: Connect AI Embed REST API
+    note: Replication, caching and scheduled operations. Has a lifecycle - create, update, run, stop, delete.
+  relationships:
+  - {from: User, to: Role, type: has_many, via: 'POST/GET/DELETE /users/{id}/roles'}
+  - {from: User, to: Permission, type: has_many, via: 'POST/GET/DELETE /users/{id}/permissions'}
+  - {from: User, to: Workspace, type: has_many, via: '/users/{id}/workspaces/{workspace_id}/roles'}
+  - {from: User, to: Group, type: belongs_to_many, via: SCIM group membership (role grant_type = group-derived)}
+  - {from: ServiceAccount, to: Role, type: has_many, via: '/service-accounts/{id}/roles'}
+  - {from: ServiceAccount, to: Permission, type: has_many, via: '/service-accounts/{id}/permissions'}
+  - {from: ServiceAccount, to: Workspace, type: has_many, via: '/service-accounts/{id}/workspaces/{workspace_id}/roles'}
+  - {from: Permission, to: Connection, type: belongs_to, via: 'Permission.resource, with type = connection'}
+  - {from: Account, to: Connection, type: has_many, via: 'GET /poweredby/connection/list'}
+  - {from: Connection, to: Job, type: has_many, via: 'job.cacheConnection and the job endpoints'}
+  - {from: Workspace, to: Connection, type: has_many, via: 'the workspace query parameter selects which connections a query can reach'}
+data_plane:
+  shape: runtime-discovered
+  hierarchy: 'Catalog (= Connection) -> Schema -> Table/View -> Column'
+  discovery_operations:
+  - {level: catalog, operation: 'GET /catalogs', mcp_tool: getCatalogs}
+  - {level: schema, operation: 'GET /schemas', mcp_tool: getSchemas}
+  - {level: table, operation: 'GET /tables', mcp_tool: getTables}
+  - {level: column, operation: 'GET /columns', mcp_tool: getColumns}
+  - {level: procedure, operation: 'GET /procedures', mcp_tool: getProcedures}
+  - {level: procedure-parameter, operation: 'GET /procedureParameters', mcp_tool: getProcedureParameters}
+  relationship_metadata:
+  - {operation: 'GET /primaryKeys', note: a table's primary keys}
+  - {operation: 'GET /importedKeys', note: primary keys referenced by this table's foreign keys (belongs_to)}
+  - {operation: 'GET /exportedKeys', note: foreign keys in other tables referencing this table's primary keys (has_many)}
+  - {operation: 'GET /indexes', note: available indexes for a table}
+  note: >-
+    CData exposes a full JDBC-style relational metadata graph for every connected source, so
+    the entity-relationship model of, say, Salesforce is discoverable at runtime through
+    importedKeys and exportedKeys. None of those relationships can be enumerated here —
+    they belong to the customer's connected systems, not to CData, and they differ per
+    account. This is the correct answer, not a missing one.
+  qualified_name: >-
+    Tables are addressed as Catalog.Schema.Table in SQL — the published example is
+    "SELECT * FROM Salesforce1.Salesforce.Account", where Salesforce1 is the connection name.
+  result_envelope:
+    schema: '{ results: [{ schema: [column metadata], rows: [[values]], affectedRows }], parameters, error }'
+    column_metadata: [ordinal, catalogName, schemaName, tableName, columnName, columnLabel, dataType, dataTypeName, length, precision, scale, nullable]
+    data_types: >-
+      dataType is an integer enum documented at
+      https://docs.cloud.cdata.com/en/API/REST-API.md (1 BINARY, 2 VARBINARY, 3 LONGVARBINARY,
+      4 BLOB, 5 VARCHAR, 6 TINYINT, 7 SMALLINT, 8 INTEGER, 9 BIGINT, 10 FLOAT, 11 DOUBLE, …),
+      with the JSON representation given for each. Binary types are Base64-encoded strings.
+    parameter_direction: '2 = in/out, 4 = output, 5 = return (for stored procedures)'
+    source: https://docs.cloud.cdata.com/en/API/REST-API.md
+id_prefixes:
+  note: >-
+    No id-prefix scheme is published (no `usr_`/`sa_` convention). Ids are opaque strings.
+    The only human-meaningful identifiers are Connection names, which double as catalog names
+    on the data plane, and Workspace names, which appear in the OData service URL.
+render: null
+render_note: No subway/ diagram exists in this repository.
+maintainers:
+- FN: Kin Lane
+  email: info@apievangelist.com

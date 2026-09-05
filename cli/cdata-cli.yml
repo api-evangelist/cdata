@@ -1,0 +1,62 @@
+specification: API Commons CLI
+specificationVersion: '0.1'
+provider: CData
+providerId: cdata
+generated: '2026-09-05'
+method: searched
+source: https://www.cdata.com/solutions/cli/
+name: CData CLI
+binary: cdatacli
+description: >-
+  A first-party command-line tool that gives terminal AI coding agents (Claude Code, Cursor,
+  Gemini CLI, GitHub Copilot) direct access to CData connectors — finding and downloading
+  drivers, creating connections, browsing schemas, and running SQL with push-down to the
+  source system's own API. Positioned as the self-hosted counterpart to the hosted Connect
+  AI MCP server: the CLI drives CData JDBC drivers on the developer's machine, the MCP
+  server drives the managed cloud service.
+install:
+- platform: macos
+  command: curl -fsSL https://downloads.cdata.com/cdatabuilds/builds/free/cdatacli/install-cdatacli-macos.sh | bash
+- platform: windows
+  command: irm https://downloads.cdata.com/cdatabuilds/builds/free/cdatacli/install-cdatacli-windows.ps1 | iex
+- platform: linux
+  command: curl -fsSL https://downloads.cdata.com/cdatabuilds/builds/free/cdatacli/install-cdatacli-linux.sh | bash
+version: null
+version_note: >-
+  The install scripts fetch "the latest CLI" from an unpinned path and CData publishes no
+  registry metadata for the binary, so no version or release date can be read. Recorded as
+  null deliberately — checked, nothing published.
+commands:
+- group: drivers
+  description: Find and install CData connectors, each a single .jar file.
+  examples:
+  - cdatacli drivers search salesforce
+  - cdatacli drivers download --artifact-id salesforce-jdbc
+  - cdatacli drivers list
+- group: connection
+  description: >-
+    Create and manage data source connections. Credentials and OAuth are handled by the
+    connector; per the published copy, "the agent never sees the secret."
+  examples:
+  - cdatacli connection create --name salesforce-prod --driver Salesforce --connectionstring "AuthScheme=OAuth"
+- group: metadata
+  description: >-
+    Searchable schema discovery, so an agent finds what it needs without pulling the whole
+    catalog into its context window.
+  examples:
+  - cdatacli metadata tables --connection sf-sandbox --table "%Opportunity%"
+  - cdatacli metadata columns --connection salesforce-prod --table Opportunity
+- group: query
+  description: >-
+    Standard SQL executed through the connector, with WHERE / JOIN / GROUP BY and aggregates
+    pushed down to the source API rather than filtered client-side.
+skills:
+  repository: https://github.com/CDataSoftware/cli-skills
+  install: npx skills add CDataSoftware/cli-skills
+  description: >-
+    CData publishes Agent Skills for the CLI itself, covering installation, driver setup and
+    running queries.
+docs: https://www.cdata.com/solutions/cli/
+maintainers:
+- FN: Kin Lane
+  email: info@apievangelist.com

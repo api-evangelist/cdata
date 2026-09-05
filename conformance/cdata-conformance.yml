@@ -1,0 +1,209 @@
+specification: API Commons Conformance
+specificationVersion: '0.1'
+provider: CData
+providerId: cdata
+generated: '2026-09-05'
+method: searched
+source: >-
+  CData's own published contracts and discovery documents — the seven OpenAPI definitions in
+  openapi/, the five discovery documents in well-known/, the A2A card in a2a/, and the
+  documentation at docs.cloud.cdata.com. Every entry below cites the exact artifact or URL
+  that carries the evidence.
+note: >-
+  Reward-only. Where CData does not claim or implement a standard, `conforms: false` records
+  an honest absence with the reason; nothing was asserted to fill a slot.
+conformance:
+- id: oauth2
+  name: OAuth 2.0 (RFC 6749)
+  conforms: true
+  evidence: >-
+    openapi/cdata-management-api-openapi.yml declares an oauth2 securityScheme with a
+    clientCredentials flow and four scopes; https://docs.cloud.cdata.com/en/API/Authentication.md
+    documents the client-credentials exchange against https://cloud-login.cdata.com/oauth/token.
+- id: oauth2-authorization-server-metadata
+  name: OAuth 2.0 Authorization Server Metadata (RFC 8414)
+  conforms: true
+  evidence: >-
+    Two served documents, both fetched 2026-09-05 with HTTP 200 and application/json:
+    https://mcp.cloud.cdata.com/.well-known/oauth-authorization-server and
+    https://cloud-login.cdata.com/.well-known/oauth-authorization-server. Saved to
+    well-known/.
+- id: oauth2-protected-resource-metadata
+  name: OAuth 2.0 Protected Resource Metadata (RFC 9728)
+  conforms: true
+  evidence: >-
+    https://mcp.cloud.cdata.com/.well-known/oauth-protected-resource and
+    https://cloud.cdata.com/.well-known/oauth-protected-resource both return 200 JSON, and an
+    anonymous POST to https://mcp.cloud.cdata.com/mcp returns 401 with
+    WWW-Authenticate: Bearer resource_metadata="…/.well-known/oauth-protected-resource/mcp".
+    Challenge and document agree — observed, not claimed.
+- id: oauth2-dynamic-client-registration
+  name: OAuth 2.0 Dynamic Client Registration (RFC 7591)
+  conforms: true
+  evidence: >-
+    registration_endpoint https://mcp.cloud.cdata.com/register in
+    well-known/cdata-mcp-oauth-authorization-server.json.
+- id: pkce
+  name: PKCE (RFC 7636)
+  conforms: true
+  evidence: >-
+    code_challenge_methods_supported ["S256"] in
+    well-known/cdata-mcp-oauth-authorization-server.json; the pricing page lists
+    "OAuth 2.1 with PKCE" under Enterprise SSO.
+- id: oidc
+  name: OpenID Connect Discovery 1.0
+  conforms: true
+  evidence: >-
+    https://cloud-login.cdata.com/.well-known/openid-configuration returns 200 JSON with
+    issuer, authorization_endpoint, token_endpoint and jwks_uri. Saved to
+    well-known/cdata-cloud-login-openid-configuration.json.
+- id: json-rpc-2.0
+  name: JSON-RPC 2.0
+  conforms: true
+  evidence: >-
+    openapi/cdata-mcp-api-openapi.yml models the request and response as JsonRpcRequest /
+    JsonRpcResponse with worked initialize, tools/list and tools/call examples.
+- id: mcp
+  name: Model Context Protocol (Streamable HTTP transport)
+  conforms: true
+  evidence: >-
+    https://docs.cloud.cdata.com/en/API/generic-mcp-access.md states the endpoint
+    "Implements the MCP Streamable HTTP transport"; the live endpoint returns
+    application/json or text/event-stream per the spec, and
+    well-known/cdata-cloud-oauth-protected-resource.json declares
+    mcp_protocol_version 2025-06-18 and resource_type mcp-server.
+- id: a2a
+  name: A2A Agent Card
+  conforms: true
+  evidence: >-
+    https://docs.cloud.cdata.com/.well-known/agent-card.json, HTTP 200, graded conformant
+    against the A2A 1.0.0 hard checks in a2a/cdata-a2a.yml (declares protocolVersion 0.3).
+- id: llmstxt
+  name: llms.txt
+  conforms: true
+  evidence: >-
+    Two served files — https://docs.cloud.cdata.com/llms.txt (which is also what led to the
+    seven first-party OpenAPI definitions) and https://www.cdata.com/llms.txt. Saved to llms/.
+- id: openapi
+  name: OpenAPI Specification
+  conforms: true
+  evidence: >-
+    Seven first-party definitions published under https://docs.cloud.cdata.com/en/API/,
+    versions 3.0.1 and 3.1.0, all parsing. Saved verbatim to openapi/.
+- id: rfc9457
+  name: Problem Details for HTTP APIs (RFC 9457)
+  conforms: false
+  reason: >-
+    No operation in any of the seven specs declares application/problem+json. CData uses a
+    proprietary envelope — a top-level `error` object with `code` and `message` — and
+    https://docs.cloud.cdata.com/en/API/REST-API.md warns that streaming responses can carry
+    an error inside an HTTP 200 body. See errors/cdata-problem-types.yml.
+- id: idempotency
+  name: Idempotency keys
+  conforms: false
+  reason: >-
+    No Idempotency-Key header appears in any spec. One operation is idempotent by natural
+    key (createServiceAccount, by external_id) and one is an explicit upsert
+    (batchCreateUsers); everything else has no replay protection. Recorded as
+    coverage: partial in conventions/cdata-conventions.yml.
+- id: pagination
+  name: Cursor pagination
+  conforms: true
+  evidence: >-
+    openapi/cdata-management-api-openapi.yml paginates list operations with a cursor;
+    https://docs.cloud.cdata.com/en/API/List-Users.md states "Results are paginated using a
+    cursor." The Connect AI REST API instead uses OData-style $top / $skip.
+- id: json-api
+  name: 'JSON:API'
+  conforms: false
+  reason: No JSON:API media type or document structure appears in any published contract.
+- id: fhir
+  name: HL7 FHIR
+  conforms: false
+  reason: >-
+    CData ships an HL7 FHIR *connector* (FHIR appears in the apis.yml Features and
+    Integrations lists), so its drivers speak FHIR to third-party servers. CData's own APIs
+    do not expose a FHIR surface, and a connector is not a conformance claim for this record.
+- id: fapi
+  name: FAPI
+  conforms: false
+  reason: Not a financial-grade API surface; no FAPI profile is claimed or implemented.
+- id: psd2
+  name: PSD2 / Open Banking
+  conforms: false
+  reason: Out of sector.
+domain_standards:
+- id: odata-v4
+  name: OData 4.0
+  conforms: true
+  category: domain-standard
+  evidence: >-
+    openapi/cdata-odata-api-openapi.yml — "CData Connect AI OData API", servers
+    https://cloud.cdata.com/api/odata, with a $metadata operation
+    (GET /{workspaceName}/$metadata, "List Metadata") alongside service-root and
+    resource CRUD. https://docs.cloud.cdata.com/en/API/odata-service-url.md states
+    "Connect AI supports OData version 4.0 and both JSON and Atom formats", and
+    https://docs.cloud.cdata.com/en/API/OData-Query-Options.md documents the OData query
+    options. The `$metadata` surface is the signature the rubric looks for: a client that
+    already speaks OData integrates with no bespoke connector.
+  buyer_impact: >-
+    Any OData client — Power BI, Excel, Tableau, SAP tooling — points at
+    https://cloud.cdata.com/api/odata/{workspace_name} and works. That is the whole product
+    thesis, and it is declared in the contract rather than only on a marketing page.
+- id: scim-2.0
+  name: SCIM 2.0 (System for Cross-domain Identity Management)
+  conforms: true
+  category: domain-standard
+  evidence: >-
+    https://docs.cloud.cdata.com/en/SCIM.md, /en/SCIM/SCIM-Users.md and
+    /en/SCIM/SCIM-Groups.md document SCIM user and group provisioning from Okta, Entra ID and
+    Ping Identity. The signature is in the contract, not only the prose:
+    openapi/cdata-management-api-openapi.yml carries a `scim_managed` boolean on user
+    records, and https://docs.cloud.cdata.com/en/API/Create-User.md says users created
+    outside SCIM "carry scim_managed: false", while
+    https://docs.cloud.cdata.com/en/API/Update-User.md refuses first_name/last_name updates
+    on SCIM-managed users because "they are owned by the IdP". The pricing page lists
+    "SCIM 2.0 automated provisioning" as a Business-tier feature.
+  caveat: >-
+    No `/scim/v2/` service endpoint or `urn:ietf:params:scim:schemas:*` URN was located in a
+    published contract — the SCIM service provider surface itself is not documented publicly,
+    only its behaviour and its effect on the Management API. Recorded as conforming on the
+    strength of the contract-level scim_managed signature plus first-party documentation,
+    with this gap stated.
+- id: ocsf
+  name: OCSF (Open Cybersecurity Schema Framework)
+  conforms: true
+  category: domain-standard
+  evidence: >-
+    https://docs.cloud.cdata.com/en/Settings/Siem-Endpoints.md — "Connect AI delivers audit
+    log events to Splunk's HTTP Event Collector (HEC) in OCSF (Open Cybersecurity Schema
+    Framework) format", with a fixed sourcetype of `ocsf:cdata:connect`. A SIEM that already
+    parses OCSF ingests CData audit events with no bespoke mapping. See
+    asyncapi/cdata-audit-event-forwarding.yml.
+- id: pep-249
+  name: Python DB-API 2.0 (PEP 249)
+  conforms: true
+  category: domain-standard
+  evidence: >-
+    The first-party PyPI package cdata-connect-ai describes itself as a "PEP 249-compliant
+    Python connector for CData Connect AI"; cdata-connect is a "Python DB-API 2.0 interface
+    library". See packages/cdata-packages.yml.
+- id: tds
+  name: Tabular Data Stream (SQL Server wire protocol)
+  conforms: true
+  category: domain-standard
+  evidence: >-
+    skills/cdata-connect-ai-published-skill.md (CData's own published skill) lists
+    "SQL Server at tds.cdata.com:14333" among the platform's endpoints, and the developer
+    centre presents it as a server address for BI tools. Any SQL Server client connects
+    without a CData driver.
+  caveat: Port-level surface only; not described by an OpenAPI or other machine-readable contract.
+compliance_programs:
+  source: security/cdata-trust-center.yml (probed https://www.cdata.com/security/)
+  certifications: [SOC 2, ISO 27001, HIPAA, GDPR]
+  note: >-
+    Named certifications published on CData's own trust centre. Recorded here so the
+    Compliance pointer in apis.yml has a machine-readable backing artifact.
+maintainers:
+- FN: Kin Lane
+  email: info@apievangelist.com

@@ -17,12 +17,23 @@ apis:
     type: Overview
   - url: https://cloud.cdata.com/docs/Authentication.html
     type: Authentication
-  - url: graphql/cdata-graphql.md
-    type: GraphQL
+  - type: OpenAPI
+    url: openapi/cdata-rest-api-openapi.yml
+  - type: Overlay
+    url: overlays/cdata-rest-api-overlay.yaml
+  - type: APIReference
+    url: https://docs.cloud.cdata.com/en/API/REST-API
+  - type: ErrorCatalog
+    url: errors/cdata-problem-types.yml
+  - type: Conventions
+    url: conventions/cdata-conventions.yml
+  - type: DataModel
+    url: data-model/cdata-data-model.yml
   description: >-
     The CData Cloud SQL API provides HTTP-based access to execute SQL queries, batch operations, and stored
     procedures across all data sources configured in a CData Connect Cloud account. Real-time data access
     across enterprise apps.
+  baseURL: https://cloud.cdata.com/api
 - aid: cdata:metadata-api
   name: CData Metadata API
   tags:
@@ -34,10 +45,13 @@ apis:
   properties:
   - url: https://cloud.cdata.com/docs/Metadata-API.html
     type: Documentation
+  - type: OpenAPI
+    url: openapi/cdata-rest-api-openapi.yml
   description: >-
     The CData Cloud Metadata API exposes catalog information including schemas, tables, columns, keys,
     and stored procedures across every configured data source, enabling tools to introspect the connected
     sources before querying.
+  baseURL: https://cloud.cdata.com/api
 - aid: cdata:log-api
   name: CData Log API
   tags:
@@ -48,35 +62,48 @@ apis:
   properties:
   - url: https://cloud.cdata.com/docs/Log-API.html
     type: Documentation
+  - type: OpenAPI
+    url: openapi/cdata-rest-api-openapi.yml
   description: >-
     The CData Cloud Log API retrieves operational logs for queries, jobs, and connection events, enabling
     observability of the CData Connect Cloud service.
+  baseURL: https://cloud.cdata.com/api
 - aid: cdata:connection-api
   name: CData Connection API
   tags:
   - Administration
   - Connections
   - Data Sources
-  humanURL: https://cloud.cdata.com/docs/Connection-API.html
+  humanURL: https://docs.cloud.cdata.com/en/API/Connection-API
   properties:
-  - url: https://cloud.cdata.com/docs/Connection-API.html
+  - url: https://docs.cloud.cdata.com/en/API/Connection-API
     type: Documentation
+  - type: OpenAPI
+    url: openapi/cdata-rest-api-embedded-openapi.yml
+  - type: Overlay
+    url: overlays/cdata-rest-api-embedded-overlay.yaml
   description: >-
     The CData Cloud Connection API manages data source connections programmatically, allowing administrators
     to create, update, test, and delete connections to databases and SaaS applications.
+  baseURL: https://cloud.cdata.com/api
 - aid: cdata:job-api
   name: CData Job API
   tags:
   - Background Jobs
   - Monitoring
   - Replication
-  humanURL: https://cloud.cdata.com/docs/Job-API.html
+  humanURL: https://docs.cloud.cdata.com/en/API/Job-API
   properties:
-  - url: https://cloud.cdata.com/docs/Job-API.html
+  - url: https://docs.cloud.cdata.com/en/API/Job-API
     type: Documentation
+  - type: OpenAPI
+    url: openapi/cdata-rest-api-embedded-openapi.yml
+  - type: Overlay
+    url: overlays/cdata-rest-api-embedded-overlay.yaml
   description: >-
     The CData Cloud Job API monitors background jobs such as replication, caching, and scheduled operations,
     exposing job state and history.
+  baseURL: https://cloud.cdata.com/api
 - aid: cdata:account-api
   name: CData Account API
   tags:
@@ -87,13 +114,16 @@ apis:
   - Account Management
   - Administration
   - Users
-  humanURL: https://cloud.cdata.com/docs/Account-API.html
+  humanURL: https://docs.cloud.cdata.com/en/API/Account-API
   properties:
-  - url: https://cloud.cdata.com/docs/Account-API.html
+  - url: https://docs.cloud.cdata.com/en/API/Account-API
     type: Documentation
+  - type: OpenAPI
+    url: openapi/cdata-rest-api-embedded-openapi.yml
   description: >-
     The CData Cloud Account API manages account settings, workspaces, and user-level configuration for
     the CData Connect Cloud tenant.
+  baseURL: https://cloud.cdata.com/api
 - aid: cdata:audit-api
   name: CData Audit API
   tags:
@@ -104,9 +134,12 @@ apis:
   properties:
   - url: https://cloud.cdata.com/docs/Audit-API.html
     type: Documentation
+  - type: OpenAPI
+    url: openapi/cdata-rest-api-openapi.yml
   description: >-
     The CData Cloud Audit API tracks system activities and administrative events, supporting compliance
     and security monitoring requirements such as SOC 2 and GDPR.
+  baseURL: https://cloud.cdata.com/api
 - aid: cdata:odata-api
   name: CData OData API
   tags:
@@ -119,36 +152,101 @@ apis:
     type: Documentation
   - url: https://www.odata.org/documentation/
     type: Specification
+  - type: OpenAPI
+    url: openapi/cdata-odata-api-openapi.yml
+  - type: Overlay
+    url: overlays/cdata-odata-api-overlay.yaml
+  - type: APIReference
+    url: https://docs.cloud.cdata.com/en/API/OData-Dashboard
   description: >-
     CData Connect Cloud exposes an OData v4 compatible API that allows any OData client to browse metadata
     and query data from any configured source, including Excel, Power BI, and other BI tools.
-- aid: cdata:cdata-metadata-api
-  name: CData Metadata API
-  description: Catalog/metadata exploration
-  humanURL: https://cloud.cdata.com/docs/SQL-API.html
+  baseURL: https://cloud.cdata.com/api/odata
+- aid: cdata:mcp
+  name: CData Connect AI MCP Server
+  description: >-
+    A hosted, remote Model Context Protocol server that exposes every data source connected to a CData Connect AI account as MCP tools — catalog, schema, table, column and stored procedure discovery plus SQL query and procedure execution. A companion Management MCP server at /mcp/mgmt lists available sources and creates, tests and manages connections. Both speak the MCP Streamable HTTP transport and authenticate with OAuth 2.1 (PKCE) or HTTP Basic with a Personal Access Token.
+  humanURL: https://docs.cloud.cdata.com/en/API/MCP
+  baseURL: https://mcp.cloud.cdata.com
   tags:
-  - Metadata
+  - AI
+  - Agents
+  - Data Access
+  - MCP
+  - Model Context Protocol
   properties:
   - type: OpenAPI
-    url: openapi/cdata-metadata-api-openapi.yml
-- aid: cdata:cdata-procedures-api
-  name: CData Procedures API
-  description: Execute stored procedures
-  humanURL: https://cloud.cdata.com/docs/SQL-API.html
+    url: openapi/cdata-mcp-api-openapi.yml
+  - type: Overlay
+    url: overlays/cdata-mcp-api-overlay.yaml
+  - type: MCPServer
+    url: mcp/cdata-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/cdata-tool-crosswalk.yml
+  - type: Documentation
+    url: https://docs.cloud.cdata.com/en/API/MCP
+  - type: APIReference
+    url: https://docs.cloud.cdata.com/en/API/generic-mcp-access
+- aid: cdata:management-api
+  name: CData Connect AI Management API
+  description: >-
+    Programmatic control over Connect AI enterprise administration: create and deprovision human users and machine service accounts, assign and revoke system, access and workspace-scoped roles, and grant per-connection resource permissions. Authenticates with OAuth 2.0 client credentials and four scoped permissions. Interoperates with SCIM 2.0 provisioning — records carry scim_managed and external_id, and identity-provider owned fields are refused on update.
+  humanURL: https://docs.cloud.cdata.com/en/API/Management-API
+  baseURL: https://cloud.cdata.com/api/v1/admin
   tags:
-  - Procedures
+  - Administration
+  - Identity
+  - Provisioning
+  - SCIM
+  - Users
   properties:
   - type: OpenAPI
-    url: openapi/cdata-procedures-api-openapi.yml
-- aid: cdata:cdata-query-api
-  name: CData Query API
-  description: Execute SQL queries and batch operations
-  humanURL: https://cloud.cdata.com/docs/SQL-API.html
+    url: openapi/cdata-management-api-openapi.yml
+  - type: Overlay
+    url: overlays/cdata-management-api-overlay.yaml
+  - type: OAuthScopes
+    url: scopes/cdata-scopes.yml
+  - type: ErrorCatalog
+    url: errors/cdata-problem-types.yml
+  - type: DataModel
+    url: data-model/cdata-data-model.yml
+  - type: Documentation
+    url: https://docs.cloud.cdata.com/en/API/Management-API
+- aid: cdata:mcp-embedded
+  name: CData Connect AI Embed MCP Server
+  description: >-
+    The Connect AI Embed MCP surface, for software vendors embedding CData connectivity in their own products. Adds a connection-scoped endpoint that pins an MCP session to a single data source connection, so an ISV can hand each of its customers a tenant-scoped agent surface. Authenticates with a JWT bearer token minted by the embedding vendor.
+  humanURL: https://docs.cloud.cdata.com/en/API/MCP-Embedded
+  baseURL: https://mcp.cloud.cdata.com
   tags:
-  - Query
+  - Agents
+  - Embedded
+  - MCP
+  - Multi-Tenant
   properties:
   - type: OpenAPI
-    url: openapi/cdata-query-api-openapi.yml
+    url: openapi/cdata-mcp-api-embedded-openapi.yml
+  - type: Overlay
+    url: overlays/cdata-mcp-api-embedded-overlay.yaml
+  - type: Documentation
+    url: https://docs.cloud.cdata.com/en/API/MCP-Embedded
+- aid: cdata:openapi-api
+  name: CData Connect AI OpenAPI API
+  description: >-
+    Generates and returns an OpenAPI document describing the data in a Connect AI workspace, so no-code and low-code platforms that consume OpenAPI can be pointed at live enterprise data without a hand-written contract. Supports OpenAPI 2.0 and 3.0 output.
+  humanURL: https://docs.cloud.cdata.com/en/API/OpenAPI
+  baseURL: https://cloud.cdata.com/api/openapi
+  tags:
+  - Discovery
+  - OpenAPI
+  - Workspaces
+  properties:
+  - type: OpenAPI
+    url: openapi/cdata-openapi-api-openapi.yml
+  - type: Overlay
+    url: overlays/cdata-openapi-api-overlay.yaml
+  - type: Documentation
+    url: https://docs.cloud.cdata.com/en/API/OpenAPI
 name: CData
 tags:
 - Data
@@ -187,6 +285,10 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cdata.png
 access: 3rd-Party
 common:
+- type: Website
+  url: https://www.cdata.com/
+- type: OAuthScopes
+  url: scopes/cdata-scopes.yml
 - type: AgenticAccess
   url: agentic-access/cdata-agentic-access.yml
 - type: TrustCenter
@@ -206,10 +308,6 @@ common:
 - url: https://www.cdata.com/embedded/customers/
   name: CData Partnerships by Industry | Become One Today
   type: Partners
-  description: 'null'
-- url: https://www.cdata.com/company/testimonials.aspx
-  name: CData Software - Testimonials
-  type: Testimonials
   description: 'null'
 - url: https://www.cdata.com/case-study/
   name: CData Success Stories & Case Studies
@@ -570,8 +668,77 @@ common:
   - name: Zoho Inventory
   - name: Zoho Projects
   - name: Zuora
+- type: Packages
+  url: packages/cdata-packages.yml
+- type: SDKs
+  url: packages/cdata-packages.yml
+- type: WellKnown
+  url: well-known/cdata-well-known.yml
+- type: AgentCard
+  url: a2a/cdata-a2a.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/cdata-llms.txt
+- type: MCPServer
+  url: mcp/cdata-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/cdata-tool-crosswalk.yml
+- type: Conformance
+  url: conformance/cdata-conformance.yml
+- type: Lifecycle
+  url: lifecycle/cdata-lifecycle.yml
+- type: StatusPage
+  url: https://status.cdata.com/
+  name: CData Cloud Status
+- type: Idempotency
+  url: conventions/cdata-conventions.yml
+- type: Conventions
+  url: conventions/cdata-conventions.yml
+- type: ChangeLog
+  url: changelog/cdata-changelog.yml
+- type: CLI
+  url: cli/cdata-cli.yml
+- type: Components
+  url: components/cdata-components.yml
+- type: Sandbox
+  url: sandbox/cdata-sandbox.yml
+- type: DataModel
+  url: data-model/cdata-data-model.yml
+- type: ErrorCatalog
+  url: errors/cdata-problem-types.yml
+- type: Plans
+  url: plans/cdata-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/cdata-rate-limits.yml
+- type: Webhooks
+  url: asyncapi/cdata-audit-event-forwarding.yml
+- type: Documentation
+  url: https://docs.cloud.cdata.com/
+  name: CData Connect AI Documentation
+- type: APIReference
+  url: https://docs.cloud.cdata.com/en/API/API
+  name: CData Connect AI API Reference
+- type: DeveloperPortal
+  url: https://www.cdata.com/developers/
+  name: CData Developer Center
+- type: GettingStarted
+  url: https://www.cdata.com/developers/ai/quickstart/
+  name: Connect AI Quickstart
+- type: Pricing
+  url: https://www.cdata.com/ai/pricing/
+  name: CData Connect AI Pricing
+- type: SignUp
+  url: https://cloud.cdata.com/developer
+  name: Start free with Connect AI Developer Edition
+- type: Community
+  url: https://community.cdata.com/
+  name: CData Community Forum
+- type: ReleaseNotes
+  url: https://docs.cloud.cdata.com/en/ReleaseNotes
+  name: Connect AI Release Notes
 created: '2025-06-05'
-modified: '2026-04-23'
+modified: '2026-09-05'
 position: Consuming
 description: >-
   CData Software is a leading provider of data access and connectivity
@@ -582,3 +749,8 @@ maintainers:
 - FN: Kin Lane
   email: info@apievangelist.com
 specificationVersion: '0.23'
+x-enrichment:
+  date: '2026-09-05'
+  status: enriched
+  artifacts_added: 50
+  pass: local-v3

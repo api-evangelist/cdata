@@ -1,0 +1,57 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enrichment overlay — CData Connect AI Management API
+  version: 1.0.0
+extends: cdata-management-api-openapi.yml
+x-generated: '2026-09-05'
+x-method: generated
+x-source: Generated from openapi/cdata-management-api-openapi.yml (CData's own document, saved verbatim
+  from https://docs.cloud.cdata.com/en/API/Management-API.yaml) plus the artifacts in this repository.
+  The original OpenAPI is never mutated; this overlay carries every enhancement.
+actions:
+- target: $.info
+  description: Record catalog provenance for this document.
+  update:
+    x-apis-io-provider: cdata
+    x-apis-io-source: https://docs.cloud.cdata.com/en/API/Management-API.yaml
+    x-apis-io-retrieved: '2026-09-05'
+    x-apis-io-http-status: 200
+    x-apis-io-verbatim: true
+- target: $.info
+  description: Cross-link the derived artifacts that describe this contract's runtime semantics.
+  update:
+    x-apis-io-artifacts:
+      authentication: authentication/cdata-authentication.yml
+      conventions: conventions/cdata-conventions.yml
+      errors: errors/cdata-problem-types.yml
+      lifecycle: lifecycle/cdata-lifecycle.yml
+      rate_limits: rate-limits/cdata-rate-limits.yml
+      plans: plans/cdata-plans-pricing.yml
+      conformance: conformance/cdata-conformance.yml
+      data_model: data-model/cdata-data-model.yml
+- target: $.paths['/service-accounts'].post
+  description: Enhancement recorded by the API Evangelist enrichment pipeline.
+  update:
+    x-idempotency:
+      mechanism: natural-key
+      key: external_id
+      note: A second POST with the same external_id returns the existing service account.
+- target: $.paths['/users/batch'].post
+  description: Enhancement recorded by the API Evangelist enrichment pipeline.
+  update:
+    x-idempotency:
+      mechanism: upsert
+      note: Batch create-or-update; a replay converges.
+- target: $.paths['/users/{id}'].delete
+  description: Enhancement recorded by the API Evangelist enrichment pipeline.
+  update:
+    x-reversibility:
+      reversible: false
+      note: Documented as irreversible. Atomically removes all direct role assignments and direct permissions.
+- target: $.paths['/service-accounts/{id}'].delete
+  description: Enhancement recorded by the API Evangelist enrichment pipeline.
+  update:
+    x-reversibility:
+      reversible: false
+      note: Documented as irreversible. Atomically revokes all PATs and removes all role assignments and
+        permissions.

@@ -1,0 +1,186 @@
+specification: API Commons ErrorCatalog
+specificationVersion: '0.1'
+provider: CData
+providerId: cdata
+generated: '2026-09-05'
+method: derived
+source: >-
+  Derived from the 4xx/5xx responses and response examples in
+  openapi/cdata-management-api-openapi.yml, openapi/cdata-rest-api-openapi.yml,
+  openapi/cdata-mcp-api-openapi.yml and openapi/cdata-mcp-api-embedded-openapi.yml,
+  enriched from https://docs.cloud.cdata.com/en/API/REST-API.md (the response-format and
+  Errors sections). Every code below is quoted from CData's own contract; none was invented.
+format: proprietary
+format_note: >-
+  NOT RFC 9457. No operation in any of the seven published specs declares
+  application/problem+json. CData uses a single proprietary envelope on both the data plane
+  and the control plane.
+envelope:
+  schema: '#/components/schemas/ErrorResponse (Management API)'
+  shape: '{ "error": { "code": "<SCREAMING_SNAKE_CASE>", "message": "<human-readable>" } }'
+  fields:
+  - name: error.code
+    description: SCREAMING_SNAKE_CASE error code (the spec says so verbatim).
+  - name: error.message
+    description: Human-readable error description.
+  note: >-
+    The Connect AI REST API uses the same `error` object, but nests it beside `results` and
+    `parameters` in the normal response body rather than replacing the body.
+critical_caveat:
+  title: A 200 can carry an error
+  detail: >-
+    https://docs.cloud.cdata.com/en/API/REST-API.md is explicit: "Since the HTTP status code
+    is returned before the body, incomplete responses have a 200 OK status. As such, it's
+    important that you always check for the presence of error information in the response
+    rather than relying solely on the HTTP status code." Connect AI streams query results as
+    they arrive, so a failure part-way through a result set produces a partial result AND an
+    error object under a 200. Any agent or client that branches on status code alone will
+    silently accept truncated data. This is the single most important error-handling fact in
+    CData's contract and it is stated in prose only — nothing in the OpenAPI expresses it.
+status_codes:
+- status: 400
+  title: Bad Request
+  count_in_specs: 6
+  note: >-
+    On the MCP endpoints, returned when the request body is malformed JSON or is not a valid
+    JSON-RPC 2.0 message, when the `connectionId` path parameter is not a valid identifier,
+    or when the `tools` / `ops` narrowing query parameters carry an empty or unrecognised
+    value.
+- status: 401
+  title: Unauthorized
+  count_in_specs: 4
+  note: >-
+    "Missing or invalid credentials" (Basic) or "Missing or invalid bearer token" (JWT/OAuth).
+    Observed live on https://mcp.cloud.cdata.com/mcp, which returns
+    {"error":"UNAUTHORIZED","message":"Missing or invalid Authorization header"} together
+    with an RFC 9728 WWW-Authenticate challenge.
+- status: 403
+  title: Forbidden
+  count_in_specs: 1
+  note: >-
+    Connect AI Embed only — "the authenticated token's allowed connection_ids list does not
+    include the requested connection".
+- status: 404
+  title: Not Found
+  count_in_specs: 26
+- status: 409
+  title: Conflict
+  count_in_specs: 12
+- status: 422
+  title: Unprocessable Entity
+  count_in_specs: 7
+problem_types:
+- code: USER_NOT_FOUND
+  status: 404
+  title: User not found
+  detail: The specified user does not exist.
+- code: SERVICE_ACCOUNT_NOT_FOUND
+  status: 404
+  title: Service account not found
+  detail: The specified service account does not exist.
+- code: WORKSPACE_NOT_FOUND
+  status: 404
+  title: Workspace not found
+  detail: The specified workspace does not exist.
+- code: PERMISSION_NOT_FOUND
+  status: 404
+  title: Permission not assigned
+  detail: The specified permission is not assigned to this user.
+- code: ROLE_ASSIGNMENT_NOT_FOUND
+  status: 404
+  title: Role not directly assigned
+  detail: This role is not directly assigned to the user.
+- code: USER_ALREADY_EXISTS
+  status: 409
+  title: Email already exists
+  detail: A user with this email already exists.
+  remediation: >-
+    Look the user up by email before creating, or use POST /users/batch, which upserts.
+- code: SERVICE_ACCOUNT_ALREADY_EXISTS
+  status: 409
+  title: Name already in use
+  detail: A service account with this name already exists in the organization.
+  remediation: >-
+    POST /service-accounts is idempotent by external_id — resending with the same external_id
+    returns the existing account instead of conflicting.
+- code: SERVICE_ACCOUNT_NAME_CONFLICT
+  status: 409
+  title: Name already in use
+  detail: A service account with this name already exists.
+- code: CANNOT_DELETE_LAST_ADMIN
+  status: 409
+  title: Last admin guard
+  detail: Deleting this user would leave the org with no active administrator.
+  remediation: Promote another user to admin first. A safety rail, not a transient failure.
+- code: CANNOT_REMOVE_LAST_WORKSPACE_ADMIN
+  status: 409
+  title: Last workspace admin guard
+  detail: Cannot remove the last workspace_admin from this workspace.
+- code: CANNOT_REMOVE_GROUP_DERIVED_ROLE
+  status: 409
+  title: Role is group-derived
+  detail: This role was conferred via a group.
+  remediation: Use DELETE /groups/{id}/roles/{role_id} to remove it.
+- code: SYSTEM_ROLE_LIMIT
+  status: 409
+  title: User already holds the admin role
+  detail: The user already holds the admin role.
+- code: VALIDATION_ERROR
+  status: 400
+  title: Bad Request
+  detail: Missing required field or invalid value.
+- code: SCIM_MANAGED_FIELD
+  status: 422
+  title: Name fields owned by IdP
+  detail: >-
+    Name fields on SCIM-provisioned users are owned by the IdP and cannot be updated via
+    this endpoint.
+  remediation: Change the name in the identity provider; SCIM propagates it.
+- code: ROLE_NOT_ASSIGNABLE
+  status: 422
+  title: Role is not the admin role
+  detail: Only the admin role is assignable via this endpoint.
+  remediation: >-
+    For workspace-scoped system roles, use POST /users/{id}/workspaces/{workspace_id}/roles.
+- code: ROLE_NOT_FOUND
+  status: 422
+  title: Role does not exist
+  detail: The specified role does not exist.
+- code: ENTITY_NOT_IN_WORKSPACE
+  status: 422
+  title: User not a workspace member
+  detail: >-
+    The user must be a direct member of the target workspace before a workspace-scoped role
+    can be assigned.
+- code: INVALID_PERMISSION_TYPE
+  status: 422
+  title: Invalid type value
+  detail: Permission type must be connection.
+- code: INVALID_OPERATION
+  status: 422
+  title: Invalid operation value
+  detail: >-
+    One or more operation values are not valid. Valid operations are the Connect AI
+    permission verbs SELECT, INSERT, UPDATE, DELETE and EXECUTE.
+- code: UNAUTHORIZED
+  status: 401
+  title: Missing or invalid Authorization header
+  detail: Returned by the MCP endpoint on an anonymous request.
+  observed: '2026-09-05, POST https://mcp.cloud.cdata.com/mcp'
+  remediation: >-
+    Follow the WWW-Authenticate challenge to
+    https://mcp.cloud.cdata.com/.well-known/oauth-protected-resource/mcp and complete the
+    OAuth 2.1 flow, or send HTTP Basic with a Connect AI user id and PAT.
+coverage:
+  codes_catalogued: 20
+  source_specs: 4
+  note: >-
+    The Connect AI REST API's data-plane error codes (returned inside the `error` object of a
+    query response) are NOT enumerated anywhere CData publishes — the spec documents the
+    envelope but not the code vocabulary, and the docs give no error reference page for them.
+    Every code above therefore comes from the Management API and the MCP transport specs.
+    That gap is a real one: an agent handling a failed query has a message string and nothing
+    to branch on.
+maintainers:
+- FN: Kin Lane
+  email: info@apievangelist.com

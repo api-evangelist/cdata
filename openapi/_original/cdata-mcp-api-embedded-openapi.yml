@@ -1,0 +1,438 @@
+openapi: 3.0.1
+info:
+  title: Example MCP Server API
+  version: 1.0.0
+  description: |
+    This API provides a Model Context Protocol (MCP) server that exposes tools to connect your data with a model-aware client.
+
+servers:
+  - url: https://mcp.cloud.cdata.com
+    description: Production MCP base URL
+
+paths:
+  /mcp:
+    post:
+      summary: Generic MCP Access
+      tags:
+        - MCP
+      description: |
+        Generic MCP endpoint. Implements the
+        [MCP Streamable HTTP transport](https://modelcontextprotocol.io/docs/concepts/transports).
+        Send any JSON-RPC 2.0 MCP request (for example, `initialize`, `tools/list`, `tools/call`) in the
+        request body. The session can access any connection whose ID is listed in the JWT's
+        `connection_ids` claim.
+
+        Use `/mcp/connections/{connectionId}` instead to scope a session to a single connection.
+
+        Omit `id` to send a notification (fire-and-forget; the server returns `202 No Content`).
+      parameters:
+        - name: tools
+          in: query
+          required: false
+          style: form
+          explode: false
+          description: >
+            Comma-separated list of tool types to include in `tools/list` responses. Omitting returns all types.
+            If repeated, only the first occurrence is used. An empty string or unrecognized value returns `HTTP 400`.
+            Narrowing-only: cannot enable tools the server has already disabled.
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - universal
+                - sql
+                - source
+        - name: ops
+          in: query
+          required: false
+          style: form
+          explode: false
+          description: >
+            Comma-separated list of operation base names to include in `tools/list` responses. Omitting returns tools for all operations.
+            If repeated, only the first occurrence is used. An empty string or unrecognized value returns `HTTP 400`.
+            Narrowing-only: cannot enable tools the server has already disabled.
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - get_catalogs
+                - get_schemas
+                - get_tables
+                - get_columns
+                - get_procedures
+                - get_procedure_parameters
+                - get_instructions
+                - execute_sql
+                - execute_select
+                - execute_insert
+                - execute_update
+                - execute_procedure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              initialize:
+                summary: Initialize the MCP session
+                value:
+                  jsonrpc: "2.0"
+                  method: initialize
+                  params:
+                    protocolVersion: "2024-11-05"
+                    capabilities: {}
+                    clientInfo:
+                      name: my-client
+                      version: "1.0.0"
+                  id: 1
+              tools_list:
+                summary: List available tools
+                value:
+                  jsonrpc: "2.0"
+                  method: tools/list
+                  params: {}
+                  id: 2
+              tools_call:
+                summary: Invoke a tool
+                value:
+                  jsonrpc: "2.0"
+                  method: tools/call
+                  params:
+                    name: GetTables
+                    arguments: {}
+                  id: 3
+      responses:
+        '200':
+          description: |
+            JSON-RPC response or SSE stream, depending on the request.
+
+            - **`application/json`** — returned for a single request that includes an `id`.
+              The body is a `JsonRpcResponse` object.
+            - **`text/event-stream`** — returned when the server needs to stream multiple
+              messages back (for example, long-running tool calls, server-initiated notifications).
+              Each SSE `data:` line is a JSON-encoded `JsonRpcResponse` object. The stream
+              closes when the server has sent all messages for the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonRpcResponse'
+              example:
+                jsonrpc: "2.0"
+                result:
+                  tools:
+                    - name: GetTables
+                      description: Returns a list of available tables.
+                      inputSchema:
+                        type: object
+                        properties: {}
+                id: 2
+            text/event-stream:
+              schema:
+                type: string
+                description: |
+                  Newline-delimited SSE events. Each `data:` field contains a
+                  JSON-encoded `JsonRpcResponse`. Example:
+
+                  ```
+                  data: {"jsonrpc":"2.0","result":{...},"id":3}
+
+                  data: {"jsonrpc":"2.0","method":"notifications/message","params":{...}}
+
+                  ```
+        '202':
+          description: Notification accepted (request had no `id`); no response body.
+        '400':
+          description: |
+            Bad request. Returned for either of:
+            - Request body is malformed JSON or is not a valid JSON-RPC 2.0 envelope.
+            - A `tools` or `ops` query parameter is empty or contains an unrecognized value (`ToolFilterParseError`, JSON-RPC code `-32602`).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToolFilterParseError'
+        '401':
+          description: Missing or invalid bearer token.
+
+  /mcp/connections/{connectionId}:
+    post:
+      summary: Connection Scoped MCP Access
+      tags:
+        - MCP
+      description: |
+        
+      parameters:
+        - name: connectionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The unique identifier of the connection to scope this request to.
+        - name: tools
+          in: query
+          required: false
+          style: form
+          explode: false
+          description: >
+            Comma-separated list of tool types to include in `tools/list` responses. Omitting returns all types.
+            If repeated, only the first occurrence is used. An empty string or unrecognized value returns `HTTP 400`.
+            Narrowing-only: cannot enable tools the server has already disabled.
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - universal
+                - sql
+                - source
+        - name: ops
+          in: query
+          required: false
+          style: form
+          explode: false
+          description: >
+            Comma-separated list of operation base names to include in `tools/list` responses. Omitting returns tools for all operations.
+            If repeated, only the first occurrence is used. An empty string or unrecognized value returns `HTTP 400`.
+            Narrowing-only: cannot enable tools the server has already disabled.
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - get_catalogs
+                - get_schemas
+                - get_tables
+                - get_columns
+                - get_procedures
+                - get_procedure_parameters
+                - get_instructions
+                - execute_sql
+                - execute_select
+                - execute_insert
+                - execute_update
+                - execute_procedure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              initialize:
+                summary: Initialize the MCP session
+                value:
+                  jsonrpc: "2.0"
+                  method: initialize
+                  params:
+                    protocolVersion: "2024-11-05"
+                    capabilities: {}
+                    clientInfo:
+                      name: my-client
+                      version: "1.0.0"
+                  id: 1
+              tools_list:
+                summary: List available tools
+                value:
+                  jsonrpc: "2.0"
+                  method: tools/list
+                  params: {}
+                  id: 2
+              tools_call:
+                summary: Invoke a tool
+                value:
+                  jsonrpc: "2.0"
+                  method: tools/call
+                  params:
+                    name: GetTables
+                    arguments: {}
+                  id: 3
+      responses:
+        '200':
+          description: |
+            JSON-RPC response or SSE stream, depending on the request.
+
+            - **`application/json`** — returned for a single request that includes an `id`.
+              The body is a `JsonRpcResponse` object.
+            - **`text/event-stream`** — returned when the server needs to stream multiple
+              messages back (for example, long-running tool calls, server-initiated notifications).
+              Each SSE `data:` line is a JSON-encoded `JsonRpcResponse` object. The stream
+              closes when the server has sent all messages for the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonRpcResponse'
+              example:
+                jsonrpc: "2.0"
+                result:
+                  tools:
+                    - name: GetTables
+                      description: Returns a list of available tables.
+                      inputSchema:
+                        type: object
+                        properties: {}
+                id: 2
+            text/event-stream:
+              schema:
+                type: string
+                description: |
+                  Newline-delimited SSE events. Each `data:` field contains a
+                  JSON-encoded `JsonRpcResponse`. Example:
+
+                  ```
+                  data: {"jsonrpc":"2.0","result":{...},"id":3}
+
+                  data: {"jsonrpc":"2.0","method":"notifications/message","params":{...}}
+
+                  ```
+        '202':
+          description: Notification accepted (request had no `id`); no response body.
+        '400':
+          description: |
+            Bad request. Returned for any of:
+            - `connectionId` path parameter is not a valid UUID.
+            - Request body is malformed JSON or is not a valid JSON-RPC 2.0 envelope.
+            - A `tools` or `ops` query parameter is empty or contains an unrecognized value (`ToolFilterParseError`, JSON-RPC code `-32602`).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToolFilterParseError'
+        '401':
+          description: Missing or invalid bearer token.
+        '403':
+          description: |
+            Forbidden. The authenticated token's allowed `connection_ids` list does not
+            include the requested `connectionId`.
+        '404':
+          description: Connection ID not found.
+
+components:
+  schemas:
+    JsonRpcRequest:
+      type: object
+      required:
+        - jsonrpc
+        - method
+      properties:
+        jsonrpc:
+          type: string
+          enum: ["2.0"]
+          description: JSON-RPC protocol version. Must be `"2.0"`.
+        method:
+          type: string
+          description: MCP method name (for example, `initialize`, `tools/list`, `tools/call`).
+        params:
+          type: object
+          additionalProperties: true
+          description: Method-specific parameters. May be omitted for parameterless methods.
+        id:
+          description: |
+            Request identifier echoed in the response. Use a string or integer.
+            Omit entirely to send a notification (no response will be returned).
+          oneOf:
+            - type: string
+            - type: integer
+
+    JsonRpcResponse:
+      type: object
+      required:
+        - jsonrpc
+        - id
+      properties:
+        jsonrpc:
+          type: string
+          enum: ["2.0"]
+          description: JSON-RPC protocol version.
+        result:
+          type: object
+          additionalProperties: true
+          description: Present on success; mutually exclusive with `error`.
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+        id:
+          description: Matches the `id` from the request. Null if the server could not determine the request id.
+          nullable: true
+          oneOf:
+            - type: string
+            - type: integer
+
+    JsonRpcError:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          description: JSON-RPC error code (for example, `-32600` invalid request, `-32601` method not found, `32602` tool filter parse error).
+        message:
+          type: string
+          description: Human-readable error description.
+        data:
+          description: Optional additional error context.
+
+    ToolFilterParseError:
+      type: object
+      description: Returned when a `tools` or `ops` query parameter is empty or contains an unrecognized value.
+      properties:
+        jsonrpc:
+          type: string
+          enum: ["2.0"]
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+              description: JSON-RPC error code indicating invalid parameters.
+              example: -32602
+            message:
+              type: string
+              description: Human-readable description of the parse failure.
+              example: "Invalid value for parameter 'tools': 'unknown'"
+        id:
+          nullable: true
+          oneOf:
+            - type: string
+            - type: integer
+
+    Tool:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        inputSchema:
+          type: object
+          description: JSON Schema describing the tool's input parameters.
+
+    ToolResult:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+          description: Content blocks returned by the tool.
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token authentication. Include the token in the Authorization header as 'Bearer <token>'.
+    #OAuth2:
+    #  type: oauth2
+    #  flows:
+    #    authorizationCode:
+    #      authorizationUrl: https://cloud-login.clouddataos.com/authorize
+    #      tokenUrl: https://cloud-login.clouddataos.com/oauth/token
+    #      refreshUrl: https://cloud-login.clouddataos.com/oauth/refresh
+    #      scopes: []
+          # Optional tool-specific hint for PKCE
+          #x-usePkce: true
+security:
+  - BearerAuth: []
+  #- OAuth2: []

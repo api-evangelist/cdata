@@ -1,20 +1,112 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/cdata-openapi.yml
+generated: '2026-09-05'
+method: searched
+docs:
+- https://docs.cloud.cdata.com/en/API/Authentication.md
+- https://docs.cloud.cdata.com/en/API/Authentication-Embedded.md
+- https://docs.cloud.cdata.com/en/API/MCP.md
+- https://docs.cloud.cdata.com/en/Settings/Personal-Access-Tokens
+source: openapi/cdata-management-api-openapi.yml, openapi/cdata-mcp-api-embedded-openapi.yml,
+  openapi/cdata-mcp-api-openapi.yml, openapi/cdata-odata-api-openapi.yml, openapi/cdata-openapi-api-openapi.yml,
+  openapi/cdata-rest-api-embedded-openapi.yml, openapi/cdata-rest-api-openapi.yml
 summary:
   types:
   - http
+  - oauth2
+  oauth2_flows:
+  - clientCredentials
 schemes:
-- name: basicAuth
-  type: http
-  scheme: basic
-  description: Basic auth using CData Connect Cloud username and PAT/password
+- name: oauth2
+  type: oauth2
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://cloud-login.cdata.com/oauth/token
+    scopes: 4
   sources:
-  - openapi/cdata-openapi.yml
-- name: bearerAuth
+  - openapi/cdata-management-api-openapi.yml
+- name: BearerAuth
   type: http
   scheme: bearer
   bearerFormat: JWT
-  description: JWT bearer for CData Connect AI Embed
+  description: JWT token authentication. Include the token in the Authorization header as 'Bearer
+    <token>'.
   sources:
-  - openapi/cdata-openapi.yml
+  - openapi/cdata-mcp-api-embedded-openapi.yml
+  - openapi/cdata-rest-api-embedded-openapi.yml
+- name: Basic
+  type: http
+  scheme: basic
+  description: Basic Authentication with username and password. Use your PAT as the password.
+    You can get your PAT from Connect AI by selecting **Settings** > **Access Tokens**.
+  sources:
+  - openapi/cdata-mcp-api-openapi.yml
+  - openapi/cdata-odata-api-openapi.yml
+  - openapi/cdata-openapi-api-openapi.yml
+  - openapi/cdata-rest-api-openapi.yml
+
+# --- SEARCHED enrichment, 2026-09-05 -------------------------------------------------
+# Derived from the seven first-party specs above, then upgraded against CData's own
+# published authentication pages and the live discovery documents in well-known/.
+docs_detail:
+  connect_ai:
+    url: https://docs.cloud.cdata.com/en/API/Authentication.md
+    methods:
+    - name: HTTP Basic
+      username: the registered user's email address (e.g. user@cdata.com)
+      password: >-
+        a Personal Access Token (PAT) generated on the Settings > Personal Access Tokens
+        page — never the account password.
+      encoding: Base64 of "email:PAT" in the Authorization header
+      applies_to: [REST API, OData API, OpenAPI API, MCP data server]
+    - name: OAuth 2.0 client credentials
+      issuer: https://cloud-login.cdata.com/
+      token_endpoint: https://cloud-login.cdata.com/oauth/token
+      authorization_endpoint: https://cloud-login.cdata.com/authorize
+      credentials: >-
+        Client Id and Client Secret from a service account, created on the Service Accounts
+        tab of the Users page.
+      intended_for: scripts, jobs and external services with no human user
+      applies_to: [Management API, REST API]
+      discovery: well-known/cdata-cloud-login-openid-configuration.json
+  connect_ai_embed:
+    url: https://docs.cloud.cdata.com/en/API/Authentication-Embedded.md
+    methods:
+    - name: JWT bearer
+      note: >-
+        All requests to the Connect AI Embed API authenticate with a JSON Web Token minted
+        by the ISV. Matches the BearerAuth scheme in the Embed specs above.
+  mcp:
+    url: https://docs.cloud.cdata.com/en/API/MCP.md
+    methods:
+    - name: OAuth 2.1 (authorization code + PKCE)
+      authorization_server: https://mcp.cloud.cdata.com
+      authorization_endpoint: https://mcp.cloud.cdata.com/authorize
+      token_endpoint: https://mcp.cloud.cdata.com/token
+      registration_endpoint: https://mcp.cloud.cdata.com/register
+      code_challenge_methods: [S256]
+      token_endpoint_auth_methods: [none]
+      scopes: [openid, profile, email, offline_access]
+      discovery: well-known/cdata-mcp-oauth-authorization-server.json
+      protected_resource_metadata: well-known/cdata-mcp-oauth-protected-resource.json
+      note: >-
+        A live anonymous POST to https://mcp.cloud.cdata.com/mcp returns HTTP 401 with a
+        correct RFC 9728 WWW-Authenticate challenge naming the resource_metadata document.
+        This is the strongest auth signal in the record: it was observed, not read.
+    - name: HTTP Basic
+      note: Connect AI user id plus PAT, for MCP clients that do not implement OAuth.
+enterprise_identity:
+  sso:
+    url: https://docs.cloud.cdata.com/en/SCIM/SSO.md
+    note: Enterprise SSO with multiple identity providers; listed as a Business-tier feature.
+  scim:
+    url: https://docs.cloud.cdata.com/en/SCIM.md
+    version: '2.0'
+    note: >-
+      SCIM 2.0 user and group provisioning from Okta, Entra ID and Ping Identity, plus
+      Just-in-Time provisioning on first SSO login. The Management API exposes
+      `scim_managed` on user records and refuses name updates on SCIM-managed users,
+      because the IdP owns those fields. See conformance/cdata-conformance.yml.
+  passthrough_identity:
+    note: >-
+      Business tier passes each end user's own credentials through to the source system at
+      query time, so an agent inherits that user's permissions rather than sharing a
+      service credential. Published on https://www.cdata.com/ai/pricing/.

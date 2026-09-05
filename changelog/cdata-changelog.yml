@@ -1,0 +1,83 @@
+specification: API Commons ChangeLog
+specificationVersion: '0.1'
+provider: CData
+providerId: cdata
+generated: '2026-09-05'
+method: searched
+source: https://docs.cloud.cdata.com/en/ReleaseNotes.md
+docs: https://docs.cloud.cdata.com/en/ReleaseNotes
+scheme:
+  style: dated releases
+  cadence: weekly
+  cadence_evidence: >-
+    137 dated entries. The most recent 25 are consecutive Fridays — August 21, August 14,
+    August 7, July 31, July 24, July 17, July 10, July 3, June 26, June 19, June 12, June 5,
+    May 29, May 22, May 15, May 8, May 1, April 24, April 17, April 10, April 3, March 27,
+    March 20, March 13, March 6 (all 2026). This is a genuinely maintained log, not an
+    occasional post.
+  structure: >-
+    Each entry is an <Update label="<Month D, YYYY>"> block with optional "What's New" and
+    "Changes, Improvements, and Bug Fixes" sections, the latter split into General and
+    Connectors. Connector lines are tagged (New) / (Update) / (Removed) / (Deprecated).
+  versioning: >-
+    Connect AI is continuously delivered and carries no product version number in the log.
+    The APIs themselves version in the path: /api/v1/admin for the Management API,
+    info.version "v1" on the REST, OData and OpenAPI specs.
+  scope: >-
+    Covers the Connect AI platform, its APIs and its 500+ connectors in one stream. There is
+    no separate API-only changelog, so an API consumer reads platform noise to find contract
+    changes.
+entries:
+- date: '2026-08-21'
+  breaking: false
+  highlights:
+  - >-
+    MCP source tools now expose object-typed parameters as JSON objects in the tool schema.
+    Previously they were exposed as strings, so MCP clients passed values as JSON-encoded
+    text instead of structured objects — a real agent-facing contract fix.
+  - Fixed MCP Toolkit tools failing to resolve the backing connection under a service account session.
+  - On-premises OAuth for API connections now works through Connect Gateway.
+  - The API Connector gained a configurable OAuth Scope advanced setting.
+  removals:
+  - 'Microsoft Access (Removed): connector no longer available as a data source.'
+- date: '2026-08-14'
+  breaking: false
+  highlights:
+  - Data Copilot renamed to Playground, with guided onboarding for Jira, GitHub and Slack.
+  - Connection validation now runs only on Test Connection, not before every query.
+  - 'Query Execution Engine fixes: % wildcard catalog names, INSERT INTO SELECT with aliases and multi-connection JOINs.'
+  additions:
+  - 'Anaplan (New), Coda (New), SAP Business Warehouse (New), ServiceDesk Plus (New), Suadeo (New).'
+  - >-
+    Dynamics 365 Business Central (Update): INSERT no longer silently ignores unknown column
+    names — it returns an error instead of dropping data without warning.
+- date: '2026-08-07'
+  breaking: true
+  highlights:
+  - >-
+    The machine-to-machine (M2M) application type has been REMOVED from OAuth Apps. Callers
+    must move to service accounts for automated authentication. This is the clearest
+    breaking auth change in the recent window.
+  - AI responses in Data Copilot and AI Assistant now stream incrementally.
+notable_older:
+- note: >-
+    Connector-level breaking changes recur through the log and are the practical source of
+    breakage for CData consumers, because a connector change alters the shape of the data a
+    query returns. Examples read from the log: Shopify's default API schema moved from
+    2024-07 to 2025-07 with schemas before 2025-01 no longer supported; QuickBooks Online
+    moved to version 26 for Intuit's API changes, altering null values, row ordering, column
+    titles and empty sections and deprecating the GroupBy parameter; Xero now requires PKCE
+    with other authentication options removed; Smartsheet's useLegacyAPI now defaults to
+    false ahead of the legacy API sunset; Parquet and Bing Search connectors were removed
+    and deprecated respectively; sub-account API access was removed for Connect AI Embed
+    administrators.
+window:
+  entries_total: 137
+  entries_recorded: 3
+  note: >-
+    Recent window only, per the artifact contract. The full log is public at the docs URL
+    above and was read in full to establish cadence and to find the breaking changes listed
+    under notable_older.
+maintainers:
+- FN: Kin Lane
+  email: info@apievangelist.com

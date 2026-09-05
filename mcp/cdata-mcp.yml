@@ -1,0 +1,160 @@
+specification: API Commons MCP
+specificationVersion: '0.1'
+provider: CData
+providerId: cdata
+generated: '2026-09-05'
+method: searched
+source: >-
+  https://docs.cloud.cdata.com/en/API/MCP.md and
+  https://docs.cloud.cdata.com/en/API/MCP-Management.md (published tool lists),
+  https://docs.cloud.cdata.com/en/API/MCP-API.yaml (the provider's own OpenAPI for the MCP
+  transport), plus a live POST probe of https://mcp.cloud.cdata.com/mcp on 2026-09-05.
+status: published
+name: CData Connect AI MCP
+description: >-
+  CData Connect AI ships a hosted, remote MCP server that exposes every configured data
+  source connection as MCP tools. Two servers are published: a data server at /mcp
+  (catalog/schema/table/column discovery plus SQL query and stored-procedure execution) and
+  a Management server at /mcp/mgmt (list available sources, create/test connections, manage
+  toolkits). Both speak the MCP Streamable HTTP transport.
+deployment:
+  mode: remote
+  endpoint: https://mcp.cloud.cdata.com/mcp
+  auth: oauth
+  verified: probed
+  note: >-
+    OAuth 2.1 (authorization code + PKCE S256, dynamic client registration) OR HTTP Basic
+    with a Connect AI user id and Personal Access Token, per
+    https://docs.cloud.cdata.com/en/API/MCP.md. `auth: oauth` records the primary,
+    agent-usable path; the Basic alternative is captured in authentication/.
+    No stdio package is published — there is no `npx`/`uvx` install for this server, so an
+    agent reaches it over HTTPS or not at all.
+endpoints:
+- name: Connect AI MCP (data)
+  url: https://mcp.cloud.cdata.com/mcp
+  transport: streamable-http
+  docs: https://docs.cloud.cdata.com/en/API/MCP.md
+  openapi: openapi/cdata-mcp-api-openapi.yml
+- name: Connect AI Management MCP
+  url: https://mcp.cloud.cdata.com/mcp/mgmt
+  transport: streamable-http
+  docs: https://docs.cloud.cdata.com/en/API/MCP-Management.md
+  note: >-
+    Included in the free Developer Edition (described there as a Developer Edition
+    exclusive alongside the data server).
+- name: Connection-scoped MCP (Embed)
+  url: https://mcp.cloud.cdata.com/mcp/connections/{connectionId}
+  transport: streamable-http
+  docs: https://docs.cloud.cdata.com/en/API/mcp-connections.md
+  openapi: openapi/cdata-mcp-api-embedded-openapi.yml
+  note: Connect AI Embed surface; routes MCP traffic to a single data source connection.
+probe:
+  url: https://mcp.cloud.cdata.com/mcp
+  method: POST
+  body: '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+  http_status: 401
+  www_authenticate: >-
+    Bearer resource_metadata="https://mcp.cloud.cdata.com/.well-known/oauth-protected-resource/mcp",
+    scope="openid profile email"
+  body_returned: '{"error":"UNAUTHORIZED","message":"Missing or invalid Authorization header"}'
+  checked: '2026-09-05'
+  interpretation: >-
+    The server is live and RFC 9728-correct: it refuses anonymous tools/list and hands back a
+    resource_metadata pointer that itself resolves (200, saved to
+    well-known/cdata-mcp-oauth-protected-resource.json). The live tool inputSchemas are
+    therefore auth-gated. The tool list below is NOT introspected — it is transcribed from
+    CData's own published documentation and from the `ops` enum in the provider's MCP-API.yaml.
+    Full JSON Schema for each tool requires authenticated introspection.
+oauth:
+  authorization_server: https://mcp.cloud.cdata.com
+  protected_resource_metadata: https://mcp.cloud.cdata.com/.well-known/oauth-protected-resource
+  authorization_endpoint: https://mcp.cloud.cdata.com/authorize
+  token_endpoint: https://mcp.cloud.cdata.com/token
+  registration_endpoint: https://mcp.cloud.cdata.com/register
+  pkce: S256
+  scopes: [openid, profile, email, offline_access]
+  mcp_protocol_version: '2025-06-18'
+tools:
+  source: >-
+    Names and descriptions from https://docs.cloud.cdata.com/en/API/MCP.md; the operation
+    base names come from the `ops` query-parameter enum in the provider's own MCP-API.yaml.
+    Input schemas not captured — the live endpoint is auth-gated (see probe above).
+  data_server:
+  - name: getCatalogs
+    op: get_catalogs
+    kind: read
+    description: Retrieve a list of available connections (catalogs) from Connect AI.
+  - name: getSchemas
+    op: get_schemas
+    kind: read
+    description: Retrieve database schemas for a specific catalog.
+  - name: getTables
+    op: get_tables
+    kind: read
+    description: Retrieve tables and views for a specific catalog and schema.
+  - name: getColumns
+    op: get_columns
+    kind: read
+    description: Retrieve column definitions for a specific catalog, schema and table.
+  - name: getProcedures
+    op: get_procedures
+    kind: read
+    description: Retrieve stored procedures for a specific catalog and schema.
+  - name: getProcedureParameters
+    op: get_procedure_parameters
+    kind: read
+    description: Retrieve parameter metadata (names, types, directions) for a stored procedure.
+  - name: getInstructions
+    op: get_instructions
+    kind: read
+    description: >-
+      Source-level semantic guidance the base skill requires an agent to call before any
+      schema/table/column call. Present in the MCP-API.yaml ops enum; the base skill
+      (skills/cdata-connect-ai-base.md) makes it the first step of the discovery workflow.
+  - name: queryData
+    op: execute_sql
+    kind: write
+    description: >-
+      Execute SQL against the connected data sources. The ops enum also exposes narrower
+      execute_select / execute_insert / execute_update variants.
+  - name: executeProcedure
+    op: execute_procedure
+    kind: write
+    description: Execute a stored procedure for the chosen catalog and schema.
+  tool_filtering:
+    note: >-
+      The MCP endpoint accepts `tools` (universal|sql|source) and `ops` query parameters that
+      narrow what tools/list returns. Narrowing-only — they cannot enable tools the server
+      has disabled. An empty or unrecognised value returns HTTP 400.
+      Source: openapi/cdata-mcp-api-openapi.yml.
+  management_server:
+  - name: create_connection
+    kind: write
+    description: >-
+      Save a new data source connection. Requires name, source and a properties object keyed
+      by the field names returned by get_source_properties. OAuth sources return a sign-in URL.
+  - name: get_source_properties
+    kind: read
+    description: >-
+      Describe the configuration fields a data source accepts, split into basic and advanced,
+      with allowed values and conditional follow-up fields.
+  - name: list_available_sources
+    kind: read
+    description: List the data sources the user can connect to, with internal source name and category.
+  - name: list_connections
+    kind: read
+    description: List saved connections with id, name and source type.
+  - name: test_connection
+    kind: write
+    description: Verify a saved connection by attempting to connect to the data source.
+  note: >-
+    The Management MCP documentation also describes Toolkit Management tools
+    (add_tool_to_toolkit and related). Only the five Connection Management tools above were
+    read in full from the published page and are recorded here; the toolkit tools are named
+    in the docs but their parameters were not transcribed.
+clients:
+  documented: [Claude, Microsoft Copilot Studio, n8n, Databricks, Gemini Enterprise, ChatGPT Directory]
+  source: https://docs.cloud.cdata.com/en/Clients/AITools.md
+maintainers:
+- FN: Kin Lane
+  email: info@apievangelist.com

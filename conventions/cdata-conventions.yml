@@ -1,0 +1,187 @@
+specification: API Commons Conventions
+specificationVersion: '0.1'
+provider: CData
+providerId: cdata
+generated: '2026-09-05'
+method: searched
+source: >-
+  https://docs.cloud.cdata.com/en/API/REST-API.md, /en/API/Authentication.md,
+  /en/API/Management-API.md and the per-operation pages under /en/API/, cross-checked
+  against the seven first-party specs in openapi/.
+auth:
+  style: >-
+    HTTP Basic (email + Personal Access Token) on the data plane; OAuth 2.0 client
+    credentials (service accounts) on the Management API and accepted on the data plane;
+    JWT bearer on Connect AI Embed; OAuth 2.1 with PKCE, or Basic, on MCP.
+  detail: authentication/cdata-authentication.yml
+  scopes: scopes/cdata-scopes.yml
+idempotency:
+  coverage: partial
+  mechanism: natural-key
+  header: null
+  retention: null
+  scope:
+  - operationId: createServiceAccount
+    operation: POST /service-accounts
+    basis: >-
+      "This endpoint is idempotent by external_id: a second POST with the same external_id
+      returns the existing service account."
+    source: https://docs.cloud.cdata.com/en/API/Create-Service-Account.md
+  - operationId: batchCreateUsers
+    operation: POST /users/batch
+    basis: >-
+      "Batch Create or Update Users" — an explicit upsert, so a replay converges rather than
+      duplicating.
+    source: https://docs.cloud.cdata.com/en/API/Create-User.md
+  note: >-
+    There is no Idempotency-Key header anywhere in CData's contract. Replay safety exists on
+    exactly two of the write operations across the whole published surface, and it comes from
+    a natural key rather than from a client-supplied token. Concretely: the Management API
+    exposes 20 mutating operations and the Connect AI REST API exposes 3 more (POST /query,
+    POST /batch, POST /exec) that execute arbitrary SQL against live systems — an agent that
+    retries a timed-out POST /query carrying an INSERT will insert twice, and nothing in the
+    API prevents it. `coverage: partial` is the honest verdict; a partial mechanism must not
+    read as a Stripe-shaped one.
+  agent_guidance: >-
+    For arbitrary SQL, idempotency has to be built in the statement, not the transport — use
+    UPSERT (which Connect AI's SQL dialect supports, per
+    https://docs.cloud.cdata.com/en/SQL-Reference/UPSERT.md) or a deterministic WHERE clause.
+reversibility:
+  grade: documented
+  grade_basis: >-
+    Reversal paths exist and are named, but no published window governs any of them, and the
+    operations that most need one are documented as irreversible. A reversal path alone is
+    `documented`; a stated window would be `verified`. There is no window to record.
+  applicable: true
+  surfaces:
+  - surface: SQL data plane (POST /query, POST /batch, POST /exec)
+    reversal: none
+    window: null
+    detail: >-
+      These operations execute INSERT, UPDATE, DELETE and stored procedures against the
+      CUSTOMER'S OWN third-party systems (Salesforce, NetSuite, Workday…). CData is a
+      pass-through: there is no CData-side undo, no transaction log to roll back, and no
+      cancel operation. Whether a write can be taken back is entirely a property of the
+      destination system, not of this API. This is the most consequential reversibility fact
+      in the record — an agent issuing a DELETE through Connect AI is deleting rows in a
+      production CRM with no recall path on CData's side.
+    mitigation: >-
+      Connect AI's SQL dialect provides GETDELETED
+      (https://docs.cloud.cdata.com/en/SQL-Reference/GETDELETED.md) to retrieve records
+      deleted from the live data within a specified time range — where the underlying source
+      supports it. Not a reversal, but the only recovery affordance published.
+  - surface: 'Jobs (Connect AI Embed): runJob'
+    reversal: stopJob
+    reversal_operation: POST /job/{jobId}/stop
+    window: null
+    detail: >-
+      A running job can be stopped — "put the specified job in the queue to be run" is
+      matched by "stop the specified job". No window is stated, and stopping does not undo
+      rows already written by the job.
+  - surface: 'Users: deleteUser'
+    reversal: none
+    window: null
+    detail: >-
+      "This operation is irreversible" — verbatim from
+      https://docs.cloud.cdata.com/en/API/Delete-User.md. Removes all direct role assignments
+      and direct permissions atomically. Re-creating the user does not restore them.
+  - surface: 'Service accounts: deleteServiceAccount'
+    reversal: none
+    window: null
+    detail: >-
+      "This operation is irreversible." Atomically revokes all PATs and removes all role
+      assignments and direct permissions in a single transaction.
+  - surface: 'Service accounts: deactivate (updateServiceAccount)'
+    reversal: reactivate via the same PATCH
+    window: null
+    detail: >-
+      The account can be reactivated, but "Deactivating a service account immediately revokes
+      all PATs" — the tokens do not come back. Partial reversal only.
+  - surface: 'Connections: deleteConnection, clearConnectionMetadata'
+    reversal: recreate / re-cache
+    window: null
+    detail: >-
+      A deleted connection must be recreated and re-authorised (OAuth sources require the
+      user to sign in again). Clearing the metadata cache is safely reversible — the metadata
+      is rebuilt on next use, at a performance cost.
+  guidance_for_agents: >-
+    Treat every Connect AI write as one-way unless the destination system provides its own
+    undo. Before a bulk UPDATE or DELETE, run the equivalent SELECT first and keep the
+    result — CData publishes no dry-run mode.
+dry_run_mode:
+  available: false
+  note: >-
+    No preview, validate-only or dry-run parameter exists on any published operation. The
+    closest affordance is test_connection (Management MCP) / connection validation, which
+    proves reachability, not the effect of a statement.
+pagination:
+  styles:
+  - surface: Management API
+    style: cursor
+    request_params: [limit, cursor]
+    response_fields: [limit, next_cursor]
+    schema: '#/components/schemas/CollectionEnvelope'
+    total_count: false
+    detail: >-
+      "next_cursor — Pagination cursor for the next page. null when no further pages exist.
+      Total count is not returned." A client cannot size the result set in advance.
+  - surface: Connect AI REST / OData
+    style: OData query options
+    request_params: ['$top', '$skip', '$filter', '$select', '$orderby']
+    detail: >-
+      https://docs.cloud.cdata.com/en/API/OData-Query-Options.md. The metadata endpoints
+      instead filter by named query parameters (catalogName, schemaName, tableName,
+      columnName) rather than paging.
+  - surface: 'SQL data plane'
+    style: SQL
+    detail: LIMIT / OFFSET in the statement itself. The API does not page query results for you.
+field_expansion:
+  available: false
+  note: >-
+    No expand / fields / include parameter is published. The Management API returns fixed
+    representations; GET /users/{id} is documented as "including their directly assigned
+    permissions", which is a fixed shape rather than an opt-in expansion.
+metadata_fields:
+  note: >-
+    Users and service accounts carry external_id (the SCIM/IdP correlation key) and
+    scim_managed. There is no free-form customer metadata bag on any resource.
+request_id_tracing:
+  header: null
+  note: >-
+    No X-Request-Id or correlation header is published on any operation. Tracing is done
+    after the fact through the Query Log — POST /log/query/list, then
+    GET /log/query/get/{queryId} to download a query log file for troubleshooting — which
+    means a caller correlates by queryId returned in the response, not by a header it sets.
+    Audit events additionally forward to a SIEM (see asyncapi/cdata-audit-event-forwarding.yml).
+versioning:
+  detail: lifecycle/cdata-lifecycle.yml
+error_envelope:
+  shape: '{ "error": { "code": "SCREAMING_SNAKE_CASE", "message": "…" } }'
+  rfc9457: false
+  critical: >-
+    Streaming query responses return HTTP 200 even when the result is incomplete; the error
+    lives in the body. Always inspect `error`, never the status code alone.
+  detail: errors/cdata-problem-types.yml
+rate_limit_signaling:
+  headers: []
+  note: >-
+    CData publishes no X-RateLimit-* or RateLimit-* headers and no documented 429 behaviour.
+    Consumption is metered as monthly tool calls against the plan, not as a per-second rate.
+    See rate-limits/cdata-rate-limits.yml.
+naming:
+  paths: >-
+    Mixed. The Management API is REST-shaped and plural (/users, /service-accounts,
+    /users/{id}/workspaces/{workspace_id}/roles). The Connect AI REST API is verb-and-noun
+    flat (/query, /batch, /exec, /catalogs, /schemas, /tables, /primaryKeys). Connect AI
+    Embed nests everything under /poweredby/ with verbs in the path
+    (/poweredby/connection/create, /poweredby/account/delete/{id}).
+  fields: 'snake_case on the Management API (external_id, scim_managed, next_cursor); camelCase on the REST/metadata surface (catalogName, affectedRows, dataTypeName).'
+  operation_ids: >-
+    Present and consistent on the Management API and Embed REST API. ABSENT on 13 of the 16
+    Connect AI REST API operations — every metadata and query operation lacks an
+    operationId, so those operations have no stable identifier for an SDK generator, a
+    workflow definition or an agent to cite. This is the single clearest contract-hygiene
+    gap in CData's published specs.
+maintainers:
+- FN: Kin Lane
+  email: info@apievangelist.com

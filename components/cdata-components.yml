@@ -1,0 +1,60 @@
+specification: API Commons Components
+specificationVersion: '0.1'
+provider: CData
+providerId: cdata
+generated: '2026-09-05'
+method: derived
+source: >-
+  openapi/cdata-rest-api-embedded-openapi.yml (the provider's own Connect AI Embed OpenAPI)
+  and https://docs.cloud.cdata.com/_llms/en/connect-ai-embed.md.
+note: >-
+  CData ships no JavaScript element library or web-component package. What it does ship, in
+  Connect AI Embed, is the hosted-surface pattern: the API mints a short-lived URL to a
+  CData-rendered page that the ISV drops into its own product, so the end customer configures
+  a connection, browses data or manages jobs inside the host application without the ISV
+  building any of that UI. These are prebuilt hosted surfaces reached through an operationId
+  rather than through a script tag, which is why they belong here and not in packages/.
+families:
+- name: Hosted embedded surfaces (Connect AI Embed)
+  loader: none
+  delivery: server-minted URL, rendered by CData, embedded by the host application
+  auth: JWT (bearerAuth) — see authentication/cdata-authentication.yml
+  components:
+  - name: Data Explorer
+    operationId: generateDataExplorerURL
+    operation: POST /poweredby/dataExplorer
+    description: >-
+      Mints a URL to the Connect AI Data Explorer page so an end user can browse and query
+      the data sources connected under their sub-account.
+  - name: Jobs page
+    operationId: generateJobsURL
+    operation: POST /poweredby/jobs
+    description: Mints a URL to the Connect AI Jobs page for viewing and managing replication/cache jobs.
+  - name: Cache connection form
+    operationId: generateCacheConnectionURL
+    operation: POST /job/cacheConnection/formLink
+    description: >-
+      Mints a URL to the form where an end user creates or updates the cache connection used
+      by the caching APIs.
+  - name: Connection creation / OAuth handoff
+    operationId: createConnection
+    operation: POST /poweredby/connection/create
+    description: >-
+      "Create Connection validates the JWT and returns a string containing the URL to
+      redirect the user to" — the hosted connection setup and OAuth consent flow. The
+      Management MCP `create_connection` tool returns the same kind of sign-in URL for OAuth
+      sources.
+- name: Spreadsheet add-ins
+  loader: vendor add-in store
+  delivery: first-party add-in installed into the spreadsheet host
+  components:
+  - name: CData Connect Spreadsheets
+    url: https://www.cdata.com/ai/spreadsheets/
+    description: >-
+      Real-time querying and updating of external data sources from Excel and Google Sheets.
+      Listed as a product on https://www.cdata.com/llms.txt. A client-side surface, though
+      distributed as an add-in rather than as a component library.
+    confidence: medium
+maintainers:
+- FN: Kin Lane
+  email: info@apievangelist.com

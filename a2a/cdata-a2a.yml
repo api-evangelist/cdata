@@ -1,0 +1,71 @@
+generated: '2026-09-05'
+method: probed
+source: https://docs.cloud.cdata.com/.well-known/agent-card.json
+provider: CData
+providerId: cdata
+card: a2a/cdata-agent-card.json
+discovery:
+  path: /.well-known/agent-card.json
+  canonical: true
+  host: docs.cloud.cdata.com
+  note: >-
+    Served from CData's own documentation host. The pre-0.3 legacy path
+    /.well-known/agent.json returns 404 on this host; the canonical A2A 0.3 path is the one
+    that answers. The same path 404s on www.cdata.com and cdata.com, and returns the Connect
+    AI SPA shell (HTML, not JSON) on cloud.cdata.com — only docs.cloud.cdata.com serves a card.
+x-evidence:
+  fetched: '2026-09-05'
+  url: https://docs.cloud.cdata.com/.well-known/agent-card.json
+  http_status: 200
+  content_type: application/json
+  bytes: 1081
+grade: conformant
+grade_basis:
+  spec: A2A 1.0.0 hard checks
+  capabilities_is_object: true
+  protocol_version_present: true
+  protocol_version: '0.3'
+  skills_is_array: true
+  preferred_transport_present: true
+  default_input_modes_present: true
+  default_output_modes_present: true
+deviations:
+- field: protocolVersion
+  observed: '0.3'
+  note: >-
+    Declares the 0.3 protocol revision rather than 1.0.0. Not a hard failure — the card
+    validates against the 1.0.0 structural checks — but a consumer pinning 1.0.0 semantics
+    should treat the declared revision as authoritative.
+- field: skills[0].tags
+  observed: []
+  note: >-
+    The single skill declares an empty tags array. Structurally valid; carries no routing
+    hints, so an orchestrator cannot select this agent by tag.
+- field: capabilities
+  observed: '{streaming: false, pushNotifications: false}'
+  note: >-
+    Both optional transport capabilities are explicitly false. Honest and machine-readable,
+    but it means the card advertises no streaming or push channel.
+card_summary:
+  name: CData
+  description: Connect AI documentation
+  url: https://docs.cloud.cdata.com/
+  version: 1.0.0
+  preferred_transport: HTTP+JSON
+  provider_organization: CData
+  documentation_url: https://docs.cloud.cdata.com/
+  skills:
+  - id: cdata
+    name: Cdata
+    url: https://docs.cloud.cdata.com/.well-known/agent-skills/cdata/skill.md
+    note: >-
+      The skill URL resolves (HTTP 200, text/markdown, 10,629 bytes) and is saved verbatim
+      at skills/cdata-connect-ai-published-skill.md.
+lead:
+  note: >-
+    Per STEP 0b, an agent card is also a lead for an MCP endpoint. This card points at the
+    docs site rather than an MCP URL, but the skill it names publishes the real endpoint:
+    https://mcp.cloud.cdata.com/mcp, probed separately and recorded in mcp/cdata-mcp.yml.
+maintainers:
+- FN: Kin Lane
+  email: info@apievangelist.com

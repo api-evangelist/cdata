@@ -1,0 +1,171 @@
+specification: API Commons ToolCrosswalk
+specificationVersion: '0.1'
+provider: CData
+providerId: cdata
+generated: '2026-09-05'
+method: derived
+source: >-
+  Derived by binding the MCP tool list published at
+  https://docs.cloud.cdata.com/en/API/MCP.md (and the `ops` enum in
+  openapi/cdata-mcp-api-openapi.yml) to the operations in
+  openapi/cdata-rest-api-openapi.yml and openapi/cdata-management-api-openapi.yml.
+note: >-
+  CData's REST API is a rare near-perfect crosswalk: the MCP data server is a tool-shaped
+  wrapper over the same metadata and query surface the REST API exposes, tool for endpoint.
+  Two caveats on confidence. First, the live MCP endpoint is OAuth-gated (401 on anonymous
+  tools/list), so tools are mapped by name and published description, not by comparing
+  introspected inputSchemas. Second, CData's REST-API.yaml declares operationId on only three
+  of its sixteen operations (the Log endpoints); every metadata and query operation is
+  identified below by METHOD + path because the spec gives no id to cite. That is a real gap
+  in the contract, not a gap in this mapping — an agent cannot reference those operations
+  by a stable identifier either.
+surfaces:
+  openapi:
+  - openapi/cdata-rest-api-openapi.yml
+  - openapi/cdata-management-api-openapi.yml
+  - openapi/cdata-mcp-api-openapi.yml
+  graphql: null
+  mcp:
+    url: https://mcp.cloud.cdata.com/mcp
+    management_url: https://mcp.cloud.cdata.com/mcp/mgmt
+    gated: true
+    gate: OAuth 2.1 / HTTP Basic with a Personal Access Token
+crosswalk:
+- tool: getCatalogs
+  category: metadata
+  rest: ['GET /catalogs']
+  binding: one-to-one
+  confidence: high
+  note: >-
+    Same concept and same wording — the REST summary is "List Catalogs", the tool
+    description "retrieve a list of available connections". REST takes an optional
+    `workspace` query parameter.
+- tool: getSchemas
+  category: metadata
+  rest: ['GET /schemas']
+  binding: one-to-one
+  confidence: high
+  note: REST parameters workspace, catalogName, schemaName become the tool's inputs.
+- tool: getTables
+  category: metadata
+  rest: ['GET /tables']
+  binding: one-to-one
+  confidence: high
+  note: REST parameters workspace, catalogName, schemaName, tableName, tableType.
+- tool: getColumns
+  category: metadata
+  rest: ['GET /columns']
+  binding: one-to-one
+  confidence: high
+  note: REST parameters workspace, catalogName, schemaName, tableName, columnName.
+- tool: getProcedures
+  category: metadata
+  rest: ['GET /procedures']
+  binding: one-to-one
+  confidence: high
+- tool: getProcedureParameters
+  category: metadata
+  rest: ['GET /procedureParameters']
+  binding: one-to-one
+  confidence: high
+- tool: queryData
+  category: query
+  rest: ['POST /query', 'POST /batch']
+  binding: one-to-many
+  confidence: high
+  note: >-
+    The MCP-API.yaml ops enum splits this into execute_sql, execute_select, execute_insert
+    and execute_update. All four resolve to the same REST surface: POST /query for a single
+    statement, POST /batch for batched INSERT/UPDATE/DELETE. The REST request body carries
+    the SQL string, so the tool's real input is a SQL statement, not typed parameters.
+- tool: executeProcedure
+  category: query
+  rest: ['POST /exec']
+  binding: one-to-one
+  confidence: high
+  note: >-
+    REST /exec does not support the `workspace` parameter, per
+    https://docs.cloud.cdata.com/en/API/REST-API.md. An agent that relies on workspace
+    isolation cannot get it on this path.
+- tool: list_available_sources
+  category: management
+  rest: ['GET /poweredby/sources/list (listDataSources, Embed REST API)']
+  binding: cross-surface
+  confidence: medium
+  note: >-
+    The Management MCP tool and the Embed REST operation return the same thing — the catalog
+    of connectable data sources — but they live on different products (Management MCP on
+    Connect AI, listDataSources on Connect AI Embed). The Connect AI Management API
+    (openapi/cdata-management-api-openapi.yml) covers users, service accounts and roles only;
+    it has no connection endpoints, so there is no same-product REST equivalent.
+- tool: list_connections
+  category: management
+  rest: ['GET /poweredby/connection/list (listConnections, Embed REST API)']
+  binding: cross-surface
+  confidence: medium
+  note: Same cross-product caveat as list_available_sources.
+- tool: create_connection
+  category: management
+  rest: ['POST /poweredby/connection/create (createConnection, Embed REST API)']
+  binding: cross-surface
+  confidence: medium
+  note: >-
+    Semantically equivalent, but the shapes differ materially: the Embed operation returns a
+    redirect URL for the end user, while the MCP tool returns the created connection object
+    (and a sign-in URL for OAuth sources). Not a drop-in substitution.
+mcp_only:
+- tool: getInstructions
+  reason: >-
+    Source-level semantic guidance injected into the MCP session. There is no REST operation
+    that returns it — it exists only to shape agent behaviour, and CData's own base skill
+    makes calling it mandatory before any schema/table/column call.
+- tool: get_source_properties
+  reason: >-
+    Describes the configuration fields a data source accepts. No published REST operation
+    returns a source's property descriptors on either the Connect AI or Embed surface.
+- tool: test_connection
+  reason: >-
+    Connection validation is exposed as an MCP tool and in the UI. No published REST
+    operation performs it.
+- tool: add_tool_to_toolkit
+  reason: >-
+    Toolkit management is an MCP-native and UI-native concept. Named in
+    https://docs.cloud.cdata.com/en/API/MCP-Management.md; no REST equivalent is published.
+rest_only:
+- operation: 'GET /primaryKeys'
+  note: Key metadata. No corresponding MCP tool in the published list.
+- operation: 'GET /importedKeys'
+  note: No corresponding MCP tool.
+- operation: 'GET /exportedKeys'
+  note: >-
+    No corresponding MCP tool. Relationship metadata an agent would want for joins is
+    reachable over REST but not over MCP.
+- operation: 'GET /indexes'
+  note: No corresponding MCP tool.
+- operation: listQueryLog
+  note: 'POST /log/query/list — observability, not exposed as a tool.'
+- operation: getQueryLog
+  note: 'GET /log/query/get/{queryId} — observability, not exposed as a tool.'
+- operation: listAuditLog
+  note: 'POST /log/audit/list — audit, not exposed as a tool.'
+- operation: 'Management API: all 29 operations'
+  note: >-
+    User, service-account, role and permission administration
+    (openapi/cdata-management-api-openapi.yml) has no MCP tool coverage at all. Identity
+    administration is deliberately not an agent surface.
+coverage:
+  mcp_tools_total: 14
+  mcp_tools_mapped_to_rest: 10
+  mcp_only: 4
+  rest_operations_total: 61
+  rest_operations_with_a_tool: 10
+  rest_only: 51
+  note: >-
+    rest_operations_total counts the three registered Connect AI surfaces: REST API (16),
+    Management API (29) and Embed REST API (38) minus the 22 Embed operations that duplicate
+    Connect AI REST paths one-for-one. Roughly one in six published REST operations has an
+    agent-callable tool; the data-query core is fully covered, and everything administrative
+    is not.
+maintainers:
+- FN: Kin Lane
+  email: info@apievangelist.com

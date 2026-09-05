@@ -1,0 +1,112 @@
+specification: API Commons Lifecycle
+specificationVersion: '0.1'
+provider: CData
+providerId: cdata
+generated: '2026-09-05'
+method: searched
+source: >-
+  https://status.cdata.com/ (probed 200, title "CData Cloud Status"),
+  https://docs.cloud.cdata.com/en/ReleaseNotes.md (137 dated entries),
+  the seven first-party OpenAPI definitions in openapi/, and
+  https://www.cdata.com/company/legal/terms/.
+versioning:
+  scheme: path
+  current: v1
+  detail:
+  - api: Connect AI Management API
+    version: v1
+    evidence: 'servers[0].url https://cloud.cdata.com/api/v1/admin; info.version "v1".'
+  - api: Connect AI REST API
+    version: v1
+    evidence: 'info.version "v1"; base path https://cloud.cdata.com/api (unversioned in the path).'
+  - api: Connect AI OData API
+    version: v1
+    evidence: 'info.version "v1"; https://cloud.cdata.com/api/odata. OData protocol version is 4.0.'
+  - api: Connect AI MCP
+    version: 1.0.0
+    evidence: 'info.version "1.0.0"; mcp_protocol_version 2025-06-18 in the protected-resource document.'
+  note: >-
+    Only the Management API carries a version segment in its URL. The REST, OData and OpenAPI
+    surfaces publish info.version "v1" but serve from an unversioned path, so a future v2
+    has no announced address.
+deprecation:
+  policy_published: false
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  detail: >-
+    CData publishes NO API deprecation policy — no notice period, no support window, no
+    documented commitment about how long a removed surface keeps working. Nothing in the
+    seven specs marks an operation `deprecated: true`, and no operation returns Sunset or
+    Deprecation headers (RFC 8594). What CData does publish is the outcome: removals and
+    deprecations are announced in the weekly release notes, in the same stream as bug fixes,
+    with no lead time stated.
+  observed_removals:
+  - date: '2026-08-07'
+    change: >-
+      The machine-to-machine (M2M) application type was removed from OAuth Apps; callers
+      must move to service accounts.
+    surface: authentication
+    notice: announced in the release notes on the day of the change
+  - date: '2026-08-21'
+    change: 'Microsoft Access connector removed as a data source.'
+    surface: connector
+  - date: earlier
+    change: 'Parquet connector removed; Bing Search connector deprecated.'
+    surface: connector
+  - date: earlier
+    change: 'Sub-account API access removed for Connect AI Embed administrators.'
+    surface: api
+  deprecated_operations_in_spec: 0
+  deprecated_operations_note: >-
+    Checked all seven specs for `deprecated: true` on any operation, parameter or schema
+    property. None. An honest zero.
+irreversible_operations:
+  note: >-
+    Three Management API operations are documented as irreversible. Recorded here as well as
+    in conventions/cdata-conventions.yml because they are lifecycle facts an integrator must
+    know before wiring automation.
+  operations:
+  - operationId: deleteUser
+    statement: >-
+      "Deprovision a user. Atomically removes all direct role assignments and direct
+      permissions… This operation is irreversible."
+    source: https://docs.cloud.cdata.com/en/API/Delete-User.md
+  - operationId: deleteServiceAccount
+    statement: >-
+      "Deprovision a service account. Atomically revokes all PATs and removes all role
+      assignments and direct permissions in a single transaction. This operation is
+      irreversible."
+    source: https://docs.cloud.cdata.com/en/API/Delete-Service-Account.md
+  - operationId: updateServiceAccount
+    statement: '"Deactivating a service account immediately revokes all PATs."'
+    source: https://docs.cloud.cdata.com/en/API/Update-Service-Account.md
+    note: Not deletion, but immediately and irrecoverably invalidates every issued token.
+status_page:
+  url: https://status.cdata.com/
+  provider: Atlassian Statuspage
+  http_status: 200
+  title: CData Cloud Status
+  checked: '2026-09-05'
+sla:
+  published: false
+  note: >-
+    No public SLA document was located. The pricing page attaches "Premium support" and
+    "Dedicated customer success" to the Business tier and says nothing about uptime
+    commitments; https://www.cdata.com/company/legal/terms/ is the general terms of use.
+    An availability commitment appears to be a contract term rather than a published one.
+support:
+  channels:
+  - {name: Support Center, url: 'https://www.cdata.com/support/'}
+  - {name: Knowledge Base, url: 'https://www.cdata.com/kb/'}
+  - {name: Community forum, url: 'https://community.cdata.com/'}
+  tiers:
+    standard: Standard support
+    growth: Standard support
+    business: Premium support + dedicated customer success
+    source: https://www.cdata.com/ai/pricing/
+changelog: changelog/cdata-changelog.yml
+maintainers:
+- FN: Kin Lane
+  email: info@apievangelist.com

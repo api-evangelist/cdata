@@ -1,0 +1,73 @@
+generated: '2026-09-05'
+method: searched
+source: openapi/cdata-management-api-openapi.yml
+docs: https://docs.cloud.cdata.com/en/API/Management-API.md
+schemes:
+- name: oauth2
+  source: openapi/cdata-management-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://cloud-login.cdata.com/oauth/token
+scopes:
+- scope: management:service-accounts:read
+  description: Read access to service account resources.
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/cdata-management-api-openapi.yml
+- scope: management:service-accounts:write
+  description: Write access to service account resources.
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/cdata-management-api-openapi.yml
+- scope: management:users:read
+  description: Read access to user resources.
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/cdata-management-api-openapi.yml
+- scope: management:users:write
+  description: Write access to user resources.
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/cdata-management-api-openapi.yml
+
+# --- SEARCHED enrichment, 2026-09-05 -------------------------------------------------
+# The four scopes above are the complete set the Management API declares. CData publishes
+# no separate scopes/permissions reference page: the Management API doc page and the
+# securitySchemes block in the spec are the only published statements of them, and they
+# agree. Nothing was added that the provider does not declare.
+scope_model:
+  granularity: resource + verb
+  pattern: 'management:<resource>:<read|write>'
+  resources: [users, service-accounts]
+  note: >-
+    Scopes cover the two Management API resource families. Roles and permissions are
+    themselves managed through those endpoints (POST /users/{id}/roles,
+    POST /service-accounts/{id}/permissions) and are governed by the parent resource's
+    write scope rather than by scopes of their own.
+  gap: >-
+    The Connect AI REST API (query, batch, exec, metadata, log) and the OData and OpenAPI
+    surfaces declare only HTTP Basic — no OAuth scopes at all. A service-account bearer
+    token from cloud-login.cdata.com is accepted on those endpoints per the Authentication
+    page, but the contract publishes no scope that narrows what such a token may do there.
+    Authorization on the data plane is enforced through Connect AI roles, workspaces and
+    per-connection SELECT/INSERT/UPDATE/DELETE/EXECUTE permissions, which are not expressed
+    as OAuth scopes.
+mcp_scopes:
+  source: well-known/cdata-mcp-oauth-authorization-server.json
+  note: >-
+    The MCP authorization server is a separate issuer with its own scope set — openid,
+    profile, email, offline_access. These are OIDC identity scopes, not data-access scopes:
+    what an MCP session can reach is decided by the authenticated user's Connect AI
+    permissions, not by the scopes requested.
+  scopes: [openid, profile, email, offline_access]
+identity_provider_scopes:
+  source: well-known/cdata-cloud-login-openid-configuration.json
+  note: >-
+    The Auth0-hosted identity provider at cloud-login.cdata.com advertises the standard OIDC
+    claim scopes (openid, profile, email, offline_access, name, given_name, family_name,
+    nickname, email_verified, picture, created_at, identities, phone, address). Recorded for
+    completeness; they govern the ID token, not API authorization.

@@ -1,1 +1,0 @@
-# CData GraphQL API

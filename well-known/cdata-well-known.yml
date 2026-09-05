@@ -1,0 +1,229 @@
+generated: '2026-09-05'
+method: probed
+source: >-
+  Live HTTPS probes of every host this record knows: the registrable domain and www,
+  every OpenAPI servers[] host (cloud.cdata.com, mcp.cloud.cdata.com), the docs host
+  (docs.cloud.cdata.com), the authorization server named in the fetched
+  oauth-protected-resource documents (cloud-login.cdata.com is the token issuer the
+  Authentication docs publish; mcp.cloud.cdata.com is its own MCP authorization server),
+  the community host and the status host.
+note: >-
+  Five real documents were served. cloud.cdata.com answers HTTP 200 with the same 19,480-byte
+  Connect AI SPA shell for every /.well-known/* path EXCEPT oauth-protected-resource, which
+  returns real application/json — the SPA 200s are recorded below as misses, not hits.
+  status.cdata.com serves a security.txt, but it is Atlassian Statuspage's own signed file
+  (Contact: https://www.atlassian.com/trust/security/...), NOT CData's, so it is recorded
+  with an explicit not_first_party flag and earns CData no SecurityTxt pointer.
+  CData publishes no security.txt on any host it controls.
+hosts:
+- host: mcp.cloud.cdata.com
+  note: Connect AI remote MCP server and its own OAuth 2.1 authorization server.
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    file: cdata-mcp-oauth-authorization-server.json
+    summary: >-
+      RFC 8414 metadata. issuer https://mcp.cloud.cdata.com, authorization_endpoint /authorize,
+      token_endpoint /token, registration_endpoint /register (RFC 7591 dynamic client
+      registration), PKCE S256 required, token_endpoint_auth_methods_supported [none]
+      (public clients), scopes openid profile email offline_access.
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json
+    file: cdata-mcp-oauth-protected-resource.json
+    summary: >-
+      RFC 9728. resource https://mcp.cloud.cdata.com/mcp, authorization_servers
+      [https://mcp.cloud.cdata.com], scopes openid profile email, resource_documentation
+      https://cloud.cdata.com/docs/MCP.html.
+  - path: /.well-known/oauth-protected-resource/mcp
+    status: 200
+    content_type: application/json
+    file: cdata-mcp-oauth-protected-resource.json
+    note: >-
+      Path-suffixed variant named verbatim in the WWW-Authenticate challenge returned by
+      POST https://mcp.cloud.cdata.com/mcp; byte-identical to the root document, saved once.
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: docs.cloud.cdata.com
+  note: Connect AI documentation host (Mintlify). Serves the A2A agent card and an Agent Skill.
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: application/json
+    file: cdata-docs-agent-card.json
+    summary: >-
+      A2A AgentCard, protocolVersion 0.3, one skill (id cdata) pointing at
+      /.well-known/agent-skills/cdata/skill.md. Graded in a2a/cdata-a2a.yml.
+  - path: /.well-known/agent-skills/cdata/skill.md
+    status: 200
+    content_type: text/markdown
+    file: ../skills/cdata-connect-ai-published-skill.md
+    note: >-
+      Not one of the five standard probe paths, but a real served document the agent card
+      names; saved verbatim under skills/ and recorded here for completeness.
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: cloud-login.cdata.com
+  note: >-
+    Auth0-hosted identity provider for Connect AI. Named as the token/authorization endpoint
+    host in https://docs.cloud.cdata.com/en/API/Authentication (OAuth 2.0 client credentials
+    for service accounts) — a third host that a probe of the primary domain alone would miss.
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: application/json
+    file: cdata-cloud-login-openid-configuration.json
+    summary: >-
+      OpenID Connect discovery. issuer https://cloud-login.cdata.com/, authorize/oauth token
+      endpoints, jwks_uri, client_credentials + authorization_code + refresh_token +
+      device_code + token-exchange + jwt-bearer grants.
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    file: cdata-cloud-login-oauth-authorization-server.json
+    summary: RFC 8414 metadata for the same issuer.
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+- host: cloud.cdata.com
+  note: >-
+    Connect AI application + REST/OData/OpenAPI API host (servers[] of five of the seven
+    published specs). Answers 200 with an SPA shell on every /.well-known path except
+    oauth-protected-resource.
+  documents:
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json
+    file: cdata-cloud-oauth-protected-resource.json
+    summary: >-
+      RFC 9728. resource https://cloud.cdata.com, authorization_servers
+      [https://mcp.cloud.cdata.com], mcp_protocol_version 2025-06-18, resource_type mcp-server.
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/html
+    served_document: false
+    note: SPA shell (19,480-byte Connect AI index.html), not a security.txt. Treated as a miss.
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: text/html
+    served_document: false
+    note: SPA shell, not a document. Treated as a miss.
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: text/html
+    served_document: false
+    note: SPA shell, not a document. Treated as a miss.
+  - path: /.well-known/api-catalog
+    status: 200
+    content_type: text/html
+    served_document: false
+    note: SPA shell, not a document. Treated as a miss.
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    content_type: text/html
+    served_document: false
+    note: SPA shell, not a document. Treated as a miss.
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: text/html
+    served_document: false
+    note: SPA shell, not an AgentCard. Treated as a miss.
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: text/html
+    served_document: false
+    note: SPA shell, not an AgentCard. Treated as a miss.
+- host: www.cdata.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: cdata.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: community.cdata.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+- host: status.cdata.com
+  note: Atlassian Statuspage tenant for CData Cloud.
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/plain
+    served_document: true
+    not_first_party: true
+    note: >-
+      PGP-signed Atlassian security.txt (Contact
+      https://www.atlassian.com/trust/security/reporting-a-vulnerability) served by the
+      Statuspage platform, not authored by CData. Not saved and not counted as a CData
+      SecurityTxt.
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+summary:
+  hosts_probed: 8
+  documents_served: 6
+  first_party_documents_served: 6
+  security_txt_first_party: false

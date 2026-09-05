@@ -1,29 +1,41 @@
-generated: '2026-07-11'
+generated: '2026-09-05'
 method: probed
 source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
 hosts:
 - host: www.cdata.com
   https: true
   tls_version: TLSv1.3
-  cert_expires: Sep  3 08:28:21 2026 GMT
+  cert_expires: Nov  1 08:33:29 2026 GMT
   hsts: true
   hsts_max_age: 63072000
 - host: cloud.cdata.com
   https: true
   tls_version: TLSv1.3
-  cert_expires: Oct  2 02:14:25 2026 GMT
+  cert_expires: Dec  1 01:18:23 2026 GMT
   hsts: true
   hsts_max_age: 31536000
+- host: mcp.cloud.cdata.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Dec  1 01:18:23 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+  hsts_include_subdomains: true
+  hsts_note: >-
+    The automated probe recorded hsts: null because the host answers 404 at "/". A direct
+    check on 2026-09-05 confirms the header is present on both GET / (404) and the MCP
+    endpoint's 401 challenge: strict-transport-security: max-age=31536000; includeSubDomains.
+    Corrected by hand rather than left as a false negative.
 domains:
 - domain: cdata.com
   dnssec: false
   caa:
-  - 0 issuewild "letsencrypt.org"
-  - 0 issuewild "pki.goog; cansignhttpexchanges=yes"
-  - 0 issuewild "ssl.com"
-  - 0 iodef "mailto:secops@cdata.com"
-  - 0 iodef "mailto:webmaster@cdata.com"
-  - 0 issue "amazonaws.com"
+  - 0 issue "godaddy.com"
+  - 0 issue "letsencrypt.org"
+  - 0 issue "pki.goog; cansignhttpexchanges=yes"
+  - 0 issue "sectigo.com"
+  - 0 issue "ssl.com"
+  - 0 issuewild "comodoca.com"
   spf: true
   dmarc: true
   dmarc_policy: reject

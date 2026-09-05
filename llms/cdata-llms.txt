@@ -1,0 +1,78 @@
+# CData
+
+> Connect AI documentation
+
+- [Connect AI (467 pages)](https://docs.cloud.cdata.com/_llms/en/connect-ai.md): Documentation for Connect AI.
+- [Connect AI Embed (365 pages)](https://docs.cloud.cdata.com/_llms/en/connect-ai-embed.md): Documentation for Connect AI Embed.
+- [API Reference (101 pages)](https://docs.cloud.cdata.com/_llms/en/api-reference.md): Documentation for API Reference.
+
+## Home
+
+- [CData Docs](https://docs.cloud.cdata.com/en/index.md)
+
+## SQL Reference
+
+### Overview
+
+- [SQL Reference](https://docs.cloud.cdata.com/en/SQL-Reference/SQL-Reference.md): Connect AI supports a wide range of standard [DDL Commands](/en/SQL-Reference/DDL), [SQL Commands](/en/SQL-Reference/SQL-Commands), and [SQL Functions](/en/SQL-Reference/SQL-Functions) for querying data sources. This page outlines the Connect AI data model, supported data types, and naming requireme…
+
+### DDL Commands
+
+- [CREATE DERIVED VIEW Statements](https://docs.cloud.cdata.com/en/SQL-Reference/CREATE-DERIVED-VIEW.md): To create new derived views, use CREATE DERIVED VIEW statements.
+- [DROP DERIVED VIEW Statements](https://docs.cloud.cdata.com/en/SQL-Reference/DROP-DERIVED-VIEW.md): Use DROP DERIVED VIEW statements to delete a derived view.
+- [ALTER DERIVED VIEW Statements](https://docs.cloud.cdata.com/en/SQL-Reference/ALTER-DERIVED-VIEW.md): Use the ALTER DERIVED VIEW statement to assign a new SQL query to a derived view.
+
+### SQL Commands
+
+- [SELECT Statements](https://docs.cloud.cdata.com/en/SQL-Reference/SELECT.md): A SELECT statement can consist of the following basic clauses:
+- [INSERT Statements](https://docs.cloud.cdata.com/en/SQL-Reference/INSERT.md): To create new records, use INSERT statements.
+- [UPDATE Statements](https://docs.cloud.cdata.com/en/SQL-Reference/UPDATE.md): To modify existing records, use UPDATE statements.
+- [UPSERT Statements](https://docs.cloud.cdata.com/en/SQL-Reference/UPSERT.md): An UPSERT statement updates an existing record or creates a new record if an existing record is not identified.
+- [DELETE Statements](https://docs.cloud.cdata.com/en/SQL-Reference/DELETE.md): To delete information from a table, use DELETE statements.
+- [GETDELETED Statements](https://docs.cloud.cdata.com/en/SQL-Reference/GETDELETED.md): You can issue the GETDELETED query to retrieve all records deleted from the live data for the time range specified. This query accepts a datetime value as a filter, as shown in the following example:
+- [EXECUTE Statements](https://docs.cloud.cdata.com/en/SQL-Reference/EXECUTE.md): To execute stored procedures, you can use EXECUTE or EXEC statements.
+- [INSERT INTO SELECT Statements](https://docs.cloud.cdata.com/en/SQL-Reference/INSERT-INTO-SELECT.md): To perform multiple inserts in a single request, use the INSERT … SELECT syntax to insert from a temporary table of data. This works by first populating a temporary table with the data you are going to submit to the data source. Once you have all of the data you want to insert, the temporary table i…
+- [UPDATE SELECT Statements](https://docs.cloud.cdata.com/en/SQL-Reference/UPDATE-SELECT.md): To perform multiple updates in a single request, use the UPDATE … SELECT syntax to update from a temporary table of data into the destination table. This works by first populating a temporary table with the data you are going to submit to the data source. Once you have all of the data you want to up…
+- [DELETE SELECT Statements](https://docs.cloud.cdata.com/en/SQL-Reference/DELETE-SELECT.md): To perform multiple deletes in a single request, use the DELETE … SELECT syntax to delete from a temporary table of data. This works by first populating a temporary table with the data you are going to submit. Once you have all of the data you want to delete, the temporary table is then passed into…
+
+### SQL Functions
+
+- [String](https://docs.cloud.cdata.com/en/SQL-Reference/String-Functions.md): String functions are used to manipulate, search, and format data stored in string columns.
+- [Date](https://docs.cloud.cdata.com/en/SQL-Reference/Date-Functions.md): Date functions can be used to construct, extract, or modify date, time, and timestamp data.
+- [Math](https://docs.cloud.cdata.com/en/SQL-Reference/Math-Functions.md): Math functions perform various mathematical operations on the data.
+- [Conversion](https://docs.cloud.cdata.com/en/SQL-Reference/Conversion-Functions.md): Conversion functions can be used to convert the value of one data type into another data type.
+- [Aggregate](https://docs.cloud.cdata.com/en/SQL-Reference/Aggregate-Functions.md): Aggregate functions operate on values across rows to make calculations such as sum, average, minimum/maximum, and count. These functions take 0 or more rows and produce a single output.
+- [Window](https://docs.cloud.cdata.com/en/SQL-Reference/Window-Functions.md): Window functions allow you to create computed fields from a group of rows (a window) that return a result for each row, as opposed to one computed result for a set of rows, as is the case with [aggregate functions](Aggregate-Functions). The driver supports the following window function syntax.
+- [Table-Valued](https://docs.cloud.cdata.com/en/SQL-Reference/Table-Valued-Functions.md): Table-valued functions are functions that return a table (rowset).
+
+### DV Engine SQL Reference
+
+- [Data Virtuality Engine SQL Reference](https://docs.cloud.cdata.com/en/SQL-Reference/DV-Engine.md): Additional SQL commands, syntax, and functions available when the Data Virtuality (DV) Engine is active for your account.
+
+## OpenAPI Specs
+
+- [MCP-API](/en/API/MCP-API.yaml)
+- [REST-API](/en/API/REST-API.yaml)
+- [Management-API](/en/API/Management-API.yaml)
+- [MCP-API-Embedded](/en/API/MCP-API-Embedded.yaml)
+- [REST-API-Embedded](/en/API/REST-API-Embedded.yaml)
+- [OData-API](/en/API/OData-API.yaml)
+- [OpenAPI-API](/en/API/OpenAPI-API.yaml)
+- [OData-API](/ja/API/OData-API.yaml)
+- [OpenAPI-API](/ja/API/OpenAPI-API.yaml)
+
+## Optional
+
+- [Community](https://community.cdata.com/?utm_source=cdata&utm_medium=referral)
+- [Blog](https://www.cdata.com/blog/?tag=CData Connect AI)
+
+> The links below point to documentation indexes. Follow each `/_llms/` index recursively until you reach documentation pages.
+
+## Indexes
+
+- [English / Connect AI (467 pages)](https://docs.cloud.cdata.com/_llms/en/connect-ai.md): Documentation for English / Connect AI.
+- [English / Connect AI Embed (365 pages)](https://docs.cloud.cdata.com/_llms/en/connect-ai-embed.md): Documentation for English / Connect AI Embed.
+- [English / API Reference (101 pages)](https://docs.cloud.cdata.com/_llms/en/api-reference.md): Documentation for English / API Reference.
+- [Japanese (956 pages)](https://docs.cloud.cdata.com/_llms/ja.md): Documentation for Japanese.
+- [Japanese / Connect AI (467 pages)](https://docs.cloud.cdata.com/_llms/ja/connect-ai.md): Documentation for Japanese / Connect AI.
+- [Japanese / Connect AI Embed (365 pages)](https://docs.cloud.cdata.com/_llms/ja/connect-ai-embed.md): Documentation for Japanese / Connect AI Embed.
