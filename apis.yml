@@ -2,28 +2,6 @@ aid: cdata
 url: >-
   https://raw.githubusercontent.com/api-evangelist/cdata/refs/heads/main/apis.yml
 apis:
-- aid: cdata:odata-api
-  name: CData OData API
-  tags:
-  - Data Access
-  - OData
-  - REST
-  humanURL: https://cloud.cdata.com/docs/OData.html
-  properties:
-  - url: https://cloud.cdata.com/docs/OData.html
-    type: Documentation
-  - url: https://www.odata.org/documentation/
-    type: Specification
-  - type: OpenAPI
-    url: openapi/cdata-odata-api-openapi.yml
-  - type: Overlay
-    url: overlays/cdata-odata-api-overlay.yaml
-  - type: APIReference
-    url: https://docs.cloud.cdata.com/en/API/OData-Dashboard
-  description: >-
-    CData Connect Cloud exposes an OData v4 compatible API that allows any OData client to browse metadata
-    and query data from any configured source, including Excel, Power BI, and other BI tools.
-  baseURL: https://cloud.cdata.com/api/odata
 - aid: cdata:mcp
   name: CData Connect AI MCP Server
   description: >-
@@ -58,25 +36,6 @@ apis:
     url: https://docs.cloud.cdata.com/en/API/MCP
   - type: APIReference
     url: https://docs.cloud.cdata.com/en/API/generic-mcp-access
-- aid: cdata:openapi-api
-  name: CData Connect AI OpenAPI API
-  description: >-
-    Generates and returns an OpenAPI document describing the data in a Connect AI workspace, so no-code
-    and low-code platforms that consume OpenAPI can be pointed at live enterprise data without a hand-written
-    contract. Supports OpenAPI 2.0 and 3.0 output.
-  humanURL: https://docs.cloud.cdata.com/en/API/OpenAPI
-  baseURL: https://cloud.cdata.com/api/openapi
-  tags:
-  - Discovery
-  - OpenAPI
-  - Workspaces
-  properties:
-  - type: OpenAPI
-    url: openapi/cdata-openapi-api-openapi.yml
-  - type: Overlay
-    url: overlays/cdata-openapi-api-overlay.yaml
-  - type: Documentation
-    url: https://docs.cloud.cdata.com/en/API/OpenAPI
 - aid: cdata:cdata-account-api
   name: CData Account API
   description: The Account API from CData — 5 operation(s) for account.
@@ -545,6 +504,42 @@ apis:
     url: https://docs.cloud.cdata.com/en/API/Management-API
   - type: Documentation
     url: https://docs.cloud.cdata.com/en/API/MCP-Embedded
+- aid: cdata:cdata-odata-api
+  name: CData O Data API
+  description: The OData API from CData — 3 operation(s) for odata.
+  humanURL: https://docs.cloud.cdata.com/en/API/MCP
+  baseURL: https://mcp.cloud.cdata.com
+  tags:
+  - OData
+  properties:
+  - type: OpenAPI
+    url: openapi/cdata-odata-api-openapi.yml
+  - type: Documentation
+    url: https://cloud.cdata.com/docs/OData.html
+  - type: Specification
+    url: https://www.odata.org/documentation/
+  - type: APIReference
+    url: https://docs.cloud.cdata.com/en/API/OData-Dashboard
+  - type: Documentation
+    url: https://docs.cloud.cdata.com/en/API/OpenAPI
+- aid: cdata:cdata-open-api-api
+  name: CData Open API
+  description: The Open API API from CData — 1 operation(s) for open api.
+  humanURL: https://docs.cloud.cdata.com/en/API/MCP
+  baseURL: https://mcp.cloud.cdata.com
+  tags:
+  - Open API
+  properties:
+  - type: OpenAPI
+    url: openapi/cdata-open-api-api-openapi.yml
+  - type: Documentation
+    url: https://cloud.cdata.com/docs/OData.html
+  - type: Specification
+    url: https://www.odata.org/documentation/
+  - type: APIReference
+    url: https://docs.cloud.cdata.com/en/API/OData-Dashboard
+  - type: Documentation
+    url: https://docs.cloud.cdata.com/en/API/OpenAPI
 name: CData
 tags:
 - Data
@@ -583,6 +578,10 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cdata.png
 access: 3rd-Party
 common:
+- type: Overlay
+  url: overlays/cdata-odata-api-overlay.yaml
+- type: Overlay
+  url: overlays/cdata-openapi-api-overlay.yaml
 - type: Overlay
   url: overlays/cdata-rest-api-overlay.yaml
 - type: Overlay
