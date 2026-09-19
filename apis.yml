@@ -252,6 +252,8 @@ apis:
   humanURL: https://cloud.cdata.com/docs/SQL-API.html
   baseURL: https://cloud.cdata.com/api
   tags:
+  - Job
+  tags_raw:
   - Jobs
   properties:
   - type: OpenAPI
@@ -468,6 +470,8 @@ apis:
   humanURL: https://cloud.cdata.com/docs/SQL-API.html
   baseURL: https://cloud.cdata.com/api
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
@@ -528,6 +532,8 @@ apis:
   humanURL: https://docs.cloud.cdata.com/en/API/MCP
   baseURL: https://mcp.cloud.cdata.com
   tags:
+  - OpenAPI
+  tags_raw:
   - Open API
   properties:
   - type: OpenAPI
@@ -542,6 +548,13 @@ apis:
     url: https://docs.cloud.cdata.com/en/API/OpenAPI
 name: CData
 tags:
+- Data
+- Data Access
+- Data Connectivity
+- Database
+- NoSQL
+- SQL
+tags_raw:
 - Data
 - Data Access
 - Data Connectivity
