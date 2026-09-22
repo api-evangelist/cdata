@@ -1,6 +1,10 @@
 aid: cdata
 url: >-
   https://raw.githubusercontent.com/api-evangelist/cdata/refs/heads/main/apis.yml
+x-docs-platform: mintlify
+x-docs-platform-confidence: medium
+x-docs-platform-checked: 2026-09-21
+x-docs-hosting: vercel
 apis:
 - aid: cdata:mcp
   name: CData Connect AI MCP Server
