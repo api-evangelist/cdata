@@ -1,23 +1,74 @@
 {
   "provider": "cdata",
   "sources": [
-    "cdata-metadata-api-openapi.yml",
-    "cdata-procedures-api-openapi.yml",
-    "cdata-query-api-openapi.yml"
+    "_original/cdata-management-api-openapi.yml",
+    "_original/cdata-mcp-api-embedded-openapi.yml",
+    "_original/cdata-odata-api-openapi.yml",
+    "_original/cdata-openapi-api-openapi.yml",
+    "_original/cdata-rest-api-embedded-openapi.yml"
   ],
   "outputs": [
+    "cdata-service-accounts-api-openapi.yml",
+    "cdata-users-api-openapi.yml",
+    "cdata-mcp-api-openapi.yml",
+    "cdata-odata-api-openapi.yml",
+    "cdata-openapi-api-openapi.yml",
+    "cdata-account-api-openapi.yml",
+    "cdata-cache-api-openapi.yml",
+    "cdata-connection-api-openapi.yml",
+    "cdata-data-explorer-api-openapi.yml",
+    "cdata-job-api-openapi.yml",
+    "cdata-jobs-api-openapi.yml",
+    "cdata-log-api-openapi.yml",
     "cdata-metadata-api-openapi.yml",
-    "cdata-procedures-api-openapi.yml",
     "cdata-query-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "deleted 2 superseded output(s) from the previous generation"
+  ],
   "errors": [],
   "warnings": [],
   "notes": [
-    "cdata-metadata-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "cdata-procedures-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "cdata-query-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "apis.yml register: already-registered"
+    "4 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (5 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "cdata-management-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "cdata-mcp-api-embedded-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "cdata-mcp-api-embedded-openapi.yml: declared missing tag: MCP",
+    "cdata-odata-api-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "cdata-odata-api-openapi.yml: declared missing tag: OData",
+    "cdata-openapi-api-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "cdata-openapi-api-openapi.yml: declared missing tag: OpenAPI",
+    "cdata-rest-api-embedded-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "cdata-rest-api-embedded-openapi.yml: declared missing tag: Account",
+    "cdata-rest-api-embedded-openapi.yml: declared missing tag: Cache",
+    "cdata-rest-api-embedded-openapi.yml: declared missing tag: Connection",
+    "cdata-rest-api-embedded-openapi.yml: declared missing tag: Data Explorer",
+    "cdata-rest-api-embedded-openapi.yml: declared missing tag: Job",
+    "cdata-rest-api-embedded-openapi.yml: declared missing tag: Jobs",
+    "cdata-rest-api-embedded-openapi.yml: declared missing tag: Log",
+    "cdata-rest-api-embedded-openapi.yml: declared missing tag: Metadata",
+    "cdata-rest-api-embedded-openapi.yml: declared missing tag: Query",
+    "superseded outputs removed: cdata-o-data-api-openapi.yml, cdata-open-api-api-openapi.yml",
+    "apis.yml register: written (+2 apis, 14 total)"
   ],
-  "skipped": []
+  "skipped": [
+    "_original/cdata-rest-api-openapi.yml: archived document superseded by a larger archived document",
+    "_original/cdata-rest-api-embedded-openapi_2.yml: archived document superseded by a larger archived document",
+    "_original/cdata-mcp-api-openapi.yml: archived document superseded by a larger archived document",
+    "_original/cdata-mcp-api-embedded-openapi_2.yml: archived document superseded by a larger archived document",
+    "cdata-account-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cdata-cache-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cdata-connection-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cdata-data-explorer-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cdata-job-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cdata-jobs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cdata-log-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cdata-mcp-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cdata-metadata-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cdata-o-data-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cdata-open-api-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cdata-query-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cdata-service-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cdata-users-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

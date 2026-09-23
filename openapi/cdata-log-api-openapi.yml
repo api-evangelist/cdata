@@ -1,0 +1,449 @@
+openapi: 3.2.0
+info:
+  title: CData Connect AI REST API Embedded Log API
+  version: v1
+servers:
+- url: https://cloud.cdata.com/api
+  description: Production base URL
+security:
+- BearerAuth: []
+tags:
+- name: Log
+paths:
+  /log/query/list:
+    post:
+      summary: List Query Log
+      tags:
+      - Log
+      operationId: listQueryLog
+      description: Retrieves a list of query logs for an account.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuerySearchCriteria'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuerySearchResult'
+              example:
+                queries:
+                - credential: prat8897@gmail.com
+                  duration: 308
+                  drivers: PostgreSQL
+                  errorCode: QUERY_FAILED
+                  errorMessage: 'The stored procedure execution failed with the following error:
+
+                    [500] Could not execute the specified command: Unknown stored function/procedure transferdata
+
+                    <Query ID: e1af1260-4045-45e4-882b-96fe2575e37b>'
+                  logFileKey: x41GvdkvWlJsaEdQrzI2+t7M+TSbimW8iJIfQPv9mK1PqurO1/pzPW3D2ObewKfK6w51T7ui8yecrEYV3JpW9WmsAU+yVv4Vke1D2lB8EeKsv3ab6w2ZXrNZxPBAgaKAZLoRf8zbuHGWDGSQQ9gDJg==
+                  logVerbosity: 1
+                  query: PostgreSQL1.public.transferdata
+                  queryId: e1af1260-4045-45e4-882b-96fe2575e37b
+                  queryType: 203
+                  rowsAffected: -1
+                  rowsInput: 1
+                  rowsReturned: 0
+                  timestamp: '2024-03-19T18:55:34.837Z'
+                  userAgent: PostmanRuntime/7.37.0
+  /log/query/get/{queryId}:
+    get:
+      summary: Get Query Log
+      tags:
+      - Log
+      operationId: getQueryLog
+      description: Download a query log file for troubleshooting.
+      parameters:
+      - name: queryId
+        in: path
+        required: true
+        description: The unique Id of the query for which to download the log file.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK and the zipped log file.
+  /log/audit/list:
+    post:
+      summary: List Audit Log
+      tags:
+      - Log
+      operationId: listAuditLog
+      description: Retrieves a list of audit logs for an account.
+      parameters:
+      - name: startTime
+        in: query
+        description: 'Timestamp in UTC (ISO 8601 format). Example: "2025-08-18T00:00:00Z"'
+        schema:
+          type: string
+          format: date-time
+      - name: endTime
+        in: query
+        description: 'Timestamp in UTC (ISO 8601 format). Example: "2025-08-18T23:59:59Z"'
+        schema:
+          type: string
+          format: date-time
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditSearchResult'
+              example:
+                events:
+                - eventType: 1003
+                  timestamp: '2025-08-18T17:07:07.3673862Z'
+                  targetId: aaa96669-74c8-480f-a8c1-7956979cbee9
+                  targetName: PostgreSQL1
+                  targetType: 1
+                  userId: 6b8d5c25-cdc1-4b0c-b9f1-5b26647a8240
+                  userName: User1
+                  userType: 0
+                - eventType: 1107
+                  timestamp: '2025-08-13T21:20:08.4380865Z'
+                  relatedId: 4780a367-2ba0-4b73-b086-b0d964323032
+                  relatedName: Mcp
+                  relatedType: 4
+                  targetId: a41dd9b5-1ed6-54d9-b5e5-2754e4a29deb
+                  targetName: test@cdata.com
+                  targetType: 2
+                  userId: a41dd9b5-1ed6-54d9-b5e5-2754e4a29deb
+                  userName: User2
+                  userType: 0
+components:
+  schemas:
+    AuditSearchResult:
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditEvent'
+          nullable: true
+      additionalProperties: false
+    QuerySearchCriteria:
+      type: object
+      properties:
+        endTime:
+          type: string
+          format: date-time
+          nullable: true
+          description: The end time of the query.
+        queryType:
+          type: array
+          items:
+            $ref: '#/components/schemas/QueryType'
+          nullable: true
+          default: 2
+          description: The type of query.
+        startTime:
+          type: string
+          format: date-time
+          nullable: true
+          description: The start time of the query.
+      additionalProperties: false
+    AuditEventType:
+      enum:
+      - 0
+      - 500
+      - 501
+      - 502
+      - 1000
+      - 1001
+      - 1002
+      - 1003
+      - 1004
+      - 1005
+      - 1050
+      - 1051
+      - 1052
+      - 1060
+      - 1061
+      - 1062
+      - 1063
+      - 1070
+      - 1071
+      - 1072
+      - 1073
+      - 1080
+      - 1081
+      - 1082
+      - 1083
+      - 1084
+      - 1085
+      - 1090
+      - 1091
+      - 1092
+      - 1093
+      - 1094
+      - 1100
+      - 1101
+      - 1102
+      - 1103
+      - 1105
+      - 1106
+      - 1107
+      - 1108
+      - 1109
+      - 1110
+      - 1111
+      - 1112
+      - 1113
+      - 1114
+      - 1115
+      - 1116
+      - 1200
+      - 1201
+      - 1202
+      - 1220
+      - 1221
+      - 1222
+      - 1223
+      - 1224
+      - 1230
+      - 1231
+      type: integer
+      format: int32
+    QueryType:
+      enum:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 20
+      - 100
+      - 101
+      - 102
+      - 103
+      - 104
+      - 105
+      - 106
+      - 107
+      - 108
+      - 109
+      - 200
+      - 201
+      - 202
+      - 203
+      - 204
+      - 205
+      - 210
+      - 211
+      - 212
+      - 220
+      - 230
+      - 231
+      - 232
+      type: integer
+      format: int32
+      description: '| Value | Name |
+
+        |-------|------|
+
+        | 0 | Drivers |
+
+        | 1 | DriverInfo |
+
+        | 2 | TestConnection |
+
+        | 3 | GetOAuthAuthorizationUrl |
+
+        | 4 | GetOAuthAccessToken |
+
+        | 5 | CustomReportInfo |
+
+        | 6 | GenerateCustomReport |
+
+        | 7 | GetAPIRootPaths |
+
+        | 8 | GetAPIColumns |
+
+        | 9 | GetAPIRows |
+
+        | 10 | GetTimeCheckColumns |
+
+        | 11 | GetDynamicPropValues |
+
+        | 20 | DisconnectOAuthAccessToken |
+
+        | 100 | Catalogs |
+
+        | 101 | Schemas |
+
+        | 102 | Tables |
+
+        | 103 | Columns |
+
+        | 104 | PrimaryKeys |
+
+        | 105 | ImportedKeys |
+
+        | 106 | ExportedKeys |
+
+        | 107 | Procedures |
+
+        | 108 | ProcedureParameters |
+
+        | 109 | Indexes |
+
+        | 200 | Query |
+
+        | 201 | QuerySchemaOnly |
+
+        | 202 | Batch |
+
+        | 203 | Exec |
+
+        | 204 | Caching |
+
+        | 205 | ScheduledQuery |
+
+        | 210 | ODataServiceDocument |
+
+        | 211 | ODataMetadata |
+
+        | 212 | ODataQuery |
+
+        | 220 | OpenAPIDocument |
+
+        | 230 | CreateDerivedView |
+
+        | 231 | AlterDerivedView |
+
+        | 232 | DropDerivedView |
+
+        '
+    QuerySearchResult:
+      type: object
+      properties:
+        queries:
+          type: array
+          items:
+            $ref: '#/components/schemas/QueryRecord'
+          nullable: true
+      additionalProperties: false
+    QueryRecord:
+      type: object
+      properties:
+        credential:
+          type: string
+          nullable: true
+          description: The user's credential used to execute the query.
+        duration:
+          type: integer
+          format: int64
+          description: The duration of the query in milliseconds.
+        drivers:
+          type: string
+          nullable: true
+          description: The driver used to execute the query.
+        errorCode:
+          type: string
+          nullable: true
+          description: In the case of an error, the error code.
+        errorMessage:
+          type: string
+          nullable: true
+          description: The error message of the query, if applicable.
+        logVerbosity:
+          type: integer
+          format: int32
+          nullable: true
+          description: The verbosity level of the query log.
+        query:
+          type: string
+          nullable: true
+          description: The contents of the query.
+        queryId:
+          type: string
+          format: uuid
+          description: The unique Id of the query.
+        queryType:
+          $ref: '#/components/schemas/QueryType'
+          description: The type of query.
+        rowsAffected:
+          type: integer
+          format: int64
+          description: The number of rows affected by the query.
+        rowsReturned:
+          type: integer
+          format: int64
+          description: The number of rows returned by the query as a result set.
+        timestamp:
+          type: string
+          format: date-time
+          description: The timestamp of the query.
+        userAgent:
+          type: string
+          nullable: true
+          description: The user agent used to execute the query.
+      additionalProperties: false
+    AuditEvent:
+      type: object
+      properties:
+        eventType:
+          $ref: '#/components/schemas/AuditEventType'
+          description: The audit event type, such as user login, user PAT created, or permission created.
+        timestamp:
+          type: string
+          format: date-time
+          description: The timestamp of the audit event.
+        relatedId:
+          type: string
+          nullable: true
+          description: The Id of the related entity, if applicable.
+        relatedName:
+          type: string
+          nullable: true
+          description: The name of the related entity, if applicable.
+        relatedType:
+          type: integer
+          format: int32
+          nullable: true
+          description: The type of the related entity, if applicable.
+        targetId:
+          type: string
+          nullable: true
+          description: The Id of the event target, such as the Query Id.
+        targetName:
+          type: string
+          nullable: true
+          description: The target resource name, such as a user's email or a connection name.
+        targetType:
+          type: integer
+          format: int32
+          nullable: true
+          description: The type of the event target, such as a query or connection change.
+        userId:
+          type: string
+          nullable: true
+          description: The Id of user who performed the event.
+        userName:
+          type: string
+          nullable: true
+          description: The name of user who performed the event.
+        userType:
+          type: integer
+          format: int32
+          nullable: true
+          description: The type of user who performed the event.
+      additionalProperties: false
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token authentication. Include the token in the Authorization header as `Bearer {token}`. See [Authentication](/en/API/Authentication-Embedded) for more information on creating a token.

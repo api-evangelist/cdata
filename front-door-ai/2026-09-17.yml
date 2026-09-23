@@ -1,0 +1,36 @@
+# Front Door AI Index — cdata — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: cdata
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: www.cdata.com
+  final_host: www.cdata.com
+  ownership: own
+  owner: cdata
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 201
+  host_score: 201
+  density: 50.95
+  words: 3945
+  tiers:
+    agentic: 49
+    core: 117
+    model: 35
+  ambiguous: 40
+  top_terms:
+    AI: 116
+    agent: 35
+    MCP: 25
+    Claude: 16
+    copilot: 9
+    ChatGPT: 8
+    AI agent: 6
+    intelligence: 5
+    Gemini: 4
+    model context protocol: 4
+    Anthropic: 3
+    OpenAI: 3

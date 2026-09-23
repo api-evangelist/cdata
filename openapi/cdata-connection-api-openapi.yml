@@ -1,0 +1,454 @@
+openapi: 3.2.0
+info:
+  title: CData Connect AI REST API Embedded Connection API
+  version: v1
+servers:
+- url: https://cloud.cdata.com/api
+  description: Production base URL
+security:
+- BearerAuth: []
+tags:
+- name: Connection
+paths:
+  /poweredby/connection/create:
+    post:
+      summary: Create Connection
+      tags:
+      - Connection
+      operationId: createConnection
+      description: Create Connection requests the Connection Create Flow from the Connect AI Embed product. Create Connection validates the JWT and returns a string containing the URL to redirect the user to. If you include the parameter `dataSource`, the URL redirects the user to an **Add Connection** page for the data source. If you omit `dataSource`, the URL redirects the user to a general **Add Connection** page where the user can select a connection to add from the connections list.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateConnectionRequest'
+            example:
+              dataSource: ExcelOnline
+              redirectURL: https://www.google.com
+              name: ExcelConnection
+              externalId: acme-excel-001
+      responses:
+        '200':
+          description: A string containing the CData-hosted connection URL to redirect the user to.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedirectURLResponse'
+              example:
+                redirectURL: https://cloud.cdata.com/oem/user/connections/edit?token=eyJhbGciOiJSUzI1NiIs...truncated...&driver=ExcelOnline&redirectUrl=https%3A%2F%2Fwww.google.com
+  /poweredby/connection/list:
+    get:
+      summary: List Connections
+      tags:
+      - Connection
+      operationId: listConnections
+      description: List Connections returns a list of connections for the sub-account. Use this endpoint for sub-account discovery scenarios. For example, you can reconcile connection mappings after a redirect failure, or look up the per-connection MCP URL for a known external identifier.
+      parameters:
+      - name: driver
+        in: query
+        required: false
+        description: Filter to connections whose data source matches this value (case-insensitive).
+        schema:
+          type: string
+          example: ExcelOnline
+      - name: externalId
+        in: query
+        required: false
+        description: Filter to connections with this externalId (case-sensitive).
+        schema:
+          type: string
+          example: acme-excel-001
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectionListResult'
+              example:
+                connections:
+                - id: 880dc1a2-03c3-4288-9857-6f5c029d897c
+                  name: ExcelOnline1
+                  dataSource: ExcelOnline
+                  lastModified: '2024-08-02T21:30:55.154Z'
+                  externalId: acme-excel-001
+                  mcpUrl: /mcp/connections/880dc1a2-03c3-4288-9857-6f5c029d897c
+                  status: Authenticated
+                - id: eeef6211-5d6f-4347-b5bb-f99d574e75e5
+                  name: MailChimp1
+                  dataSource: MailChimp
+                  lastModified: '2023-10-11T20:43:33.28Z'
+                  externalId: null
+                  mcpUrl: /mcp/connections/eeef6211-5d6f-4347-b5bb-f99d574e75e5
+                  status: Conditional
+  /poweredby/sources/list:
+    get:
+      summary: List Data Sources
+      tags:
+      - Connection
+      operationId: listDataSources
+      description: List Data Sources requests a list of data sources supported by Connect AI Embed.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataSourceListResult'
+              example:
+                dataSources:
+                - dataSource: AmazonMarketplace
+                - dataSource: OracleSalesCloud
+                - dataSource: ZohoInventory
+                - dataSource: MariaDB
+                - dataSource: Monday
+                - dataSource: AlloyDB
+                - dataSource: GoogleContacts
+                - dataSource: ZohoCRM
+                - dataSource: SAPSuccessFactors
+                - dataSource: YahooAds
+                - dataSource: Salesforce
+                - dataSource: FreshDesk
+                - dataSource: ShipStation
+                - dataSource: Instagram
+                - dataSource: HubSpot
+                - dataSource: ConnectCache
+                - dataSource: SendGrid
+                - dataSource: PayPal
+                - dataSource: SAPByDesign
+                - dataSource: Sage200
+                - dataSource: BullhornCRM
+                - dataSource: Xero
+                - dataSource: Informix
+                - dataSource: WordPress
+                - dataSource: ADP
+                - dataSource: GoogleAds
+                - dataSource: Splunk
+                - dataSource: ActOn
+                - dataSource: Ebay
+                - dataSource: PostgreSQL
+                - dataSource: WooCommerce
+                - dataSource: Zuora
+                - dataSource: GoogleBigQuery
+                - dataSource: OracleSCM
+                - dataSource: ZohoBooks
+                - dataSource: MicrosoftProject
+                - dataSource: FacebookAds
+                - dataSource: YahooDS
+                - dataSource: TSheets
+                - dataSource: AdobeCommerce
+                - dataSource: SurveyMonkey
+                - dataSource: OracleERP
+                - dataSource: SAPHANA
+                - dataSource: GMOMakeShop
+                - dataSource: D365BusinessCentral
+                - dataSource: AzureAD
+                - dataSource: FinancialEdgeNXT
+                - dataSource: FreshBooks
+                - dataSource: OneNote
+                - dataSource: DocuSign
+                - dataSource: SageIntacct
+                - dataSource: Kintone
+                - dataSource: ServiceNow
+                - dataSource: OracleServiceCloud
+                - dataSource: QuickBase
+                - dataSource: ExactOnline
+                - dataSource: Dynamics365
+                - dataSource: YouTubeAnalytics
+                - dataSource: EpicorERP
+                - dataSource: Confluence
+                - dataSource: SparkSQL
+                - dataSource: Redis
+                - dataSource: GoogleSheets
+                - dataSource: MSTeams
+                - dataSource: Twitter
+                - dataSource: Presto
+                - dataSource: GoogleCalendar
+                - dataSource: MYOB
+                - dataSource: BingAds
+                - dataSource: Elasticsearch
+                - dataSource: OracleOci
+                - dataSource: SageBCAccounting
+                - dataSource: Databricks
+                - dataSource: SharePoint
+                - dataSource: TableauCRM
+                - dataSource: JIRA
+                - dataSource: Marketo
+                - dataSource: Workday
+                - dataSource: SQL
+                - dataSource: Outreach
+                - dataSource: ADLSSync
+                - dataSource: RaiserEdgeNXT
+                - dataSource: Smartsheet
+                - dataSource: Backlog
+                - dataSource: Domino
+                - dataSource: SAPHybrisC4C
+                - dataSource: Slack
+                - dataSource: PCASales
+                - dataSource: BigCommerce
+                - dataSource: Couchbase
+                - dataSource: NetSuite
+                - dataSource: ActiveDirectory
+                - dataSource: AzureSynapse
+                - dataSource: SalesforcePardot
+                - dataSource: ExcelOnline
+                - dataSource: AAS
+                - dataSource: Asana
+                - dataSource: ActCRM
+                - dataSource: ZohoCreator
+                - dataSource: SAPBusinessOne
+                - dataSource: TwitterAds
+                - dataSource: DynamicsCRM
+                - dataSource: GoogleCM
+                - dataSource: QuickBooksOnline
+                - dataSource: Twilio
+                - dataSource: MailChimp
+                - dataSource: FHIR
+                - dataSource: OracleEloqua
+                - dataSource: Exchange
+                - dataSource: Square
+                - dataSource: ZohoProjects
+                - dataSource: GoogleSpanner
+                - dataSource: MongoDB
+                - dataSource: GoogleAdsManager
+                - dataSource: Shopify
+                - dataSource: CosmosDB
+                - dataSource: PowerBIXMLA
+                - dataSource: LinkedInAds
+                - dataSource: AzureTables
+                - dataSource: Office365
+                - dataSource: Odoo
+                - dataSource: MicrosoftPlanner
+                - dataSource: Zendesk
+                - dataSource: Snowflake
+                - dataSource: GoogleAnalytics
+                - dataSource: VeevaVault
+                - dataSource: GraphQL
+                - dataSource: AdobeAnalytics
+                - dataSource: AzureDevOps
+                - dataSource: OracleHCM
+                - dataSource: MySQL
+                - dataSource: OData
+                - dataSource: AmazonAthena
+                - dataSource: LinkedIn
+                - dataSource: ActiveCampaign
+                - dataSource: AmazonDynamoDB
+                - dataSource: SAPConcur
+                - dataSource: Sansan
+                - dataSource: Trello
+                - dataSource: Greenplum
+                - dataSource: ApacheImpala
+                - dataSource: Smaregi
+                - dataSource: SugarCRM
+                - dataSource: Paylocity
+                - dataSource: Bing
+                - dataSource: XeroWorkflowMax
+                - dataSource: AmazonS3Sync
+                - dataSource: Redshift
+                - dataSource: MFExpense
+                - dataSource: CDS
+                - dataSource: Acumatica
+                - dataSource: GitHub
+                - dataSource: BCart
+                - dataSource: SFMarketingCloud
+                - dataSource: ApacheHive
+                - dataSource: CockroachDB
+                - dataSource: Airtable
+                - dataSource: SingleStore
+                - dataSource: SnapchatAds
+                - dataSource: Cloudant
+                - dataSource: Gmail
+                - dataSource: Stripe
+                - dataSource: GoogleSearch
+                - dataSource: Facebook
+                - dataSource: GoogleDirectory
+                - dataSource: JiraServiceDesk
+  /poweredby/connection/edit/{connectionId}:
+    post:
+      summary: Edit Connection
+      tags:
+      - Connection
+      operationId: editConnection
+      description: Edit Connection edits a connection in the Connect AI Embed product. Returns a string containing the URL to redirect the user to.
+      parameters:
+      - name: connectionId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The connection Id created in Create Connection.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditConnectionRequest'
+            example:
+              redirectURL: https://www.google.com
+      responses:
+        '200':
+          description: A string containing the CData-hosted connection URL to redirect the user to.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedirectURLResponse'
+              example:
+                redirectURL: https://cloud.cdata.com/oem/user/connections/edit/eeef6211-5d6f-4347-b5bb-f99d574e75e5?driver=MailChimp&token=eyJhbGciOiJSUzI1NiIs...truncated...&redirectUrl=https%3A%2F%2Fwww.google.com
+  /poweredby/connection/delete/{id}:
+    delete:
+      summary: Delete Connection
+      tags:
+      - Connection
+      operationId: deleteConnection
+      description: Delete Connection deletes a sub-account's connection from the Connect AI Embed product.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The connection Id to delete.
+      responses:
+        '200':
+          description: OK
+  /poweredby/{connectionId}/metadata:
+    delete:
+      summary: Clear Connection Metadata
+      tags:
+      - Connection
+      operationId: clearConnectionMetadata
+      description: Clear Connection Metadata clears the metadata cache for the specified connection. In some situations, clearing the metadata cache can help fix loading or performance issues.
+      parameters:
+      - name: connectionId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The connection Id of the connection in which to clear the metadata.
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    ConnectionListItem:
+      type: object
+      required:
+      - id
+      - name
+      - dataSource
+      - lastModified
+      - mcpUrl
+      - status
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The connection Id.
+        name:
+          type: string
+          description: The connection name.
+        dataSource:
+          type: string
+          description: The data source type (for example, ExcelOnline, MailChimp).
+        lastModified:
+          type: string
+          format: date-time
+          description: The date and time the connection was last modified.
+        externalId:
+          type: string
+          nullable: true
+          description: 'Optional externalId set when the connection was created via redirect. Your identifier for this connection in your own system. Unique within a sub-account (null values are excluded from the uniqueness constraint). Use this field to correlate Connect AI connections with records in your own database. Distinct from the `external_identity` JWT claim, which is a per-request user-level audit identifier.
+
+            '
+        mcpUrl:
+          type: string
+          description: The per-connection MCP endpoint URL, for example, /mcp/connections/{id}.
+        status:
+          type: string
+          description: Connection status. Possible values include Authenticated, NotAuthenticated, and Conditional.
+      additionalProperties: false
+    RedirectURLResponse:
+      type: object
+      required:
+      - redirectURL
+      properties:
+        redirectURL:
+          type: string
+          description: A string containing the CData-hosted connection URL to redirect the user to.
+      additionalProperties: false
+    DataSourceListResult:
+      type: object
+      properties:
+        dataSources:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataSourceListItem'
+          description: A list of data sources supported by Connect AI Embed.
+      additionalProperties: false
+    DataSourceListItem:
+      type: object
+      required:
+      - dataSource
+      properties:
+        dataSource:
+          type: string
+          description: The name of the data source.
+      additionalProperties: false
+    EditConnectionRequest:
+      type: object
+      required:
+      - redirectURL
+      properties:
+        redirectURL:
+          type: string
+          description: The URL to redirect the customer once the customer has edited the connection through the Connect AI UI. This URL maps to the **Return to** button on the **Edit Connection** page in the Connect AI UI.
+        name:
+          type: string
+          description: (Optional) If provided, the connection name. By default, this is a suggested default that the end user can change on the **Edit Connection** form. Set `editableName` to `false` to lock the field and enforce the supplied value server-side.
+          nullable: true
+        editableName:
+          type: boolean
+          description: (Optional) The default value is `true`. When `true`, any `name` you supply is shown as a suggested default value, and the end user can change it. When `false`, the **Connection Name** field is rendered read-only, and the server enforces the supplied `name` on submit. Has no effect when `name` is omitted.
+          default: true
+      additionalProperties: false
+    ConnectionListResult:
+      type: object
+      properties:
+        connections:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConnectionListItem'
+          description: A list of connections for the account.
+      additionalProperties: false
+    CreateConnectionRequest:
+      type: object
+      required:
+      - redirectURL
+      properties:
+        dataSource:
+          type: string
+          description: '(Optional) The type of data source (For example: Snowflake, ActOn, or Salesforce). You can obtain data source names from List Connections. If you omit this parameter, the user can select from a list of available data sources.'
+          nullable: true
+        redirectURL:
+          type: string
+          description: The URL to redirect the customer once the customer has created the connection through the Connect AI UI. This URL maps to the **Return to** button on the **Add Connection** page in the Connect AI UI.
+        name:
+          type: string
+          description: (Optional) If provided, the connection name. By default, this is a suggested default that the end user can change on the **Add Connection** form. Set `editableName` to `false` to lock the field to this value. If `name` is provided without a `dataSource`, it is ignored.
+          nullable: true
+        externalId:
+          type: string
+          description: (Optional) Your identifier for this connection in your own system. Must be unique within the sub-account; if a connection with the same `externalId` already exists under the account, the request returns a conflict error.
+          nullable: true
+        editableName:
+          type: boolean
+          description: (Optional) The default value is `true`. When `true`, any `name` you supply is shown as a suggested default value, and the end user can change it. When `false`, the **Connection Name** field is rendered read-only, and the server enforces the supplied `name` on submit. Has no effect when `name` is omitted.
+          default: true
+      additionalProperties: false
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token authentication. Include the token in the Authorization header as `Bearer {token}`. See [Authentication](/en/API/Authentication-Embedded) for more information on creating a token.

@@ -1,0 +1,1343 @@
+openapi: 3.2.0
+info:
+  title: CData Connect AI Management Users API
+  version: v1
+  description: The Connect AI Management API provides programmatic control over enterprise platform administration.
+servers:
+- url: https://cloud.cdata.com/api/v1/admin
+  description: Production base URL
+security:
+- oauth2: []
+tags:
+- name: Users
+  description: 'Lifecycle management for human users: create, update, deprovision, and manage direct role assignments, workspace-scoped roles, and direct resource permissions. SCIM handles group-based provisioning and user creation at scale; this API handles direct overrides and atomic deprovisioning.'
+paths:
+  /users:
+    post:
+      summary: Create User
+      tags:
+      - Users
+      operationId: createUser
+      description: 'Create a human user directly, outside of the SCIM provisioning flow. Use this for non-SCIM-managed users (for example, contractors, break-glass accounts, or organizations without SCIM configured). Users created via this endpoint carry `scim_managed: false` in the response. For SCIM-provisioned users, configure SCIM sync with your IdP. This endpoint is idempotent by `external_id`: a second POST with the same `external_id` returns the existing user instead of creating a duplicate.'
+      security:
+      - oauth2:
+        - management:users:write
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+            example:
+              email: jane.doe@example.com
+              first_name: Jane
+              last_name: Doe
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              example:
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                email: jane.doe@example.com
+                first_name: Jane
+                last_name: Doe
+                status: invited
+                scim_managed: false
+                external_id: null
+                created_at: '2026-01-15T10:00:00Z'
+                created_by: 00000000-0000-0000-0000-000000000001
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                user_already_exists:
+                  summary: Email already exists
+                  value:
+                    error:
+                      code: USER_ALREADY_EXISTS
+                      message: A user with this email already exists.
+    get:
+      summary: List Users
+      tags:
+      - Users
+      operationId: listUsers
+      description: List all human users in the organization. Results are paginated using a cursor.
+      security:
+      - oauth2:
+        - management:users:read
+      parameters:
+      - name: status
+        in: query
+        description: Filter by user status.
+        schema:
+          type: string
+          enum:
+          - active
+          - invited
+          - deactivated
+      - name: scim_managed
+        in: query
+        description: '`true` to return only SCIM-provisioned users. `false` to return only API-created users. Omit to return all users.
+
+          '
+        schema:
+          type: boolean
+      - name: role_id
+        in: query
+        description: Filter to users who hold a specific role (direct or group-derived).
+        schema:
+          type: string
+          format: uuid
+      - name: email
+        in: query
+        description: Exact match filter on email address.
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: Maximum number of results to return per page.
+        schema:
+          type: integer
+          default: 20
+          maximum: 100
+      - name: cursor
+        in: query
+        description: Pagination cursor from `next_cursor` in the previous response. Omit to start from the beginning.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCollection'
+              example:
+                items:
+                - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  email: jane.doe@example.com
+                  first_name: Jane
+                  last_name: Doe
+                  status: active
+                  scim_managed: true
+                  external_id: null
+                  created_at: '2026-01-15T10:00:00Z'
+                  created_by: null
+                limit: 20
+                next_cursor: null
+  /users/batch:
+    post:
+      summary: Batch Create or Update Users
+      tags:
+      - Users
+      operationId: batchCreateUsers
+      x-stability: non-mvp
+      description: '**Non-MVP, available post-GA.** Batch create or update up to 500 human users. Supports all the same fields as `POST /users`. Partial success is supported (HTTP 207). Records with a matching `external_id` are updated rather than created.'
+      security:
+      - oauth2:
+        - management:users:write
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchCreateUsersRequest'
+            example:
+              users:
+              - email: alice@example.com
+                first_name: Alice
+                external_id: hr-001
+              - email: bob@example.com
+                first_name: Bob
+                external_id: hr-002
+      responses:
+        '207':
+          description: Multi-Status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchCreateUsersResponse'
+              example:
+                created:
+                - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  email: alice@example.com
+                  external_id: hr-001
+                updated: []
+                failed:
+                - email: bob@example.com
+                  external_id: hr-002
+                  error_code: USER_ALREADY_EXISTS
+                  message: A user with this email already exists.
+                summary:
+                  total: 2
+                  created: 1
+                  updated: 0
+                  failed: 1
+  /users/{id}:
+    get:
+      summary: Get User
+      tags:
+      - Users
+      operationId: getUser
+      description: Get a single user, including their directly assigned permissions.
+      security:
+      - oauth2:
+        - management:users:read
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: User identifier (UUID).
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDetail'
+              example:
+                id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                email: jane.doe@example.com
+                first_name: Jane
+                last_name: Doe
+                status: active
+                scim_managed: true
+                external_id: null
+                created_at: '2026-01-15T10:00:00Z'
+                created_by: null
+                permissions:
+                - id: p1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  resource: salesforce-prod
+                  operations:
+                  - read
+                  type: connection
+                  assigned_at: '2026-03-01T09:00:00Z'
+                  assigned_by: 00000000-0000-0000-0000-000000000001
+        '404':
+          $ref: '#/components/responses/UserNotFound'
+    patch:
+      summary: Update User
+      tags:
+      - Users
+      operationId: updateUser
+      description: Partially update user attributes. Only fields included in the request body are modified; omitted fields retain their current values. Name fields (`first_name`, `last_name`) cannot be updated for SCIM-managed users; they are owned by the IdP.
+      security:
+      - oauth2:
+        - management:users:write
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: User identifier (UUID).
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+            example:
+              status: deactivated
+      responses:
+        '200':
+          description: Returns the full user object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          $ref: '#/components/responses/UserNotFound'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                scim_managed_field:
+                  summary: Name fields owned by IdP
+                  value:
+                    error:
+                      code: SCIM_MANAGED_FIELD
+                      message: Name fields on SCIM-provisioned users are owned by the IdP and cannot be updated via this endpoint.
+    delete:
+      summary: Delete User
+      tags:
+      - Users
+      operationId: deleteUser
+      description: Deprovision a user. Atomically removes all direct role assignments and direct permissions. Group-derived roles are removed as SCIM removes the user from IdP groups. This operation is irreversible.
+      security:
+      - oauth2:
+        - management:users:write
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: User identifier (UUID).
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+        '404':
+          $ref: '#/components/responses/UserNotFound'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                cannot_delete_last_admin:
+                  summary: Last admin guard
+                  value:
+                    error:
+                      code: CANNOT_DELETE_LAST_ADMIN
+                      message: Deleting this user would leave the org with no active administrator.
+  /users/{id}/roles:
+    post:
+      summary: Assign User Role
+      tags:
+      - Users
+      operationId: assignUserRole
+      description: 'Assign the account-wide admin system role directly to a user. Only the `admin` role is assignable via this endpoint. All other system roles are workspace-scoped and must be assigned via `POST /users/{id}/workspaces/{workspace_id}/roles`. For group-based assignment use `POST /groups/{id}/roles`. This endpoint is idempotent: if the role is already assigned, the existing assignment is returned with HTTP 200.'
+      security:
+      - oauth2:
+        - management:users:write
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: User identifier (UUID).
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignRoleRequest'
+            example:
+              role_id: 00000000-0000-0000-0000-000000000010
+      responses:
+        '201':
+          description: Created. Returns the new assignment.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRoleAssignment'
+        '200':
+          description: OK. The role is already assigned; returns the existing assignment.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRoleAssignment'
+              example:
+                id: r1b2c3d4-e5f6-7890-abcd-ef1234567890
+                user_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                role_id: 00000000-0000-0000-0000-000000000010
+                role_name: Admin
+                role_type: system_role
+                grant_type: direct
+                granted_at: '2026-06-01T12:00:00Z'
+                granted_by: 00000000-0000-0000-0000-000000000001
+        '404':
+          $ref: '#/components/responses/UserNotFound'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                system_role_limit:
+                  summary: User already holds the admin role
+                  value:
+                    error:
+                      code: SYSTEM_ROLE_LIMIT
+                      message: The user already holds the admin role.
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                role_not_found:
+                  summary: Role does not exist
+                  value:
+                    error:
+                      code: ROLE_NOT_FOUND
+                      message: The specified role does not exist.
+                role_not_assignable:
+                  summary: Role is not the admin role
+                  value:
+                    error:
+                      code: ROLE_NOT_ASSIGNABLE
+                      message: Only the admin role is assignable via this endpoint. For workspace-scoped system roles, use POST /users/{id}/workspaces/{workspace_id}/roles.
+    get:
+      summary: List User Roles
+      tags:
+      - Users
+      operationId: listUserRoles
+      description: List all roles for a user, however inherited (direct, group-derived, or workspace-derived), across all of the user's workspaces. Includes both system and access role types. To list roles in a specific workspace only, use `GET /users/{id}/workspaces/{workspace_id}/roles`.
+      security:
+      - oauth2:
+        - management:users:read
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: User identifier (UUID).
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRoleCollection'
+              example:
+                items:
+                - role_id: 00000000-0000-0000-0000-000000000010
+                  role_name: Admin
+                  role_type: system_role
+                  grant_type: direct
+                  group_id: null
+                  group_name: null
+                  granted_at: '2026-06-01T12:00:00Z'
+                - role_id: b2c3d4e5-f6a7-8901-bcde-f12345678901
+                  role_name: Data Steward
+                  role_type: access_role
+                  grant_type: group_derived
+                  group_id: g1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  group_name: Finance
+                  granted_at: '2026-03-15T09:00:00Z'
+                limit: 20
+                next_cursor: null
+        '404':
+          $ref: '#/components/responses/UserNotFound'
+  /users/{id}/roles/{role_id}:
+    delete:
+      summary: Remove User Role
+      tags:
+      - Users
+      operationId: removeUserRole
+      description: Remove a direct role assignment from a user. Cannot remove group-derived roles via this endpoint. Remove the role from the group instead using `DELETE /groups/{id}/roles/{role_id}`.
+      security:
+      - oauth2:
+        - management:users:write
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: User identifier (UUID).
+        schema:
+          type: string
+          format: uuid
+      - name: role_id
+        in: path
+        required: true
+        description: Role identifier (UUID).
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                user_not_found:
+                  summary: User not found
+                  value:
+                    error:
+                      code: USER_NOT_FOUND
+                      message: The specified user does not exist.
+                role_assignment_not_found:
+                  summary: Role not directly assigned
+                  value:
+                    error:
+                      code: ROLE_ASSIGNMENT_NOT_FOUND
+                      message: This role is not directly assigned to the user.
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                cannot_remove_group_derived_role:
+                  summary: Role is group-derived
+                  value:
+                    error:
+                      code: CANNOT_REMOVE_GROUP_DERIVED_ROLE
+                      message: This role was conferred via a group. Use DELETE /groups/{id}/roles/{role_id} to remove it.
+  /users/{id}/permissions:
+    post:
+      summary: Assign User Permission
+      tags:
+      - Users
+      operationId: assignUserPermission
+      description: Assign a direct resource permission to a user. Permissions can be granted at the user level independently of any role assignment.
+      security:
+      - oauth2:
+        - management:users:write
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: User identifier (UUID).
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignPermissionRequest'
+            example:
+              resource: salesforce-prod
+              operations:
+              - read
+              type: connection
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPermissionAssignment'
+              example:
+                id: p1b2c3d4-e5f6-7890-abcd-ef1234567890
+                user_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                resource: salesforce-prod
+                operations:
+                - read
+                type: connection
+                assigned_at: '2026-06-15T10:00:00Z'
+                assigned_by: 00000000-0000-0000-0000-000000000001
+        '404':
+          $ref: '#/components/responses/UserNotFound'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                invalid_operation:
+                  summary: Invalid operation value
+                  value:
+                    error:
+                      code: INVALID_OPERATION
+                      message: One or more operation values are not valid.
+                invalid_permission_type:
+                  summary: Invalid type value
+                  value:
+                    error:
+                      code: INVALID_PERMISSION_TYPE
+                      message: Permission type must be connection.
+    get:
+      summary: List User Permissions
+      tags:
+      - Users
+      operationId: listUserPermissions
+      description: List all direct resource permissions assigned to a user.
+      security:
+      - oauth2:
+        - management:users:read
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: User identifier (UUID).
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPermissionCollection'
+              example:
+                items:
+                - id: p1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  user_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  resource: salesforce-prod
+                  operations:
+                  - read
+                  type: connection
+                  assigned_at: '2026-06-15T10:00:00Z'
+                  assigned_by: 00000000-0000-0000-0000-000000000001
+                limit: 20
+                next_cursor: null
+        '404':
+          $ref: '#/components/responses/UserNotFound'
+  /users/{id}/permissions/{permission_id}:
+    delete:
+      summary: Remove User Permission
+      tags:
+      - Users
+      operationId: removeUserPermission
+      description: Remove a direct permission from a user. The user entity is not deleted.
+      security:
+      - oauth2:
+        - management:users:write
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: User identifier (UUID).
+        schema:
+          type: string
+          format: uuid
+      - name: permission_id
+        in: path
+        required: true
+        description: Permission identifier (UUID).
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                user_not_found:
+                  summary: User not found
+                  value:
+                    error:
+                      code: USER_NOT_FOUND
+                      message: The specified user does not exist.
+                permission_not_found:
+                  summary: Permission not assigned
+                  value:
+                    error:
+                      code: PERMISSION_NOT_FOUND
+                      message: The specified permission is not assigned to this user.
+  /users/{id}/workspaces/{workspace_id}/roles:
+    post:
+      summary: Assign User Workspace Role
+      tags:
+      - Users
+      operationId: assignUserWorkspaceRole
+      description: Assign a workspace-scoped role (system, such as `workspace_admin`, or custom access) to a user. This is how all workspace-scoped system roles are granted; only the account-wide `admin` role is assigned via `POST /users/{id}/roles`. The user must be a direct member of the target workspace before this call.
+      security:
+      - oauth2:
+        - management:users:write
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: User identifier (UUID).
+        schema:
+          type: string
+          format: uuid
+      - name: workspace_id
+        in: path
+        required: true
+        description: Workspace identifier (UUID).
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignRoleRequest'
+            example:
+              role_id: 00000000-0000-0000-0000-000000000020
+      responses:
+        '201':
+          description: Created. Returns the new workspace role assignment.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserWorkspaceRoleAssignment'
+              example:
+                id: r2b3c4d5-e6f7-8901-abcd-ef1234567890
+                user_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                workspace_id: w1b2c3d4-e5f6-7890-abcd-ef1234567890
+                role_id: 00000000-0000-0000-0000-000000000020
+                role_name: workspace_admin
+                role_type: system_role
+                granted_at: '2026-06-01T12:00:00Z'
+                granted_by: 00000000-0000-0000-0000-000000000001
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                user_not_found:
+                  summary: User not found
+                  value:
+                    error:
+                      code: USER_NOT_FOUND
+                      message: The specified user does not exist.
+                workspace_not_found:
+                  summary: Workspace not found
+                  value:
+                    error:
+                      code: WORKSPACE_NOT_FOUND
+                      message: The specified workspace does not exist.
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                system_role_limit:
+                  summary: User already holds a workspace system role
+                  value:
+                    error:
+                      code: SYSTEM_ROLE_LIMIT
+                      message: The user already holds a workspace-scoped system role in this workspace. One per workspace.
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                role_not_found:
+                  summary: Role does not exist
+                  value:
+                    error:
+                      code: ROLE_NOT_FOUND
+                      message: The specified role does not exist.
+                entity_not_in_workspace:
+                  summary: User not a workspace member
+                  value:
+                    error:
+                      code: ENTITY_NOT_IN_WORKSPACE
+                      message: The user must be a direct member of the target workspace before a workspace-scoped role can be assigned.
+    get:
+      summary: List User Workspace Roles
+      tags:
+      - Users
+      operationId: listUserWorkspaceRoles
+      description: List all workspace-scoped role grants for a user in a specific workspace.
+      security:
+      - oauth2:
+        - management:users:read
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: User identifier (UUID).
+        schema:
+          type: string
+          format: uuid
+      - name: workspace_id
+        in: path
+        required: true
+        description: Workspace identifier (UUID).
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserWorkspaceRoleCollection'
+              example:
+                items:
+                - id: r2b3c4d5-e6f7-8901-abcd-ef1234567890
+                  user_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  workspace_id: w1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  role_id: 00000000-0000-0000-0000-000000000020
+                  role_name: workspace_admin
+                  role_type: system_role
+                  granted_at: '2026-06-01T12:00:00Z'
+                  granted_by: 00000000-0000-0000-0000-000000000001
+                limit: 20
+                next_cursor: null
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                user_not_found:
+                  summary: User not found
+                  value:
+                    error:
+                      code: USER_NOT_FOUND
+                      message: The specified user does not exist.
+                workspace_not_found:
+                  summary: Workspace not found
+                  value:
+                    error:
+                      code: WORKSPACE_NOT_FOUND
+                      message: The specified workspace does not exist.
+  /users/{id}/workspaces/{workspace_id}/roles/{role_id}:
+    delete:
+      summary: Remove User Workspace Role
+      tags:
+      - Users
+      operationId: removeUserWorkspaceRole
+      description: Remove a workspace-scoped role (system or access) from a user.
+      security:
+      - oauth2:
+        - management:users:write
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: User identifier (UUID).
+        schema:
+          type: string
+          format: uuid
+      - name: workspace_id
+        in: path
+        required: true
+        description: Workspace identifier (UUID).
+        schema:
+          type: string
+          format: uuid
+      - name: role_id
+        in: path
+        required: true
+        description: Role identifier (UUID).
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                user_not_found:
+                  summary: User not found
+                  value:
+                    error:
+                      code: USER_NOT_FOUND
+                      message: The specified user does not exist.
+                workspace_not_found:
+                  summary: Workspace not found
+                  value:
+                    error:
+                      code: WORKSPACE_NOT_FOUND
+                      message: The specified workspace does not exist.
+                role_assignment_not_found:
+                  summary: Role not assigned in this workspace
+                  value:
+                    error:
+                      code: ROLE_ASSIGNMENT_NOT_FOUND
+                      message: This role is not assigned to the user in this workspace.
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                cannot_remove_last_workspace_admin:
+                  summary: Last workspace admin guard
+                  value:
+                    error:
+                      code: CANNOT_REMOVE_LAST_WORKSPACE_ADMIN
+                      message: Cannot remove the last workspace_admin from this workspace.
+components:
+  schemas:
+    UpdateUserRequest:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: 'The user''s first name. Not accepted for `scim_managed: true` users; name fields are owned by the IdP.
+
+            '
+        last_name:
+          type: string
+          nullable: true
+          description: 'The user''s last name. null for users with a single name. Not accepted for `scim_managed: true` users.
+
+            '
+        status:
+          type: string
+          enum:
+          - active
+          - deactivated
+          description: Lifecycle state. Deactivating immediately revokes all PATs.
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          description: Error details.
+          properties:
+            code:
+              type: string
+              description: SCREAMING_SNAKE_CASE error code.
+            message:
+              type: string
+              description: Human-readable error description.
+    CollectionEnvelope:
+      type: object
+      properties:
+        limit:
+          type: integer
+          description: Maximum number of items per page as requested.
+        next_cursor:
+          type: string
+          nullable: true
+          description: Pagination cursor for the next page. null when no further pages exist. Total count is not returned.
+    UserRoleCollection:
+      allOf:
+      - $ref: '#/components/schemas/CollectionEnvelope'
+      - type: object
+        properties:
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/UserRoleItem'
+    UserWorkspaceRoleCollection:
+      allOf:
+      - $ref: '#/components/schemas/CollectionEnvelope'
+      - type: object
+        properties:
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/UserWorkspaceRoleAssignment'
+    AssignPermissionRequest:
+      type: object
+      required:
+      - resource
+      - operations
+      - type
+      properties:
+        resource:
+          type: string
+          description: 'The name of the specific connection instance this permission applies to. This is the connection name as defined in Connect AI, not the connector type.
+
+            '
+        operations:
+          type: array
+          items:
+            type: string
+            enum:
+            - create
+            - read
+            - update
+            - delete
+            - execute
+          description: One or more operations to permit on the resource.
+        type:
+          type: string
+          enum:
+          - connection
+          description: Always `connection`. Classifies what category of resource the permission governs.
+    UserRoleItem:
+      type: object
+      description: 'A role held by a user, with full provenance. Returned by GET /users/{id}/roles.
+
+        '
+      properties:
+        role_id:
+          type: string
+          format: uuid
+          description: The role identifier.
+        role_name:
+          type: string
+          description: The name of the role.
+        role_type:
+          type: string
+          enum:
+          - system_role
+          - access_role
+          description: The type of the role.
+        grant_type:
+          type: string
+          enum:
+          - direct
+          - group_derived
+          - workspace_derived
+          description: 'How this role was conferred. `direct`: assigned explicitly. `group_derived`: inherited via a group membership. `workspace_derived`: inherited via workspace configuration (placeholder term; exact name is subject to change).
+
+            '
+        group_id:
+          type: string
+          format: uuid
+          nullable: true
+          description: 'Set for `grant_type: group_derived`: the group that conferred this role. null for direct grants.'
+        group_name:
+          type: string
+          nullable: true
+          description: Group display name. null for direct grants.
+        granted_at:
+          type: string
+          format: date-time
+          description: ISO 8601 UTC.
+    AssignRoleRequest:
+      type: object
+      required:
+      - role_id
+      properties:
+        role_id:
+          type: string
+          format: uuid
+          description: Role to assign. Must exist in the organization.
+    UserWorkspaceRoleAssignment:
+      type: object
+      description: A workspace-scoped role assignment for a user.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Assignment identifier.
+        user_id:
+          type: string
+          format: uuid
+          description: The user this workspace role is assigned to.
+        workspace_id:
+          type: string
+          format: uuid
+          description: The workspace this role is assigned to.
+        role_id:
+          type: string
+          format: uuid
+          description: The role identifier.
+        role_name:
+          type: string
+          description: The name of the role.
+        role_type:
+          type: string
+          enum:
+          - system_role
+          - access_role
+          description: '`system_role`: built-in, non-modifiable. `access_role`: custom, fully manageable.'
+        granted_at:
+          type: string
+          format: date-time
+          description: ISO 8601 UTC.
+        granted_by:
+          type: string
+          format: uuid
+          description: The user who granted the workspace role.
+    UserPermissionCollection:
+      allOf:
+      - $ref: '#/components/schemas/CollectionEnvelope'
+      - type: object
+        properties:
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/UserPermissionAssignment'
+    UserPermissionAssignment:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Permission identifier.
+        user_id:
+          type: string
+          format: uuid
+          description: The user this permission is assigned to.
+        resource:
+          type: string
+          description: The connection name this permission applies to.
+        operations:
+          type: array
+          items:
+            type: string
+            enum:
+            - create
+            - read
+            - update
+            - delete
+            - execute
+          description: Allowed operations on the resource.
+        type:
+          type: string
+          enum:
+          - connection
+          description: Always `connection`. Classifies what category of resource the permission governs.
+        assigned_at:
+          type: string
+          format: date-time
+          description: ISO 8601 UTC.
+        assigned_by:
+          type: string
+          format: uuid
+          description: The user who assigned this permission.
+    UserDetail:
+      allOf:
+      - $ref: '#/components/schemas/User'
+      - type: object
+        properties:
+          permissions:
+            type: array
+            items:
+              $ref: '#/components/schemas/UserPermissionAssignment'
+            description: Direct permissions assigned to this user.
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: User identifier.
+        email:
+          type: string
+          format: email
+          description: The email address of the user.
+        first_name:
+          type: string
+          description: The user's first name.
+        last_name:
+          type: string
+          nullable: true
+          description: The user's last name.
+        status:
+          type: string
+          enum:
+          - active
+          - invited
+          - deactivated
+          description: Current lifecycle state of the user.
+        scim_managed:
+          type: boolean
+          description: '`false` for API-created users. `true` for SCIM-provisioned users.'
+        external_id:
+          type: string
+          nullable: true
+          description: Idempotency key supplied by the calling system.
+        created_at:
+          type: string
+          format: date-time
+          description: ISO 8601 UTC.
+        created_by:
+          type: string
+          format: uuid
+          nullable: true
+          description: User ID of the creator. null for SCIM-provisioned users.
+    BatchCreateUsersRequest:
+      type: object
+      required:
+      - users
+      properties:
+        users:
+          type: array
+          maxItems: 500
+          description: 'Up to 500 user records. Each record supports all fields from `POST /users`. If a record includes an `external_id` that matches an existing user, that user is updated rather than created.
+
+            '
+          items:
+            $ref: '#/components/schemas/CreateUserRequest'
+    CreateUserRequest:
+      type: object
+      required:
+      - email
+      - first_name
+      properties:
+        email:
+          type: string
+          format: email
+          description: Must be globally unique across all Connect AI orgs.
+        first_name:
+          type: string
+          description: The user's first name.
+        last_name:
+          type: string
+          nullable: true
+          description: The user's last name. Omit for users with a single name.
+        external_id:
+          type: string
+          description: 'Idempotency key supplied by the calling system (for example, an HR system employee ID or Terraform resource ID). A second POST with the same key returns the existing user instead of creating a duplicate. Connect AI does not generate this value; the caller provides it.
+
+            '
+    BatchCreateUsersResponse:
+      type: object
+      properties:
+        created:
+          type: array
+          description: Users successfully created.
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+                description: User identifier.
+              email:
+                type: string
+                description: Email address of the created user.
+              external_id:
+                type: string
+                nullable: true
+                description: Idempotency key supplied by the caller. null if not provided.
+        updated:
+          type: array
+          description: Records matched via `external_id` and updated.
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+                description: User identifier.
+              email:
+                type: string
+                description: Email address of the updated user.
+              external_id:
+                type: string
+                nullable: true
+                description: Idempotency key supplied by the caller.
+        failed:
+          type: array
+          description: Records that could not be created or updated.
+          items:
+            type: object
+            properties:
+              email:
+                type: string
+                description: Email address from the failed record.
+              external_id:
+                type: string
+                nullable: true
+                description: Idempotency key from the failed record. null if not provided.
+              error_code:
+                type: string
+                description: SCREAMING_SNAKE_CASE error code for the failure.
+              message:
+                type: string
+                description: Human-readable description of the failure.
+        summary:
+          type: object
+          description: Aggregate counts for the batch operation.
+          properties:
+            total:
+              type: integer
+              description: Total number of records submitted.
+            created:
+              type: integer
+              description: Number of records successfully created.
+            updated:
+              type: integer
+              description: Number of records successfully updated.
+            failed:
+              type: integer
+              description: Number of records that failed.
+    UserRoleAssignment:
+      type: object
+      description: A direct role assignment made via POST /users/{id}/roles.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Assignment identifier.
+        user_id:
+          type: string
+          format: uuid
+          description: The user this role is assigned to.
+        role_id:
+          type: string
+          format: uuid
+          description: The role identifier.
+        role_name:
+          type: string
+          description: The name of the role.
+        role_type:
+          type: string
+          enum:
+          - system_role
+          description: Always `system_role` (admin) for assignments made via this endpoint.
+        grant_type:
+          type: string
+          enum:
+          - direct
+          description: Always `direct` for assignments made via this endpoint.
+        granted_at:
+          type: string
+          format: date-time
+          description: ISO 8601 UTC.
+        granted_by:
+          type: string
+          format: uuid
+          description: The user who granted the role.
+    UserCollection:
+      allOf:
+      - $ref: '#/components/schemas/CollectionEnvelope'
+      - type: object
+        properties:
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/User'
+  responses:
+    UserNotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              code: USER_NOT_FOUND
+              message: The specified user does not exist.
+    ValidationError:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              code: VALIDATION_ERROR
+              message: Missing required field or invalid value.
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://cloud-login.cdata.com/oauth/token
+          scopes:
+            management:users:read: Read access to user resources.
+            management:users:write: Write access to user resources.
+            management:service-accounts:read: Read access to service account resources.
+            management:service-accounts:write: Write access to service account resources.

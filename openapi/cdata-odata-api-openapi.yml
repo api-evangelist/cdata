@@ -1,146 +1,144 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: CData Connect AI OData API
+  title: CData Connect AI O Data API
   version: v1
-
 servers:
-  - url: https://cloud.cdata.com/api/odata
-    description: Production base OData URL
-
+- url: https://cloud.cdata.com/api/odata
+  description: Production base OData URL
+security:
+- Basic: []
+tags:
+- name: OData
 paths:
   /{workspaceName}:
     get:
       tags:
-        - OData
+      - OData
       summary: Get Service Root
-      description: >
-        Each workspace has its own OData service URL. This endpoint returns the list of OData resources for a given workspace.
+      description: 'Each workspace has its own OData service URL. This endpoint returns the list of OData resources for a given workspace.
 
-        Connect AI supports OData version 4.0 and both JSON and Atom formats. 
+        Connect AI supports OData version 4.0 and both JSON and Atom formats.'
       parameters:
-        - name: workspaceName
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: workspaceName
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
-        "200":
+        '200':
           description: OK
+      operationId: getByWorkspaceName
+      x-operation-id-source: derived
   /{workspaceName}/$metadata:
     get:
       tags:
-        - OData
+      - OData
       summary: List Metadata
-      description: >
-        This operation returns the OData metadata for a given workspace. The metadata describes the resources available in the workspace.
+      description: This operation returns the OData metadata for a given workspace. The metadata describes the resources available in the workspace.
       parameters:
-        - name: workspaceName
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: workspaceName
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
-        "200":
+        '200':
           description: OK
+      operationId: getByWorkspaceName$metadata
+      x-operation-id-source: derived
   /{workspaceName}/{resourcePath}:
     get:
       tags:
-        - OData
+      - OData
       summary: Get Resource
-      description: >
-        This URL can query the OData resource with any applicable filters.
+      description: This URL can query the OData resource with any applicable filters.
       parameters:
-        - name: workspaceName
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: resourcePath
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: workspaceName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: resourcePath
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
-        "200":
+        '200':
           description: OK
+      operationId: getByWorkspaceNameByResourcePath
+      x-operation-id-source: derived
     delete:
       tags:
-        - OData
+      - OData
       summary: Delete Resource
       parameters:
-        - name: workspaceName
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: resourcePath
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: workspaceName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: resourcePath
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
-        "200":
+        '200':
           description: OK
+      operationId: deleteByWorkspaceNameByResourcePath
+      x-operation-id-source: derived
     post:
       tags:
-        - OData
+      - OData
       summary: Create Resource
       parameters:
-        - name: workspaceName
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: resourcePath
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: workspaceName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: resourcePath
+        in: path
+        required: true
+        schema:
+          type: string
       requestBody:
         content:
           application/json:
             schema: {}
       responses:
-        "200":
+        '200':
           description: OK
+      operationId: postByWorkspaceNameByResourcePath
+      x-operation-id-source: derived
     patch:
       tags:
-        - OData
+      - OData
       summary: Update Resource
       parameters:
-        - name: workspaceName
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: resourcePath
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: workspaceName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: resourcePath
+        in: path
+        required: true
+        schema:
+          type: string
       requestBody:
         content:
           application/json:
             schema: {}
       responses:
-        "200":
+        '200':
           description: OK
+      operationId: patchByWorkspaceNameByResourcePath
+      x-operation-id-source: derived
 components:
   securitySchemes:
     Basic:
       type: http
       scheme: basic
       description: Basic Authentication with username and password. Use your PAT as the password. You can get your PAT from Connect AI by selecting **Settings** > **Access Tokens**.
-    #OAuth2:
-    #  type: oauth2
-    #  flows:
-    #    authorizationCode:
-    #      authorizationUrl: https://cloud-login.clouddataos.com/authorize
-    #      tokenUrl: https://cloud-login.clouddataos.com/oauth/token
-    #      refreshUrl: https://cloud-login.clouddataos.com/oauth/refresh
-    #      scopes: []
-          # Optional tool-specific hint for PKCE
-          #x-usePkce: true
-security:
-  - Basic: []
-  #- OAuth2: []

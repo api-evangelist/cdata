@@ -1,0 +1,388 @@
+openapi: 3.2.0
+info:
+  title: CData Connect AI REST API Embedded Query API
+  version: v1
+servers:
+- url: https://cloud.cdata.com/api
+  description: Production base URL
+security:
+- BearerAuth: []
+tags:
+- name: Query
+paths:
+  /query:
+    post:
+      tags:
+      - Query
+      summary: Execute Query
+      description: The query operation allows you to execute a SQL query against one or more data sources configured in your Connect AI account. SELECT, INSERT, UPDATE, DELETE, and EXEC statements are all supported (though the /exec operation should be preferred for the latter).
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResult'
+      operationId: postQuery
+      x-operation-id-source: derived
+  /batch:
+    post:
+      tags:
+      - Query
+      summary: Execute Batch Query
+      description: The batch operation allows you to execute batch INSERTs, UPDATEs, and DELETEs against your data sources using a single request.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResult'
+      operationId: postBatch
+      x-operation-id-source: derived
+  /exec:
+    post:
+      tags:
+      - Query
+      summary: Execute Procedure
+      description: The execute operation allows you to execute stored procedures for any of the data sources configured in your Connect AI account.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResult'
+      operationId: postExec
+      x-operation-id-source: derived
+components:
+  schemas:
+    Parameter:
+      type: object
+      properties:
+        dataType:
+          $ref: '#/components/schemas/DataType'
+        value:
+          nullable: true
+      additionalProperties: false
+    ErrorDetail:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/ErrorCode'
+        message:
+          type: string
+          nullable: true
+          description: The error message.
+      additionalProperties: false
+    ExecParameter:
+      type: object
+      properties:
+        direction:
+          $ref: '#/components/schemas/Direction'
+        dataType:
+          $ref: '#/components/schemas/DataType'
+        value:
+          nullable: true
+      additionalProperties: false
+    DataType:
+      enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      - 16
+      - 17
+      - 18
+      type: integer
+      description: The parameter's [data type](/en/API/REST-API#data-types).
+      format: int32
+    ResultSet:
+      type: object
+      properties:
+        affectedRows:
+          type: integer
+          format: int32
+          description: The number of rows affected by the query, or -1 if not applicable.
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColumnInfo'
+          nullable: true
+        rows:
+          type: array
+          items:
+            type: array
+            items: {}
+          nullable: true
+      additionalProperties: false
+    QueryResult:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResultSet'
+          nullable: true
+        error:
+          $ref: '#/components/schemas/ErrorDetail'
+      additionalProperties: false
+    BatchRequest:
+      required:
+      - query
+      type: object
+      properties:
+        defaultCatalog:
+          type: string
+          nullable: true
+        defaultSchema:
+          type: string
+          nullable: true
+        parameters:
+          type: array
+          items:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/Parameter'
+          nullable: true
+        query:
+          description: The SQL query to execute. Must be a valid SQL query.
+          minLength: 1
+          type: string
+        timeout:
+          maximum: 300
+          minimum: 1
+          type: integer
+          format: int32
+      additionalProperties: false
+    ErrorCode:
+      enum:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      - 16
+      - 17
+      - 18
+      - 19
+      - 20
+      - 21
+      - 22
+      - 23
+      - 24
+      - 25
+      - 26
+      - 27
+      - 28
+      - 29
+      - 30
+      - 31
+      - 32
+      - 33
+      - 34
+      - 35
+      - 36
+      - 37
+      - 38
+      - 39
+      - 40
+      - 41
+      - 42
+      - 43
+      - 44
+      - 45
+      - 46
+      - 47
+      - 48
+      - 49
+      - 50
+      - 51
+      - 52
+      - 53
+      - 54
+      - 55
+      - 56
+      - 57
+      - 58
+      - 59
+      - 60
+      - 61
+      - 62
+      - 63
+      - 64
+      - 65
+      - 66
+      - 67
+      - 68
+      - 69
+      - 70
+      - 71
+      - 72
+      - 73
+      - 74
+      - 75
+      - 76
+      - 77
+      - 78
+      - 79
+      type: integer
+      format: int32
+    ColumnInfo:
+      type: object
+      properties:
+        catalogName:
+          type: string
+          nullable: true
+          description: The name of the catalog containing the column.
+        columnLabel:
+          type: string
+          nullable: true
+          description: The label of the column.
+        columnName:
+          type: string
+          nullable: true
+          description: The name of the column.
+        dataType:
+          $ref: '#/components/schemas/DataType'
+        dataTypeName:
+          type: string
+          nullable: true
+          description: The data type name of the column.
+        length:
+          type: integer
+          format: int32
+          description: The length of the column.
+        nullable:
+          type: boolean
+          description: Whether the column is nullable.
+        ordinal:
+          type: integer
+          format: int32
+          description: The ordinal position of the column.
+        precision:
+          type: integer
+          format: int32
+          nullable: true
+          description: The precision of the column.
+        scale:
+          type: integer
+          format: int32
+          nullable: true
+          description: The scale of the column.
+        schemaName:
+          type: string
+          nullable: true
+          description: The name of the schema containing the column.
+        tableName:
+          type: string
+          nullable: true
+          description: The name of the table containing the column.
+      additionalProperties: false
+    ExecRequest:
+      required:
+      - procedure
+      type: object
+      properties:
+        defaultCatalog:
+          type: string
+          nullable: true
+        defaultSchema:
+          type: string
+          nullable: true
+        parameters:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ExecParameter'
+          nullable: true
+        procedure:
+          description: The name of the stored procedure to execute. Must be a valid stored procedure name.
+          minLength: 1
+          type: string
+        timeout:
+          maximum: 300
+          minimum: 1
+          type: integer
+          format: int32
+      additionalProperties: false
+    Direction:
+      enum:
+      - 1
+      - 2
+      - 4
+      - 5
+      type: integer
+      format: int32
+    QueryRequest:
+      required:
+      - query
+      type: object
+      properties:
+        defaultCatalog:
+          type: string
+          nullable: true
+          description: The default catalog to use for the query if none is specified in the query itself.
+        defaultSchema:
+          type: string
+          nullable: true
+        parameters:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Parameter'
+          nullable: true
+        query:
+          description: The SQL query to execute. Must be a valid SQL query.
+          minLength: 1
+          type: string
+        schemaOnly:
+          type: boolean
+          description: If true, only the schema of the result set is returned without any data rows. The default value is false.
+        timeout:
+          maximum: 300
+          minimum: 1
+          type: integer
+          format: int32
+      additionalProperties: false
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token authentication. Include the token in the Authorization header as `Bearer {token}`. See [Authentication](/en/API/Authentication-Embedded) for more information on creating a token.

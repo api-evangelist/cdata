@@ -1,0 +1,550 @@
+openapi: 3.2.0
+info:
+  title: CData Connect AI REST API Embedded Metadata API
+  version: v1
+servers:
+- url: https://cloud.cdata.com/api
+  description: Production base URL
+security:
+- BearerAuth: []
+tags:
+- name: Metadata
+paths:
+  /catalogs:
+    get:
+      tags:
+      - Metadata
+      summary: List Catalogs
+      description: This operation returns information about available catalogs. Catalogs are connections that the user has set up in their account.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResult'
+              example:
+                results:
+                - affectedRows: -1
+                  schema:
+                  - catalogName: CData
+                    columnLabel: TABLE_CATALOG
+                    columnName: TABLE_CATALOG
+                    dataType: 5
+                    dataTypeName: VARCHAR
+                    length: 255
+                    nullable: true
+                    ordinal: 0
+                    precision: 255
+                    scale: 0
+                    schemaName: QueryFederation
+                    tableName: sys_catalogs
+                  rows:
+                  - - Salesforce1
+      operationId: getCatalogs
+      x-operation-id-source: derived
+  /schemas:
+    get:
+      tags:
+      - Metadata
+      summary: List Schemas
+      description: This operation returns a list of schemas for a given catalog.
+      parameters:
+      - name: catalogName
+        description: Restricts results to the specified catalog.
+        in: query
+        schema:
+          type: string
+      - name: schemaName
+        description: Restricts results to the specified schema.
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResult'
+      operationId: getSchemas
+      x-operation-id-source: derived
+  /tables:
+    get:
+      tags:
+      - Metadata
+      summary: List Tables
+      description: This operation returns a list of tables and views for a given schema.
+      parameters:
+      - name: catalogName
+        description: Restricts results to the specified catalog.
+        in: query
+        schema:
+          type: string
+      - name: schemaName
+        description: Restricts results to the specified schema.
+        in: query
+        schema:
+          type: string
+      - name: tableName
+        description: Restricts results to the specified table.
+        in: query
+        schema:
+          type: string
+      - name: tableType
+        description: Restricts results to the specified table type(s).
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResult'
+      operationId: getTables
+      x-operation-id-source: derived
+  /columns:
+    get:
+      tags:
+      - Metadata
+      summary: List Columns
+      description: This operation returns a list of columns for a given table or view.
+      parameters:
+      - name: catalogName
+        description: Restricts results to the specified catalog.
+        in: query
+        schema:
+          type: string
+      - name: schemaName
+        description: Restricts results to the specified schema.
+        in: query
+        schema:
+          type: string
+      - name: tableName
+        description: Restricts results to the specified table.
+        in: query
+        schema:
+          type: string
+      - name: columnName
+        description: Restricts results to the specified column.
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResult'
+      operationId: getColumns
+      x-operation-id-source: derived
+  /primaryKeys:
+    get:
+      tags:
+      - Metadata
+      summary: List Primary Keys
+      description: This operation returns information about a table's primary keys.
+      parameters:
+      - name: catalogName
+        description: Restricts results to the specified catalog.
+        in: query
+        schema:
+          type: string
+      - name: schemaName
+        description: Restricts results to the specified schema.
+        in: query
+        schema:
+          type: string
+      - name: tableName
+        description: Restricts results to the specified table.
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResult'
+      operationId: getPrimaryKeys
+      x-operation-id-source: derived
+  /importedKeys:
+    get:
+      tags:
+      - Metadata
+      summary: List Imported Keys
+      description: This operation returns information about primary keys referenced by a table's foreign keys.
+      parameters:
+      - name: catalogName
+        description: Restricts results to the specified catalog.
+        in: query
+        schema:
+          type: string
+      - name: schemaName
+        description: Restricts results to the specified schema.
+        in: query
+        schema:
+          type: string
+      - name: tableName
+        description: Restricts results to the specified table.
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResult'
+      operationId: getImportedKeys
+      x-operation-id-source: derived
+  /exportedKeys:
+    get:
+      tags:
+      - Metadata
+      summary: List Exported Keys
+      description: This operation returns information about foreign keys referenced by a table's primary keys.
+      parameters:
+      - name: catalogName
+        description: Restricts results to the specified catalog.
+        in: query
+        schema:
+          type: string
+      - name: schemaName
+        description: Restricts results to the specified schema.
+        in: query
+        schema:
+          type: string
+      - name: tableName
+        description: Restricts results to the specified table.
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResult'
+      operationId: getExportedKeys
+      x-operation-id-source: derived
+  /indexes:
+    get:
+      tags:
+      - Metadata
+      summary: List Indexes
+      description: This operation returns information about available indexes for a given table.
+      parameters:
+      - name: catalogName
+        description: Restricts results to the specified catalog.
+        in: query
+        schema:
+          type: string
+      - name: schemaName
+        description: Restricts results to the specified schema.
+        in: query
+        schema:
+          type: string
+      - name: tableName
+        description: Restricts results to the specified table.
+        in: query
+        schema:
+          type: string
+      - name: indexName
+        description: Restricts results to the specified index.
+        in: query
+        schema:
+          type: string
+      - name: unique
+        description: If true, only return unique indexes. If false, only return non-unique indexes. The default value is to return all indexes.
+        in: query
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResult'
+      operationId: getIndexes
+      x-operation-id-source: derived
+  /procedures:
+    get:
+      tags:
+      - Metadata
+      summary: List Procedures
+      description: This operation returns information about available stored procedures for a given schema.
+      parameters:
+      - name: catalogName
+        description: Restricts results to the specified catalog.
+        in: query
+        schema:
+          type: string
+      - name: schemaName
+        description: Restricts results to the specified schema.
+        in: query
+        schema:
+          type: string
+      - name: procedureName
+        description: Restricts results to the specified procedure.
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResult'
+      operationId: getProcedures
+      x-operation-id-source: derived
+  /procedureParameters:
+    get:
+      tags:
+      - Metadata
+      summary: List Procedure Parameters
+      description: This operation returns information about a stored procedure's parameters.
+      parameters:
+      - name: catalogName
+        description: Restricts results to the specified catalog.
+        in: query
+        schema:
+          type: string
+      - name: schemaName
+        description: Restricts results to the specified schema.
+        in: query
+        schema:
+          type: string
+      - name: procedureName
+        description: Restricts results to the specified procedure.
+        in: query
+        schema:
+          type: string
+      - name: paramName
+        description: Restricts results to the specified procedure parameter.
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResult'
+      operationId: getProcedureParameters
+      x-operation-id-source: derived
+components:
+  schemas:
+    ErrorDetail:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/ErrorCode'
+        message:
+          type: string
+          nullable: true
+          description: The error message.
+      additionalProperties: false
+    DataType:
+      enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      - 16
+      - 17
+      - 18
+      type: integer
+      description: The parameter's [data type](/en/API/REST-API#data-types).
+      format: int32
+    ResultSet:
+      type: object
+      properties:
+        affectedRows:
+          type: integer
+          format: int32
+          description: The number of rows affected by the query, or -1 if not applicable.
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColumnInfo'
+          nullable: true
+        rows:
+          type: array
+          items:
+            type: array
+            items: {}
+          nullable: true
+      additionalProperties: false
+    QueryResult:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResultSet'
+          nullable: true
+        error:
+          $ref: '#/components/schemas/ErrorDetail'
+      additionalProperties: false
+    ErrorCode:
+      enum:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      - 16
+      - 17
+      - 18
+      - 19
+      - 20
+      - 21
+      - 22
+      - 23
+      - 24
+      - 25
+      - 26
+      - 27
+      - 28
+      - 29
+      - 30
+      - 31
+      - 32
+      - 33
+      - 34
+      - 35
+      - 36
+      - 37
+      - 38
+      - 39
+      - 40
+      - 41
+      - 42
+      - 43
+      - 44
+      - 45
+      - 46
+      - 47
+      - 48
+      - 49
+      - 50
+      - 51
+      - 52
+      - 53
+      - 54
+      - 55
+      - 56
+      - 57
+      - 58
+      - 59
+      - 60
+      - 61
+      - 62
+      - 63
+      - 64
+      - 65
+      - 66
+      - 67
+      - 68
+      - 69
+      - 70
+      - 71
+      - 72
+      - 73
+      - 74
+      - 75
+      - 76
+      - 77
+      - 78
+      - 79
+      type: integer
+      format: int32
+    ColumnInfo:
+      type: object
+      properties:
+        catalogName:
+          type: string
+          nullable: true
+          description: The name of the catalog containing the column.
+        columnLabel:
+          type: string
+          nullable: true
+          description: The label of the column.
+        columnName:
+          type: string
+          nullable: true
+          description: The name of the column.
+        dataType:
+          $ref: '#/components/schemas/DataType'
+        dataTypeName:
+          type: string
+          nullable: true
+          description: The data type name of the column.
+        length:
+          type: integer
+          format: int32
+          description: The length of the column.
+        nullable:
+          type: boolean
+          description: Whether the column is nullable.
+        ordinal:
+          type: integer
+          format: int32
+          description: The ordinal position of the column.
+        precision:
+          type: integer
+          format: int32
+          nullable: true
+          description: The precision of the column.
+        scale:
+          type: integer
+          format: int32
+          nullable: true
+          description: The scale of the column.
+        schemaName:
+          type: string
+          nullable: true
+          description: The name of the schema containing the column.
+        tableName:
+          type: string
+          nullable: true
+          description: The name of the table containing the column.
+      additionalProperties: false
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token authentication. Include the token in the Authorization header as `Bearer {token}`. See [Authentication](/en/API/Authentication-Embedded) for more information on creating a token.

@@ -1,0 +1,45 @@
+openapi: 3.2.0
+info:
+  title: CData Connect AI REST API Embedded Data Explorer API
+  version: v1
+servers:
+- url: https://cloud.cdata.com/api
+  description: Production base URL
+security:
+- BearerAuth: []
+tags:
+- name: Data Explorer
+paths:
+  /poweredby/dataExplorer:
+    post:
+      summary: Generate Data Explorer URL
+      tags:
+      - Data Explorer
+      operationId: generateDataExplorerURL
+      description: Generate Data Explorer URL redirects you to the Data Explorer page of Connect AI.
+      responses:
+        '200':
+          description: A string containing the URL to redirect the user to.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedirectURLResponse'
+              example:
+                redirectURL: https://cloud.cdata.com/oem/user/dataexplorer?token=eyJhbGciOiJSUzI1NiIs...truncated...
+components:
+  schemas:
+    RedirectURLResponse:
+      type: object
+      required:
+      - redirectURL
+      properties:
+        redirectURL:
+          type: string
+          description: A string containing the CData-hosted connection URL to redirect the user to.
+      additionalProperties: false
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token authentication. Include the token in the Authorization header as `Bearer {token}`. See [Authentication](/en/API/Authentication-Embedded) for more information on creating a token.

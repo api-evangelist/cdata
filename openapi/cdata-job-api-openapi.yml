@@ -1,0 +1,497 @@
+openapi: 3.2.0
+info:
+  title: CData Connect AI REST API Embedded Job API
+  version: v1
+servers:
+- url: https://cloud.cdata.com/api
+  description: Production base URL
+security:
+- BearerAuth: []
+tags:
+- name: Job
+paths:
+  /job/list:
+    get:
+      summary: List Jobs
+      tags:
+      - Job
+      operationId: listJobs
+      description: Administrators, impersonating a service user, can request a list of jobs for a sub-account.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobListResult'
+              example:
+                jobs:
+                - jobType: Caching
+                  id: string
+                  name: string
+                  enabled: true
+                  created: '2024-01-01T00:00:00Z'
+                  lastModified: '2024-01-01T00:00:00Z'
+                  nextRunTime: '2024-01-01T00:00:00Z'
+                  intervalUnit: Hour
+                  intervalValue: 1
+                  logVerbosity: 1
+                  lastRun:
+                    dateTime: '0001-01-01T00:00:00Z'
+                    duration: 63894847975
+                    status: JOB_QUEUED
+                    rowsAffected: 0
+                    nextRunTime: '0001-01-01T00:00:00Z'
+                  params:
+                    timeCheckColumn: ''
+                    autoTruncateStrings: 'false'
+                    sourceConnection: f6f3cfe6-72e2-4edb-914f-4409c01c1418
+                    sourceConnectionName: MailChimp1
+                    sourceName: MailChimp
+                    sourceSchema: MailChimp
+                    sourceTable: Conversations
+      servers:
+      - url: https://cloud.cdata.com/api
+        description: Production base URL for job endpoints
+  /job/{jobId}:
+    get:
+      summary: Get Job
+      tags:
+      - Job
+      operationId: getJob
+      description: Retrieve the details for a specific job.
+      parameters:
+      - name: jobId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The Id of the job you want to retrieve details from.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobInfo'
+              example:
+                jobType: Caching
+                id: string
+                name: string
+                enabled: true
+                created: '2024-01-01T00:00:00Z'
+                lastModified: '2024-01-01T00:00:00Z'
+                nextRunTime: '2024-01-01T00:00:00Z'
+                intervalUnit: Hour
+                intervalValue: 1
+                logVerbosity: 1
+                lastRun:
+                  dateTime: '0001-01-01T00:00:00Z'
+                  duration: 63894847975
+                  status: JOB_QUEUED
+                  rowsAffected: 0
+                  nextRunTime: '0001-01-01T00:00:00Z'
+                params:
+                  timeCheckColumn: ''
+                  autoTruncateStrings: 'false'
+                  sourceConnection: f6f3cfe6-72e2-4edb-914f-4409c01c1418
+                  sourceConnectionName: MailChimp1
+                  sourceName: MailChimp
+                  sourceSchema: MailChimp
+                  sourceTable: Conversations
+      servers:
+      - url: https://cloud.cdata.com/api
+        description: Production base URL for job endpoints
+  /job/create:
+    post:
+      summary: Create Job
+      tags:
+      - Job
+      operationId: createJob
+      description: Administrators, impersonating a service user, can use this call to create a new job.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateJobRequest'
+            example:
+              jobType: Caching
+              intervalUnit: Hour
+              intervalValue: '1'
+              logVerbosity: '1'
+              enabled: 'true'
+              params:
+                timeCheckColumn: ''
+                autoTruncateStrings: 'false'
+                sourceConnection: 36b2c04f-70f4-44a1-876a-29e42237ee63
+                sourceName: OData1
+                sourceSchema: OData
+                sourceTable: Categories
+                mergeKeys:
+                - colName: Id
+                  colType: varchar
+                  isPrimaryKey: true
+                - colName: WorkspaceId
+                  colType: varchar
+                  isPrimaryKey: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobInfo'
+              example:
+                jobType: Caching
+                id: string
+                name: string
+                enabled: true
+                created: '2024-01-01T00:00:00Z'
+                lastModified: '2024-01-01T00:00:00Z'
+                nextRunTime: '2024-01-01T00:00:00Z'
+                intervalUnit: Hour
+                intervalValue: 1
+                logVerbosity: 1
+                lastRun:
+                  dateTime: '0001-01-01T00:00:00Z'
+                  duration: 63894847975
+                  status: JOB_QUEUED
+                  rowsAffected: 0
+                  nextRunTime: '0001-01-01T00:00:00Z'
+                params:
+                  timeCheckColumn: ''
+                  autoTruncateStrings: 'false'
+                  sourceConnection: f6f3cfe6-72e2-4edb-914f-4409c01c1418
+                  sourceConnectionName: MailChimp1
+                  sourceName: MailChimp
+                  sourceSchema: MailChimp
+                  sourceTable: Conversations
+      servers:
+      - url: https://cloud.cdata.com/api
+        description: Production base URL for job endpoints
+  /job/{jobId}/update:
+    put:
+      summary: Update Job
+      tags:
+      - Job
+      operationId: updateJob
+      description: Administrators, impersonating a service user, can use this call to update a specified job.
+      parameters:
+      - name: jobId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The Id of the job you want to update.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateJobRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobInfo'
+              example:
+                jobType: Caching
+                id: string
+                name: string
+                enabled: true
+                created: '2024-01-01T00:00:00Z'
+                lastModified: '2024-01-01T00:00:00Z'
+                nextRunTime: '2024-01-01T00:00:00Z'
+                intervalUnit: Hour
+                intervalValue: 1
+                logVerbosity: 1
+                lastRun:
+                  dateTime: '0001-01-01T00:00:00Z'
+                  duration: 63894847975
+                  status: JOB_QUEUED
+                  rowsAffected: 0
+                  nextRunTime: '0001-01-01T00:00:00Z'
+                params:
+                  timeCheckColumn: ''
+                  autoTruncateStrings: 'false'
+                  sourceConnection: f6f3cfe6-72e2-4edb-914f-4409c01c1418
+                  sourceConnectionName: MailChimp1
+                  sourceName: MailChimp
+                  sourceSchema: MailChimp
+                  sourceTable: Conversations
+      servers:
+      - url: https://cloud.cdata.com/api
+        description: Production base URL for job endpoints
+  /job/{jobId}/delete:
+    delete:
+      summary: Delete Job
+      tags:
+      - Job
+      operationId: deleteJob
+      description: Administrators, impersonating a service user, can use this call to delete a specified job.
+      parameters:
+      - name: jobId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The Id of the job you want to delete.
+      responses:
+        '200':
+          description: OK
+      servers:
+      - url: https://cloud.cdata.com/api
+        description: Production base URL for job endpoints
+  /job/{jobId}/run:
+    post:
+      summary: Run Job
+      tags:
+      - Job
+      operationId: runJob
+      description: Administrators, impersonating a service user, can use this call to put the specified job in the queue to be run.
+      parameters:
+      - name: jobId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The Id of the job you want to put in the queue to be run.
+      responses:
+        '200':
+          description: OK
+      servers:
+      - url: https://cloud.cdata.com/api
+        description: Production base URL for job endpoints
+  /job/{jobId}/stop:
+    post:
+      summary: Stop Job
+      tags:
+      - Job
+      operationId: stopJob
+      description: Administrators, impersonating a service user, can use this call to stop the specified job.
+      parameters:
+      - name: jobId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The Id of the job you want to stop.
+      responses:
+        '200':
+          description: OK
+      servers:
+      - url: https://cloud.cdata.com/api
+        description: Production base URL for job endpoints
+components:
+  schemas:
+    JobListResult:
+      type: object
+      properties:
+        jobs:
+          type: array
+          items:
+            $ref: '#/components/schemas/JobInfo'
+          nullable: true
+      additionalProperties: false
+    CreateJobRequest:
+      type: object
+      required:
+      - jobType
+      - intervalUnit
+      - intervalValue
+      - logVerbosity
+      - params
+      properties:
+        jobType:
+          type: string
+          description: The type of job (Caching).
+        intervalUnit:
+          type: string
+          description: A string representing the time interval (Hour/Day/Week/Month).
+        intervalValue:
+          type: integer
+          format: int32
+          description: An integer that represents how many of the selected frequency unit the job should wait before running again.
+        logVerbosity:
+          type: integer
+          format: int32
+          description: An enum indicating the level of log verbosity (1-5).
+        enabled:
+          type: boolean
+          description: A Boolean value indicating whether the job is enabled. The default value is true.
+        definedNextRun:
+          type: string
+          format: date-time
+          description: An optional DateTime value that can be used to set the initial start time for the job.
+        params:
+          $ref: '#/components/schemas/JobParams'
+          description: An object containing job-specific parameters.
+      additionalProperties: false
+    MergeKey:
+      type: object
+      properties:
+        colName:
+          type: string
+          description: The name of the column.
+        colType:
+          type: string
+          description: The column's data type (for example, "varchar").
+        isPrimaryKey:
+          type: boolean
+          description: Whether the column is part of the primary key. Set `true` on multiple columns to define a composite primary key.
+      additionalProperties: false
+    JobParams:
+      type: object
+      description: An object containing job parameters. Caching jobs use the fields below; other job types may include additional properties.
+      properties:
+        sourceConnection:
+          type: string
+          format: uuid
+          description: The Id of the source connection.
+        sourceConnectionName:
+          type: string
+          description: The name of the source connection. Returned in responses.
+        sourceName:
+          type: string
+          description: The source driver name (for example, "Asana", "MailChimp").
+        sourceSchema:
+          type: string
+          description: The schema in the source connection that contains the table being cached.
+        sourceTable:
+          type: string
+          description: The name of the table in the source connection to cache.
+        timeCheckColumn:
+          type: string
+          description: The column used to detect changes for incremental caching. Leave empty to refresh the full table.
+        autoTruncateStrings:
+          type: string
+          description: Whether to truncate string values that exceed the destination column length. Accepted as a string by the API ("true" or "false").
+          example: 'false'
+        mergeKeys:
+          type: array
+          description: 'The columns used to match source rows against cached rows during a merge. Mark each column that is part of the primary key with `isPrimaryKey: true`; supplying more than one such entry defines a composite primary key.'
+          items:
+            $ref: '#/components/schemas/MergeKey'
+      additionalProperties: true
+    JobLastRun:
+      type: object
+      description: The last run metrics for the job, including the date and time, duration, status, rows affected, and next run time.
+      properties:
+        dateTime:
+          type: string
+          format: date-time
+          nullable: true
+        duration:
+          type: integer
+          format: int64
+          nullable: true
+        status:
+          type: string
+          nullable: true
+        rowsAffected:
+          type: integer
+          format: int64
+          nullable: true
+        nextRunTime:
+          type: string
+          format: date-time
+          nullable: true
+          description: The date and time the job is scheduled to be run next.
+      additionalProperties: false
+    JobInfo:
+      type: object
+      required:
+      - jobType
+      - id
+      - name
+      - enabled
+      - created
+      - lastModified
+      - nextRunTime
+      - intervalUnit
+      - intervalValue
+      - logVerbosity
+      properties:
+        jobType:
+          type: string
+          description: The type of job (Caching).
+        id:
+          type: string
+          description: The job's Id.
+        name:
+          type: string
+          description: The job's name.
+        enabled:
+          type: boolean
+          description: A Boolean value indicating whether the job is enabled.
+        created:
+          type: string
+          format: date-time
+          description: The date and time the job was created.
+        lastModified:
+          type: string
+          format: date-time
+          description: The date and time the job was last modified.
+        nextRunTime:
+          type: string
+          format: date-time
+          description: The date and time the job is scheduled to be run next.
+        intervalUnit:
+          type: string
+          description: A string representing the interval unit for the job (Hour/Day/Week/Month).
+        intervalValue:
+          type: integer
+          format: int32
+          description: An integer that represents how many of the selected interval unit the job should wait before running again.
+        logVerbosity:
+          type: integer
+          format: int32
+          description: A number indicating the level of log verbosity (1-5).
+        lastRun:
+          $ref: '#/components/schemas/JobLastRun'
+        params:
+          $ref: '#/components/schemas/JobParams'
+      additionalProperties: false
+    UpdateJobRequest:
+      type: object
+      required:
+      - jobType
+      - intervalUnit
+      - intervalValue
+      - logVerbosity
+      - params
+      properties:
+        jobType:
+          type: string
+          description: The type of job (Caching).
+        intervalUnit:
+          type: string
+          description: A string representing the time interval (Hour/Day/Week/Month).
+        intervalValue:
+          type: integer
+          format: int32
+          description: An integer that represents how many of the selected frequency unit the job should wait before running again.
+        logVerbosity:
+          type: integer
+          format: int32
+          description: An enum indicating the level of log verbosity (1-5).
+        enabled:
+          type: boolean
+          description: A Boolean value indicating whether the job is enabled. The default value is true.
+        definedNextRun:
+          type: string
+          format: date-time
+          description: An optional DateTime value that can be used to set the initial start time for the job.
+        params:
+          $ref: '#/components/schemas/JobParams'
+          description: An object containing job-specific parameters.
+      additionalProperties: false
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token authentication. Include the token in the Authorization header as `Bearer {token}`. See [Authentication](/en/API/Authentication-Embedded) for more information on creating a token.

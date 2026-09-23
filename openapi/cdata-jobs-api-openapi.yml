@@ -1,0 +1,45 @@
+openapi: 3.2.0
+info:
+  title: CData Connect AI REST API Embedded Jobs API
+  version: v1
+servers:
+- url: https://cloud.cdata.com/api
+  description: Production base URL
+security:
+- BearerAuth: []
+tags:
+- name: Jobs
+paths:
+  /poweredby/jobs:
+    post:
+      summary: Generate Jobs URL
+      tags:
+      - Jobs
+      operationId: generateJobsURL
+      description: Generate Jobs URL redirects you to the Jobs page of Connect AI.
+      responses:
+        '200':
+          description: A string containing the URL to redirect the user to.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedirectURLResponse'
+              example:
+                redirectURL: https://cloud.cdata.com/oem/user/jobs?token=eyJhbGciOiJSUzI1NiIs...truncated...
+components:
+  schemas:
+    RedirectURLResponse:
+      type: object
+      required:
+      - redirectURL
+      properties:
+        redirectURL:
+          type: string
+          description: A string containing the CData-hosted connection URL to redirect the user to.
+      additionalProperties: false
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token authentication. Include the token in the Authorization header as `Bearer {token}`. See [Authentication](/en/API/Authentication-Embedded) for more information on creating a token.
