@@ -144,6 +144,28 @@ paths:
           description: OK
 components:
   schemas:
+    AccountInfo:
+      type: object
+      required:
+      - id
+      - externalId
+      - created
+      properties:
+        id:
+          type: string
+          description: The internal Connect AI account Id.
+        externalId:
+          type: string
+          description: The Connect AI Embed external account identifier.
+        accountName:
+          type: string
+          description: The display name of the account.
+          nullable: true
+        created:
+          type: string
+          format: date-time
+          description: The time this account was created.
+      additionalProperties: false
     AccountListResult:
       type: object
       properties:
@@ -194,28 +216,6 @@ components:
           type: string
           description: (Optional) The display name of the account to be created.
           nullable: true
-      additionalProperties: false
-    AccountInfo:
-      type: object
-      required:
-      - id
-      - externalId
-      - created
-      properties:
-        id:
-          type: string
-          description: The internal Connect AI account Id.
-        externalId:
-          type: string
-          description: The Connect AI Embed external account identifier.
-        accountName:
-          type: string
-          description: The display name of the account.
-          nullable: true
-        created:
-          type: string
-          format: date-time
-          description: The time this account was created.
       additionalProperties: false
   securitySchemes:
     BearerAuth:

@@ -331,6 +331,24 @@ paths:
           description: OK
 components:
   schemas:
+    DataSourceListItem:
+      type: object
+      required:
+      - dataSource
+      properties:
+        dataSource:
+          type: string
+          description: The name of the data source.
+      additionalProperties: false
+    RedirectURLResponse:
+      type: object
+      required:
+      - redirectURL
+      properties:
+        redirectURL:
+          type: string
+          description: A string containing the CData-hosted connection URL to redirect the user to.
+      additionalProperties: false
     ConnectionListItem:
       type: object
       required:
@@ -368,59 +386,6 @@ components:
           type: string
           description: Connection status. Possible values include Authenticated, NotAuthenticated, and Conditional.
       additionalProperties: false
-    RedirectURLResponse:
-      type: object
-      required:
-      - redirectURL
-      properties:
-        redirectURL:
-          type: string
-          description: A string containing the CData-hosted connection URL to redirect the user to.
-      additionalProperties: false
-    DataSourceListResult:
-      type: object
-      properties:
-        dataSources:
-          type: array
-          items:
-            $ref: '#/components/schemas/DataSourceListItem'
-          description: A list of data sources supported by Connect AI Embed.
-      additionalProperties: false
-    DataSourceListItem:
-      type: object
-      required:
-      - dataSource
-      properties:
-        dataSource:
-          type: string
-          description: The name of the data source.
-      additionalProperties: false
-    EditConnectionRequest:
-      type: object
-      required:
-      - redirectURL
-      properties:
-        redirectURL:
-          type: string
-          description: The URL to redirect the customer once the customer has edited the connection through the Connect AI UI. This URL maps to the **Return to** button on the **Edit Connection** page in the Connect AI UI.
-        name:
-          type: string
-          description: (Optional) If provided, the connection name. By default, this is a suggested default that the end user can change on the **Edit Connection** form. Set `editableName` to `false` to lock the field and enforce the supplied value server-side.
-          nullable: true
-        editableName:
-          type: boolean
-          description: (Optional) The default value is `true`. When `true`, any `name` you supply is shown as a suggested default value, and the end user can change it. When `false`, the **Connection Name** field is rendered read-only, and the server enforces the supplied `name` on submit. Has no effect when `name` is omitted.
-          default: true
-      additionalProperties: false
-    ConnectionListResult:
-      type: object
-      properties:
-        connections:
-          type: array
-          items:
-            $ref: '#/components/schemas/ConnectionListItem'
-          description: A list of connections for the account.
-      additionalProperties: false
     CreateConnectionRequest:
       type: object
       required:
@@ -445,6 +410,41 @@ components:
           type: boolean
           description: (Optional) The default value is `true`. When `true`, any `name` you supply is shown as a suggested default value, and the end user can change it. When `false`, the **Connection Name** field is rendered read-only, and the server enforces the supplied `name` on submit. Has no effect when `name` is omitted.
           default: true
+      additionalProperties: false
+    EditConnectionRequest:
+      type: object
+      required:
+      - redirectURL
+      properties:
+        redirectURL:
+          type: string
+          description: The URL to redirect the customer once the customer has edited the connection through the Connect AI UI. This URL maps to the **Return to** button on the **Edit Connection** page in the Connect AI UI.
+        name:
+          type: string
+          description: (Optional) If provided, the connection name. By default, this is a suggested default that the end user can change on the **Edit Connection** form. Set `editableName` to `false` to lock the field and enforce the supplied value server-side.
+          nullable: true
+        editableName:
+          type: boolean
+          description: (Optional) The default value is `true`. When `true`, any `name` you supply is shown as a suggested default value, and the end user can change it. When `false`, the **Connection Name** field is rendered read-only, and the server enforces the supplied `name` on submit. Has no effect when `name` is omitted.
+          default: true
+      additionalProperties: false
+    DataSourceListResult:
+      type: object
+      properties:
+        dataSources:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataSourceListItem'
+          description: A list of data sources supported by Connect AI Embed.
+      additionalProperties: false
+    ConnectionListResult:
+      type: object
+      properties:
+        connections:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConnectionListItem'
+          description: A list of connections for the account.
       additionalProperties: false
   securitySchemes:
     BearerAuth:

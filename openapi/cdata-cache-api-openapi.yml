@@ -72,6 +72,15 @@ paths:
         description: Production base URL for job endpoints
 components:
   schemas:
+    RedirectURLResponse:
+      type: object
+      required:
+      - redirectURL
+      properties:
+        redirectURL:
+          type: string
+          description: A string containing the CData-hosted connection URL to redirect the user to.
+      additionalProperties: false
     CacheConnectionRequest:
       type: object
       required:
@@ -81,15 +90,6 @@ components:
           type: string
           description: The connection string used to configure the user's PostgreSQL connection. The connection string contains the fields `Server`, `Port`, `User`, `Password`, and `Database`, separated by semicolons. Optionally, you can include `BrowsableSchemas` to limit the schemas.
           example: Server=<Server URL>;Port=5432;User=username;Password=password;Database=cachedb;
-      additionalProperties: false
-    RedirectURLResponse:
-      type: object
-      required:
-      - redirectURL
-      properties:
-        redirectURL:
-          type: string
-          description: A string containing the CData-hosted connection URL to redirect the user to.
       additionalProperties: false
     EditConnectionRequest:
       type: object

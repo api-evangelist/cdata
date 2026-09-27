@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: CData Connect AI Open API
+  title: CData Connect AI OpenAPI API
   version: v1
 servers:
 - url: https://cloud.cdata.com/api/openapi

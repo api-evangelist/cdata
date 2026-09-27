@@ -117,98 +117,121 @@ paths:
                   userType: 0
 components:
   schemas:
-    AuditSearchResult:
+    QuerySearchResult:
       type: object
       properties:
-        events:
+        queries:
           type: array
           items:
-            $ref: '#/components/schemas/AuditEvent'
+            $ref: '#/components/schemas/QueryRecord'
           nullable: true
       additionalProperties: false
-    QuerySearchCriteria:
+    AuditEvent:
       type: object
       properties:
-        endTime:
+        eventType:
+          $ref: '#/components/schemas/AuditEventType'
+          description: The audit event type, such as user login, user PAT created, or permission created.
+        timestamp:
           type: string
           format: date-time
+          description: The timestamp of the audit event.
+        relatedId:
+          type: string
           nullable: true
-          description: The end time of the query.
+          description: The Id of the related entity, if applicable.
+        relatedName:
+          type: string
+          nullable: true
+          description: The name of the related entity, if applicable.
+        relatedType:
+          type: integer
+          format: int32
+          nullable: true
+          description: The type of the related entity, if applicable.
+        targetId:
+          type: string
+          nullable: true
+          description: The Id of the event target, such as the Query Id.
+        targetName:
+          type: string
+          nullable: true
+          description: The target resource name, such as a user's email or a connection name.
+        targetType:
+          type: integer
+          format: int32
+          nullable: true
+          description: The type of the event target, such as a query or connection change.
+        userId:
+          type: string
+          nullable: true
+          description: The Id of user who performed the event.
+        userName:
+          type: string
+          nullable: true
+          description: The name of user who performed the event.
+        userType:
+          type: integer
+          format: int32
+          nullable: true
+          description: The type of user who performed the event.
+      additionalProperties: false
+    QueryRecord:
+      type: object
+      properties:
+        credential:
+          type: string
+          nullable: true
+          description: The user's credential used to execute the query.
+        duration:
+          type: integer
+          format: int64
+          description: The duration of the query in milliseconds.
+        drivers:
+          type: string
+          nullable: true
+          description: The driver used to execute the query.
+        errorCode:
+          type: string
+          nullable: true
+          description: In the case of an error, the error code.
+        errorMessage:
+          type: string
+          nullable: true
+          description: The error message of the query, if applicable.
+        logVerbosity:
+          type: integer
+          format: int32
+          nullable: true
+          description: The verbosity level of the query log.
+        query:
+          type: string
+          nullable: true
+          description: The contents of the query.
+        queryId:
+          type: string
+          format: uuid
+          description: The unique Id of the query.
         queryType:
-          type: array
-          items:
-            $ref: '#/components/schemas/QueryType'
-          nullable: true
-          default: 2
+          $ref: '#/components/schemas/QueryType'
           description: The type of query.
-        startTime:
+        rowsAffected:
+          type: integer
+          format: int64
+          description: The number of rows affected by the query.
+        rowsReturned:
+          type: integer
+          format: int64
+          description: The number of rows returned by the query as a result set.
+        timestamp:
           type: string
           format: date-time
+          description: The timestamp of the query.
+        userAgent:
+          type: string
           nullable: true
-          description: The start time of the query.
+          description: The user agent used to execute the query.
       additionalProperties: false
-    AuditEventType:
-      enum:
-      - 0
-      - 500
-      - 501
-      - 502
-      - 1000
-      - 1001
-      - 1002
-      - 1003
-      - 1004
-      - 1005
-      - 1050
-      - 1051
-      - 1052
-      - 1060
-      - 1061
-      - 1062
-      - 1063
-      - 1070
-      - 1071
-      - 1072
-      - 1073
-      - 1080
-      - 1081
-      - 1082
-      - 1083
-      - 1084
-      - 1085
-      - 1090
-      - 1091
-      - 1092
-      - 1093
-      - 1094
-      - 1100
-      - 1101
-      - 1102
-      - 1103
-      - 1105
-      - 1106
-      - 1107
-      - 1108
-      - 1109
-      - 1110
-      - 1111
-      - 1112
-      - 1113
-      - 1114
-      - 1115
-      - 1116
-      - 1200
-      - 1201
-      - 1202
-      - 1220
-      - 1221
-      - 1222
-      - 1223
-      - 1224
-      - 1230
-      - 1231
-      type: integer
-      format: int32
     QueryType:
       enum:
       - 0
@@ -326,120 +349,97 @@ components:
         | 232 | DropDerivedView |
 
         '
-    QuerySearchResult:
+    QuerySearchCriteria:
       type: object
       properties:
-        queries:
+        endTime:
+          type: string
+          format: date-time
+          nullable: true
+          description: The end time of the query.
+        queryType:
           type: array
           items:
-            $ref: '#/components/schemas/QueryRecord'
+            $ref: '#/components/schemas/QueryType'
           nullable: true
-      additionalProperties: false
-    QueryRecord:
-      type: object
-      properties:
-        credential:
-          type: string
-          nullable: true
-          description: The user's credential used to execute the query.
-        duration:
-          type: integer
-          format: int64
-          description: The duration of the query in milliseconds.
-        drivers:
-          type: string
-          nullable: true
-          description: The driver used to execute the query.
-        errorCode:
-          type: string
-          nullable: true
-          description: In the case of an error, the error code.
-        errorMessage:
-          type: string
-          nullable: true
-          description: The error message of the query, if applicable.
-        logVerbosity:
-          type: integer
-          format: int32
-          nullable: true
-          description: The verbosity level of the query log.
-        query:
-          type: string
-          nullable: true
-          description: The contents of the query.
-        queryId:
-          type: string
-          format: uuid
-          description: The unique Id of the query.
-        queryType:
-          $ref: '#/components/schemas/QueryType'
+          default: 2
           description: The type of query.
-        rowsAffected:
-          type: integer
-          format: int64
-          description: The number of rows affected by the query.
-        rowsReturned:
-          type: integer
-          format: int64
-          description: The number of rows returned by the query as a result set.
-        timestamp:
+        startTime:
           type: string
           format: date-time
-          description: The timestamp of the query.
-        userAgent:
-          type: string
           nullable: true
-          description: The user agent used to execute the query.
+          description: The start time of the query.
       additionalProperties: false
-    AuditEvent:
+    AuditEventType:
+      enum:
+      - 0
+      - 500
+      - 501
+      - 502
+      - 1000
+      - 1001
+      - 1002
+      - 1003
+      - 1004
+      - 1005
+      - 1050
+      - 1051
+      - 1052
+      - 1060
+      - 1061
+      - 1062
+      - 1063
+      - 1070
+      - 1071
+      - 1072
+      - 1073
+      - 1080
+      - 1081
+      - 1082
+      - 1083
+      - 1084
+      - 1085
+      - 1090
+      - 1091
+      - 1092
+      - 1093
+      - 1094
+      - 1100
+      - 1101
+      - 1102
+      - 1103
+      - 1105
+      - 1106
+      - 1107
+      - 1108
+      - 1109
+      - 1110
+      - 1111
+      - 1112
+      - 1113
+      - 1114
+      - 1115
+      - 1116
+      - 1200
+      - 1201
+      - 1202
+      - 1220
+      - 1221
+      - 1222
+      - 1223
+      - 1224
+      - 1230
+      - 1231
+      type: integer
+      format: int32
+    AuditSearchResult:
       type: object
       properties:
-        eventType:
-          $ref: '#/components/schemas/AuditEventType'
-          description: The audit event type, such as user login, user PAT created, or permission created.
-        timestamp:
-          type: string
-          format: date-time
-          description: The timestamp of the audit event.
-        relatedId:
-          type: string
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditEvent'
           nullable: true
-          description: The Id of the related entity, if applicable.
-        relatedName:
-          type: string
-          nullable: true
-          description: The name of the related entity, if applicable.
-        relatedType:
-          type: integer
-          format: int32
-          nullable: true
-          description: The type of the related entity, if applicable.
-        targetId:
-          type: string
-          nullable: true
-          description: The Id of the event target, such as the Query Id.
-        targetName:
-          type: string
-          nullable: true
-          description: The target resource name, such as a user's email or a connection name.
-        targetType:
-          type: integer
-          format: int32
-          nullable: true
-          description: The type of the event target, such as a query or connection change.
-        userId:
-          type: string
-          nullable: true
-          description: The Id of user who performed the event.
-        userName:
-          type: string
-          nullable: true
-          description: The name of user who performed the event.
-        userType:
-          type: integer
-          format: int32
-          nullable: true
-          description: The type of user who performed the event.
       additionalProperties: false
   securitySchemes:
     BearerAuth:

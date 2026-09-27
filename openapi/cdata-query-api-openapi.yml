@@ -80,15 +80,56 @@ components:
         value:
           nullable: true
       additionalProperties: false
-    ErrorDetail:
+    ColumnInfo:
       type: object
       properties:
-        code:
-          $ref: '#/components/schemas/ErrorCode'
-        message:
+        catalogName:
           type: string
           nullable: true
-          description: The error message.
+          description: The name of the catalog containing the column.
+        columnLabel:
+          type: string
+          nullable: true
+          description: The label of the column.
+        columnName:
+          type: string
+          nullable: true
+          description: The name of the column.
+        dataType:
+          $ref: '#/components/schemas/DataType'
+        dataTypeName:
+          type: string
+          nullable: true
+          description: The data type name of the column.
+        length:
+          type: integer
+          format: int32
+          description: The length of the column.
+        nullable:
+          type: boolean
+          description: Whether the column is nullable.
+        ordinal:
+          type: integer
+          format: int32
+          description: The ordinal position of the column.
+        precision:
+          type: integer
+          format: int32
+          nullable: true
+          description: The precision of the column.
+        scale:
+          type: integer
+          format: int32
+          nullable: true
+          description: The scale of the column.
+        schemaName:
+          type: string
+          nullable: true
+          description: The name of the schema containing the column.
+        tableName:
+          type: string
+          nullable: true
+          description: The name of the table containing the column.
       additionalProperties: false
     ExecParameter:
       type: object
@@ -100,87 +141,14 @@ components:
         value:
           nullable: true
       additionalProperties: false
-    DataType:
+    Direction:
       enum:
       - 1
       - 2
-      - 3
       - 4
       - 5
-      - 6
-      - 7
-      - 8
-      - 9
-      - 10
-      - 11
-      - 12
-      - 13
-      - 14
-      - 15
-      - 16
-      - 17
-      - 18
       type: integer
-      description: The parameter's [data type](/en/API/REST-API#data-types).
       format: int32
-    ResultSet:
-      type: object
-      properties:
-        affectedRows:
-          type: integer
-          format: int32
-          description: The number of rows affected by the query, or -1 if not applicable.
-        schema:
-          type: array
-          items:
-            $ref: '#/components/schemas/ColumnInfo'
-          nullable: true
-        rows:
-          type: array
-          items:
-            type: array
-            items: {}
-          nullable: true
-      additionalProperties: false
-    QueryResult:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ResultSet'
-          nullable: true
-        error:
-          $ref: '#/components/schemas/ErrorDetail'
-      additionalProperties: false
-    BatchRequest:
-      required:
-      - query
-      type: object
-      properties:
-        defaultCatalog:
-          type: string
-          nullable: true
-        defaultSchema:
-          type: string
-          nullable: true
-        parameters:
-          type: array
-          items:
-            type: object
-            additionalProperties:
-              $ref: '#/components/schemas/Parameter'
-          nullable: true
-        query:
-          description: The SQL query to execute. Must be a valid SQL query.
-          minLength: 1
-          type: string
-        timeout:
-          maximum: 300
-          minimum: 1
-          type: integer
-          format: int32
-      additionalProperties: false
     ErrorCode:
       enum:
       - 0
@@ -265,57 +233,6 @@ components:
       - 79
       type: integer
       format: int32
-    ColumnInfo:
-      type: object
-      properties:
-        catalogName:
-          type: string
-          nullable: true
-          description: The name of the catalog containing the column.
-        columnLabel:
-          type: string
-          nullable: true
-          description: The label of the column.
-        columnName:
-          type: string
-          nullable: true
-          description: The name of the column.
-        dataType:
-          $ref: '#/components/schemas/DataType'
-        dataTypeName:
-          type: string
-          nullable: true
-          description: The data type name of the column.
-        length:
-          type: integer
-          format: int32
-          description: The length of the column.
-        nullable:
-          type: boolean
-          description: Whether the column is nullable.
-        ordinal:
-          type: integer
-          format: int32
-          description: The ordinal position of the column.
-        precision:
-          type: integer
-          format: int32
-          nullable: true
-          description: The precision of the column.
-        scale:
-          type: integer
-          format: int32
-          nullable: true
-          description: The scale of the column.
-        schemaName:
-          type: string
-          nullable: true
-          description: The name of the schema containing the column.
-        tableName:
-          type: string
-          nullable: true
-          description: The name of the table containing the column.
-      additionalProperties: false
     ExecRequest:
       required:
       - procedure
@@ -342,14 +259,6 @@ components:
           type: integer
           format: int32
       additionalProperties: false
-    Direction:
-      enum:
-      - 1
-      - 2
-      - 4
-      - 5
-      type: integer
-      format: int32
     QueryRequest:
       required:
       - query
@@ -379,6 +288,97 @@ components:
           minimum: 1
           type: integer
           format: int32
+      additionalProperties: false
+    BatchRequest:
+      required:
+      - query
+      type: object
+      properties:
+        defaultCatalog:
+          type: string
+          nullable: true
+        defaultSchema:
+          type: string
+          nullable: true
+        parameters:
+          type: array
+          items:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/Parameter'
+          nullable: true
+        query:
+          description: The SQL query to execute. Must be a valid SQL query.
+          minLength: 1
+          type: string
+        timeout:
+          maximum: 300
+          minimum: 1
+          type: integer
+          format: int32
+      additionalProperties: false
+    ResultSet:
+      type: object
+      properties:
+        affectedRows:
+          type: integer
+          format: int32
+          description: The number of rows affected by the query, or -1 if not applicable.
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColumnInfo'
+          nullable: true
+        rows:
+          type: array
+          items:
+            type: array
+            items: {}
+          nullable: true
+      additionalProperties: false
+    DataType:
+      enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      - 16
+      - 17
+      - 18
+      type: integer
+      description: The parameter's [data type](/en/API/REST-API#data-types).
+      format: int32
+    ErrorDetail:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/ErrorCode'
+        message:
+          type: string
+          nullable: true
+          description: The error message.
+      additionalProperties: false
+    QueryResult:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResultSet'
+          nullable: true
+        error:
+          $ref: '#/components/schemas/ErrorDetail'
       additionalProperties: false
   securitySchemes:
     BearerAuth:

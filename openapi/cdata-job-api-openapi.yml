@@ -296,53 +296,6 @@ components:
             $ref: '#/components/schemas/JobInfo'
           nullable: true
       additionalProperties: false
-    CreateJobRequest:
-      type: object
-      required:
-      - jobType
-      - intervalUnit
-      - intervalValue
-      - logVerbosity
-      - params
-      properties:
-        jobType:
-          type: string
-          description: The type of job (Caching).
-        intervalUnit:
-          type: string
-          description: A string representing the time interval (Hour/Day/Week/Month).
-        intervalValue:
-          type: integer
-          format: int32
-          description: An integer that represents how many of the selected frequency unit the job should wait before running again.
-        logVerbosity:
-          type: integer
-          format: int32
-          description: An enum indicating the level of log verbosity (1-5).
-        enabled:
-          type: boolean
-          description: A Boolean value indicating whether the job is enabled. The default value is true.
-        definedNextRun:
-          type: string
-          format: date-time
-          description: An optional DateTime value that can be used to set the initial start time for the job.
-        params:
-          $ref: '#/components/schemas/JobParams'
-          description: An object containing job-specific parameters.
-      additionalProperties: false
-    MergeKey:
-      type: object
-      properties:
-        colName:
-          type: string
-          description: The name of the column.
-        colType:
-          type: string
-          description: The column's data type (for example, "varchar").
-        isPrimaryKey:
-          type: boolean
-          description: Whether the column is part of the primary key. Set `true` on multiple columns to define a composite primary key.
-      additionalProperties: false
     JobParams:
       type: object
       description: An object containing job parameters. Caching jobs use the fields below; other job types may include additional properties.
@@ -376,31 +329,6 @@ components:
           items:
             $ref: '#/components/schemas/MergeKey'
       additionalProperties: true
-    JobLastRun:
-      type: object
-      description: The last run metrics for the job, including the date and time, duration, status, rows affected, and next run time.
-      properties:
-        dateTime:
-          type: string
-          format: date-time
-          nullable: true
-        duration:
-          type: integer
-          format: int64
-          nullable: true
-        status:
-          type: string
-          nullable: true
-        rowsAffected:
-          type: integer
-          format: int64
-          nullable: true
-        nextRunTime:
-          type: string
-          format: date-time
-          nullable: true
-          description: The date and time the job is scheduled to be run next.
-      additionalProperties: false
     JobInfo:
       type: object
       required:
@@ -454,6 +382,78 @@ components:
           $ref: '#/components/schemas/JobLastRun'
         params:
           $ref: '#/components/schemas/JobParams'
+      additionalProperties: false
+    JobLastRun:
+      type: object
+      description: The last run metrics for the job, including the date and time, duration, status, rows affected, and next run time.
+      properties:
+        dateTime:
+          type: string
+          format: date-time
+          nullable: true
+        duration:
+          type: integer
+          format: int64
+          nullable: true
+        status:
+          type: string
+          nullable: true
+        rowsAffected:
+          type: integer
+          format: int64
+          nullable: true
+        nextRunTime:
+          type: string
+          format: date-time
+          nullable: true
+          description: The date and time the job is scheduled to be run next.
+      additionalProperties: false
+    MergeKey:
+      type: object
+      properties:
+        colName:
+          type: string
+          description: The name of the column.
+        colType:
+          type: string
+          description: The column's data type (for example, "varchar").
+        isPrimaryKey:
+          type: boolean
+          description: Whether the column is part of the primary key. Set `true` on multiple columns to define a composite primary key.
+      additionalProperties: false
+    CreateJobRequest:
+      type: object
+      required:
+      - jobType
+      - intervalUnit
+      - intervalValue
+      - logVerbosity
+      - params
+      properties:
+        jobType:
+          type: string
+          description: The type of job (Caching).
+        intervalUnit:
+          type: string
+          description: A string representing the time interval (Hour/Day/Week/Month).
+        intervalValue:
+          type: integer
+          format: int32
+          description: An integer that represents how many of the selected frequency unit the job should wait before running again.
+        logVerbosity:
+          type: integer
+          format: int32
+          description: An enum indicating the level of log verbosity (1-5).
+        enabled:
+          type: boolean
+          description: A Boolean value indicating whether the job is enabled. The default value is true.
+        definedNextRun:
+          type: string
+          format: date-time
+          description: An optional DateTime value that can be used to set the initial start time for the job.
+        params:
+          $ref: '#/components/schemas/JobParams'
+          description: An object containing job-specific parameters.
       additionalProperties: false
     UpdateJobRequest:
       type: object

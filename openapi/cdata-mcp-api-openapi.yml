@@ -318,6 +318,28 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    JsonRpcResponse:
+      type: object
+      required:
+      - jsonrpc
+      - id
+      properties:
+        jsonrpc:
+          type: string
+          enum:
+          - '2.0'
+          description: JSON-RPC protocol version.
+        result:
+          type: object
+          additionalProperties: true
+          description: Present on success; mutually exclusive with `error`.
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+        id:
+          description: Matches the `id` from the request. Null if the server could not determine the request id.
+          oneOf:
+          - type: string
+          - type: integer
     ToolFilterParseError:
       type: object
       description: Returned when a `tools` or `ops` query parameter is empty or contains an unrecognized value.
@@ -341,28 +363,20 @@ components:
           oneOf:
           - type: string
           - type: integer
-    JsonRpcResponse:
+    JsonRpcError:
       type: object
       required:
-      - jsonrpc
-      - id
+      - code
+      - message
       properties:
-        jsonrpc:
+        code:
+          type: integer
+          description: JSON-RPC error code (for example, `-32600` invalid request, `-32601` method not found, `32602` tool filter parse error).
+        message:
           type: string
-          enum:
-          - '2.0'
-          description: JSON-RPC protocol version.
-        result:
-          type: object
-          additionalProperties: true
-          description: Present on success; mutually exclusive with `error`.
-        error:
-          $ref: '#/components/schemas/JsonRpcError'
-        id:
-          description: Matches the `id` from the request. Null if the server could not determine the request id.
-          oneOf:
-          - type: string
-          - type: integer
+          description: Human-readable error description.
+        data:
+          description: Optional additional error context.
     JsonRpcRequest:
       type: object
       required:
@@ -390,20 +404,6 @@ components:
           oneOf:
           - type: string
           - type: integer
-    JsonRpcError:
-      type: object
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: integer
-          description: JSON-RPC error code (for example, `-32600` invalid request, `-32601` method not found, `32602` tool filter parse error).
-        message:
-          type: string
-          description: Human-readable error description.
-        data:
-          description: Optional additional error context.
   securitySchemes:
     BearerAuth:
       type: http

@@ -536,8 +536,6 @@ apis:
   humanURL: https://docs.cloud.cdata.com/en/API/MCP
   baseURL: https://mcp.cloud.cdata.com
   tags:
-  - OpenAPI
-  tags_raw:
   - Open API
   properties:
   - type: OpenAPI
@@ -558,6 +556,7 @@ tags:
 - Database
 - NoSQL
 - SQL
+- A2A
 tags_raw:
 - Data
 - Data Access
@@ -565,6 +564,7 @@ tags_raw:
 - Databases
 - NoSQL
 - SQL
+- A2A
 kind: contract
 deliveryModel:
   model: saas
@@ -1076,3 +1076,10 @@ x-enrichment:
   status: enriched
   artifacts_added: 50
   pass: local-v3
+x-a2a:
+  verified: true
+  probed: '2026-09-26'
+  url: "https://docs.cloud.cdata.com/.well-known/agent-card.json"
+  grade: "conformant"
+  protocol_version: "0.3"
+  control: 404

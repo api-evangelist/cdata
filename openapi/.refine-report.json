@@ -24,7 +24,7 @@
     "cdata-query-api-openapi.yml"
   ],
   "archived": [
-    "deleted 2 superseded output(s) from the previous generation"
+    "deleted 1 superseded output(s) from the previous generation"
   ],
   "errors": [],
   "warnings": [],
@@ -48,8 +48,8 @@
     "cdata-rest-api-embedded-openapi.yml: declared missing tag: Log",
     "cdata-rest-api-embedded-openapi.yml: declared missing tag: Metadata",
     "cdata-rest-api-embedded-openapi.yml: declared missing tag: Query",
-    "superseded outputs removed: cdata-o-data-api-openapi.yml, cdata-open-api-api-openapi.yml",
-    "apis.yml register: written (+2 apis, 14 total)"
+    "superseded outputs removed: cdata-open-api-api-openapi.yml",
+    "apis.yml register: written (+1 apis, 14 total)"
   ],
   "skipped": [
     "_original/cdata-rest-api-openapi.yml: archived document superseded by a larger archived document",
@@ -65,7 +65,7 @@
     "cdata-log-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "cdata-mcp-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "cdata-metadata-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "cdata-o-data-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cdata-odata-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "cdata-open-api-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "cdata-query-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "cdata-service-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
