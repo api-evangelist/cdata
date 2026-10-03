@@ -72,13 +72,43 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    Parameter:
+    ErrorDetail:
       type: object
       properties:
-        dataType:
-          $ref: '#/components/schemas/DataType'
-        value:
+        code:
+          $ref: '#/components/schemas/ErrorCode'
+        message:
+          type: string
           nullable: true
+          description: The error message.
+      additionalProperties: false
+    BatchRequest:
+      required:
+      - query
+      type: object
+      properties:
+        defaultCatalog:
+          type: string
+          nullable: true
+        defaultSchema:
+          type: string
+          nullable: true
+        parameters:
+          type: array
+          items:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/Parameter'
+          nullable: true
+        query:
+          description: The SQL query to execute. Must be a valid SQL query.
+          minLength: 1
+          type: string
+        timeout:
+          maximum: 300
+          minimum: 1
+          type: integer
+          format: int32
       additionalProperties: false
     ColumnInfo:
       type: object
@@ -131,24 +161,25 @@ components:
           nullable: true
           description: The name of the table containing the column.
       additionalProperties: false
-    ExecParameter:
+    ResultSet:
       type: object
       properties:
-        direction:
-          $ref: '#/components/schemas/Direction'
-        dataType:
-          $ref: '#/components/schemas/DataType'
-        value:
+        affectedRows:
+          type: integer
+          format: int32
+          description: The number of rows affected by the query, or -1 if not applicable.
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColumnInfo'
+          nullable: true
+        rows:
+          type: array
+          items:
+            type: array
+            items: {}
           nullable: true
       additionalProperties: false
-    Direction:
-      enum:
-      - 1
-      - 2
-      - 4
-      - 5
-      type: integer
-      format: int32
     ErrorCode:
       enum:
       - 0
@@ -233,32 +264,6 @@ components:
       - 79
       type: integer
       format: int32
-    ExecRequest:
-      required:
-      - procedure
-      type: object
-      properties:
-        defaultCatalog:
-          type: string
-          nullable: true
-        defaultSchema:
-          type: string
-          nullable: true
-        parameters:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/ExecParameter'
-          nullable: true
-        procedure:
-          description: The name of the stored procedure to execute. Must be a valid stored procedure name.
-          minLength: 1
-          type: string
-        timeout:
-          maximum: 300
-          minimum: 1
-          type: integer
-          format: int32
-      additionalProperties: false
     QueryRequest:
       required:
       - query
@@ -289,9 +294,17 @@ components:
           type: integer
           format: int32
       additionalProperties: false
-    BatchRequest:
+    Direction:
+      enum:
+      - 1
+      - 2
+      - 4
+      - 5
+      type: integer
+      format: int32
+    ExecRequest:
       required:
-      - query
+      - procedure
       type: object
       properties:
         defaultCatalog:
@@ -301,14 +314,12 @@ components:
           type: string
           nullable: true
         parameters:
-          type: array
-          items:
-            type: object
-            additionalProperties:
-              $ref: '#/components/schemas/Parameter'
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ExecParameter'
           nullable: true
-        query:
-          description: The SQL query to execute. Must be a valid SQL query.
+        procedure:
+          description: The name of the stored procedure to execute. Must be a valid stored procedure name.
           minLength: 1
           type: string
         timeout:
@@ -316,25 +327,6 @@ components:
           minimum: 1
           type: integer
           format: int32
-      additionalProperties: false
-    ResultSet:
-      type: object
-      properties:
-        affectedRows:
-          type: integer
-          format: int32
-          description: The number of rows affected by the query, or -1 if not applicable.
-        schema:
-          type: array
-          items:
-            $ref: '#/components/schemas/ColumnInfo'
-          nullable: true
-        rows:
-          type: array
-          items:
-            type: array
-            items: {}
-          nullable: true
       additionalProperties: false
     DataType:
       enum:
@@ -359,16 +351,6 @@ components:
       type: integer
       description: The parameter's [data type](/en/API/REST-API#data-types).
       format: int32
-    ErrorDetail:
-      type: object
-      properties:
-        code:
-          $ref: '#/components/schemas/ErrorCode'
-        message:
-          type: string
-          nullable: true
-          description: The error message.
-      additionalProperties: false
     QueryResult:
       type: object
       properties:
@@ -379,6 +361,24 @@ components:
           nullable: true
         error:
           $ref: '#/components/schemas/ErrorDetail'
+      additionalProperties: false
+    ExecParameter:
+      type: object
+      properties:
+        direction:
+          $ref: '#/components/schemas/Direction'
+        dataType:
+          $ref: '#/components/schemas/DataType'
+        value:
+          nullable: true
+      additionalProperties: false
+    Parameter:
+      type: object
+      properties:
+        dataType:
+          $ref: '#/components/schemas/DataType'
+        value:
+          nullable: true
       additionalProperties: false
   securitySchemes:
     BearerAuth:

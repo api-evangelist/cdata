@@ -318,6 +318,47 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    JsonRpcRequest:
+      type: object
+      required:
+      - jsonrpc
+      - method
+      properties:
+        jsonrpc:
+          type: string
+          enum:
+          - '2.0'
+          description: JSON-RPC protocol version. Must be `"2.0"`.
+        method:
+          type: string
+          description: MCP method name (for example, `initialize`, `tools/list`, `tools/call`).
+        params:
+          type: object
+          additionalProperties: true
+          description: Method-specific parameters. May be omitted for parameterless methods.
+        id:
+          description: 'Request identifier echoed in the response. Use a string or integer.
+
+            Omit entirely to send a notification (no response will be returned).
+
+            '
+          oneOf:
+          - type: string
+          - type: integer
+    JsonRpcError:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: integer
+          description: JSON-RPC error code (for example, `-32600` invalid request, `-32601` method not found, `32602` tool filter parse error).
+        message:
+          type: string
+          description: Human-readable error description.
+        data:
+          description: Optional additional error context.
     JsonRpcResponse:
       type: object
       required:
@@ -360,47 +401,6 @@ components:
               description: Human-readable description of the parse failure.
               example: 'Invalid value for parameter ''tools'': ''unknown'''
         id:
-          oneOf:
-          - type: string
-          - type: integer
-    JsonRpcError:
-      type: object
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: integer
-          description: JSON-RPC error code (for example, `-32600` invalid request, `-32601` method not found, `32602` tool filter parse error).
-        message:
-          type: string
-          description: Human-readable error description.
-        data:
-          description: Optional additional error context.
-    JsonRpcRequest:
-      type: object
-      required:
-      - jsonrpc
-      - method
-      properties:
-        jsonrpc:
-          type: string
-          enum:
-          - '2.0'
-          description: JSON-RPC protocol version. Must be `"2.0"`.
-        method:
-          type: string
-          description: MCP method name (for example, `initialize`, `tools/list`, `tools/call`).
-        params:
-          type: object
-          additionalProperties: true
-          description: Method-specific parameters. May be omitted for parameterless methods.
-        id:
-          description: 'Request identifier echoed in the response. Use a string or integer.
-
-            Omit entirely to send a notification (no response will be returned).
-
-            '
           oneOf:
           - type: string
           - type: integer

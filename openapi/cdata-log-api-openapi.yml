@@ -117,6 +117,15 @@ paths:
                   userType: 0
 components:
   schemas:
+    AuditSearchResult:
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditEvent'
+          nullable: true
+      additionalProperties: false
     QuerySearchResult:
       type: object
       properties:
@@ -125,56 +134,6 @@ components:
           items:
             $ref: '#/components/schemas/QueryRecord'
           nullable: true
-      additionalProperties: false
-    AuditEvent:
-      type: object
-      properties:
-        eventType:
-          $ref: '#/components/schemas/AuditEventType'
-          description: The audit event type, such as user login, user PAT created, or permission created.
-        timestamp:
-          type: string
-          format: date-time
-          description: The timestamp of the audit event.
-        relatedId:
-          type: string
-          nullable: true
-          description: The Id of the related entity, if applicable.
-        relatedName:
-          type: string
-          nullable: true
-          description: The name of the related entity, if applicable.
-        relatedType:
-          type: integer
-          format: int32
-          nullable: true
-          description: The type of the related entity, if applicable.
-        targetId:
-          type: string
-          nullable: true
-          description: The Id of the event target, such as the Query Id.
-        targetName:
-          type: string
-          nullable: true
-          description: The target resource name, such as a user's email or a connection name.
-        targetType:
-          type: integer
-          format: int32
-          nullable: true
-          description: The type of the event target, such as a query or connection change.
-        userId:
-          type: string
-          nullable: true
-          description: The Id of user who performed the event.
-        userName:
-          type: string
-          nullable: true
-          description: The name of user who performed the event.
-        userType:
-          type: integer
-          format: int32
-          nullable: true
-          description: The type of user who performed the event.
       additionalProperties: false
     QueryRecord:
       type: object
@@ -349,27 +308,6 @@ components:
         | 232 | DropDerivedView |
 
         '
-    QuerySearchCriteria:
-      type: object
-      properties:
-        endTime:
-          type: string
-          format: date-time
-          nullable: true
-          description: The end time of the query.
-        queryType:
-          type: array
-          items:
-            $ref: '#/components/schemas/QueryType'
-          nullable: true
-          default: 2
-          description: The type of query.
-        startTime:
-          type: string
-          format: date-time
-          nullable: true
-          description: The start time of the query.
-      additionalProperties: false
     AuditEventType:
       enum:
       - 0
@@ -432,14 +370,76 @@ components:
       - 1231
       type: integer
       format: int32
-    AuditSearchResult:
+    AuditEvent:
       type: object
       properties:
-        events:
+        eventType:
+          $ref: '#/components/schemas/AuditEventType'
+          description: The audit event type, such as user login, user PAT created, or permission created.
+        timestamp:
+          type: string
+          format: date-time
+          description: The timestamp of the audit event.
+        relatedId:
+          type: string
+          nullable: true
+          description: The Id of the related entity, if applicable.
+        relatedName:
+          type: string
+          nullable: true
+          description: The name of the related entity, if applicable.
+        relatedType:
+          type: integer
+          format: int32
+          nullable: true
+          description: The type of the related entity, if applicable.
+        targetId:
+          type: string
+          nullable: true
+          description: The Id of the event target, such as the Query Id.
+        targetName:
+          type: string
+          nullable: true
+          description: The target resource name, such as a user's email or a connection name.
+        targetType:
+          type: integer
+          format: int32
+          nullable: true
+          description: The type of the event target, such as a query or connection change.
+        userId:
+          type: string
+          nullable: true
+          description: The Id of user who performed the event.
+        userName:
+          type: string
+          nullable: true
+          description: The name of user who performed the event.
+        userType:
+          type: integer
+          format: int32
+          nullable: true
+          description: The type of user who performed the event.
+      additionalProperties: false
+    QuerySearchCriteria:
+      type: object
+      properties:
+        endTime:
+          type: string
+          format: date-time
+          nullable: true
+          description: The end time of the query.
+        queryType:
           type: array
           items:
-            $ref: '#/components/schemas/AuditEvent'
+            $ref: '#/components/schemas/QueryType'
           nullable: true
+          default: 2
+          description: The type of query.
+        startTime:
+          type: string
+          format: date-time
+          nullable: true
+          description: The start time of the query.
       additionalProperties: false
   securitySchemes:
     BearerAuth:

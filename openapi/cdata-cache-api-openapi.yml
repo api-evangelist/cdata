@@ -72,25 +72,6 @@ paths:
         description: Production base URL for job endpoints
 components:
   schemas:
-    RedirectURLResponse:
-      type: object
-      required:
-      - redirectURL
-      properties:
-        redirectURL:
-          type: string
-          description: A string containing the CData-hosted connection URL to redirect the user to.
-      additionalProperties: false
-    CacheConnectionRequest:
-      type: object
-      required:
-      - connectionString
-      properties:
-        connectionString:
-          type: string
-          description: The connection string used to configure the user's PostgreSQL connection. The connection string contains the fields `Server`, `Port`, `User`, `Password`, and `Database`, separated by semicolons. Optionally, you can include `BrowsableSchemas` to limit the schemas.
-          example: Server=<Server URL>;Port=5432;User=username;Password=password;Database=cachedb;
-      additionalProperties: false
     EditConnectionRequest:
       type: object
       required:
@@ -107,6 +88,25 @@ components:
           type: boolean
           description: (Optional) The default value is `true`. When `true`, any `name` you supply is shown as a suggested default value, and the end user can change it. When `false`, the **Connection Name** field is rendered read-only, and the server enforces the supplied `name` on submit. Has no effect when `name` is omitted.
           default: true
+      additionalProperties: false
+    CacheConnectionRequest:
+      type: object
+      required:
+      - connectionString
+      properties:
+        connectionString:
+          type: string
+          description: The connection string used to configure the user's PostgreSQL connection. The connection string contains the fields `Server`, `Port`, `User`, `Password`, and `Database`, separated by semicolons. Optionally, you can include `BrowsableSchemas` to limit the schemas.
+          example: Server=<Server URL>;Port=5432;User=username;Password=password;Database=cachedb;
+      additionalProperties: false
+    RedirectURLResponse:
+      type: object
+      required:
+      - redirectURL
+      properties:
+        redirectURL:
+          type: string
+          description: A string containing the CData-hosted connection URL to redirect the user to.
       additionalProperties: false
   securitySchemes:
     BearerAuth:

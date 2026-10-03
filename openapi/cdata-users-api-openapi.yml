@@ -882,21 +882,28 @@ paths:
                       message: Cannot remove the last workspace_admin from this workspace.
 components:
   schemas:
-    UserPermissionCollection:
-      allOf:
-      - $ref: '#/components/schemas/CollectionEnvelope'
-      - type: object
-        properties:
-          items:
-            type: array
-            items:
-              $ref: '#/components/schemas/UserPermissionAssignment'
-    UserRoleItem:
+    CollectionEnvelope:
       type: object
-      description: 'A role held by a user, with full provenance. Returned by GET /users/{id}/roles.
-
-        '
       properties:
+        limit:
+          type: integer
+          description: Maximum number of items per page as requested.
+        next_cursor:
+          type: string
+          nullable: true
+          description: Pagination cursor for the next page. null when no further pages exist. Total count is not returned.
+    UserRoleAssignment:
+      type: object
+      description: A direct role assignment made via POST /users/{id}/roles.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Assignment identifier.
+        user_id:
+          type: string
+          format: uuid
+          description: The user this role is assigned to.
         role_id:
           type: string
           format: uuid
@@ -908,30 +915,73 @@ components:
           type: string
           enum:
           - system_role
-          - access_role
-          description: The type of the role.
+          description: Always `system_role` (admin) for assignments made via this endpoint.
         grant_type:
           type: string
           enum:
           - direct
-          - group_derived
-          - workspace_derived
-          description: 'How this role was conferred. `direct`: assigned explicitly. `group_derived`: inherited via a group membership. `workspace_derived`: inherited via workspace configuration (placeholder term; exact name is subject to change).
-
-            '
-        group_id:
-          type: string
-          format: uuid
-          nullable: true
-          description: 'Set for `grant_type: group_derived`: the group that conferred this role. null for direct grants.'
-        group_name:
-          type: string
-          nullable: true
-          description: Group display name. null for direct grants.
+          description: Always `direct` for assignments made via this endpoint.
         granted_at:
           type: string
           format: date-time
           description: ISO 8601 UTC.
+        granted_by:
+          type: string
+          format: uuid
+          description: The user who granted the role.
+    CreateUserRequest:
+      type: object
+      required:
+      - email
+      - first_name
+      properties:
+        email:
+          type: string
+          format: email
+          description: Must be globally unique across all Connect AI orgs.
+        first_name:
+          type: string
+          description: The user's first name.
+        last_name:
+          type: string
+          nullable: true
+          description: The user's last name. Omit for users with a single name.
+        external_id:
+          type: string
+          description: 'Idempotency key supplied by the calling system (for example, an HR system employee ID or Terraform resource ID). A second POST with the same key returns the existing user instead of creating a duplicate. Connect AI does not generate this value; the caller provides it.
+
+            '
+    UserRoleCollection:
+      allOf:
+      - $ref: '#/components/schemas/CollectionEnvelope'
+      - type: object
+        properties:
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/UserRoleItem'
+    BatchCreateUsersRequest:
+      type: object
+      required:
+      - users
+      properties:
+        users:
+          type: array
+          maxItems: 500
+          description: 'Up to 500 user records. Each record supports all fields from `POST /users`. If a record includes an `external_id` that matches an existing user, that user is updated rather than created.
+
+            '
+          items:
+            $ref: '#/components/schemas/CreateUserRequest'
+    UserPermissionCollection:
+      allOf:
+      - $ref: '#/components/schemas/CollectionEnvelope'
+      - type: object
+        properties:
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/UserPermissionAssignment'
     UserPermissionAssignment:
       type: object
       properties:
@@ -970,131 +1020,6 @@ components:
           type: string
           format: uuid
           description: The user who assigned this permission.
-    CreateUserRequest:
-      type: object
-      required:
-      - email
-      - first_name
-      properties:
-        email:
-          type: string
-          format: email
-          description: Must be globally unique across all Connect AI orgs.
-        first_name:
-          type: string
-          description: The user's first name.
-        last_name:
-          type: string
-          nullable: true
-          description: The user's last name. Omit for users with a single name.
-        external_id:
-          type: string
-          description: 'Idempotency key supplied by the calling system (for example, an HR system employee ID or Terraform resource ID). A second POST with the same key returns the existing user instead of creating a duplicate. Connect AI does not generate this value; the caller provides it.
-
-            '
-    UserWorkspaceRoleCollection:
-      allOf:
-      - $ref: '#/components/schemas/CollectionEnvelope'
-      - type: object
-        properties:
-          items:
-            type: array
-            items:
-              $ref: '#/components/schemas/UserWorkspaceRoleAssignment'
-    BatchCreateUsersRequest:
-      type: object
-      required:
-      - users
-      properties:
-        users:
-          type: array
-          maxItems: 500
-          description: 'Up to 500 user records. Each record supports all fields from `POST /users`. If a record includes an `external_id` that matches an existing user, that user is updated rather than created.
-
-            '
-          items:
-            $ref: '#/components/schemas/CreateUserRequest'
-    UpdateUserRequest:
-      type: object
-      properties:
-        first_name:
-          type: string
-          description: 'The user''s first name. Not accepted for `scim_managed: true` users; name fields are owned by the IdP.
-
-            '
-        last_name:
-          type: string
-          nullable: true
-          description: 'The user''s last name. null for users with a single name. Not accepted for `scim_managed: true` users.
-
-            '
-        status:
-          type: string
-          enum:
-          - active
-          - deactivated
-          description: Lifecycle state. Deactivating immediately revokes all PATs.
-    UserDetail:
-      allOf:
-      - $ref: '#/components/schemas/User'
-      - type: object
-        properties:
-          permissions:
-            type: array
-            items:
-              $ref: '#/components/schemas/UserPermissionAssignment'
-            description: Direct permissions assigned to this user.
-    User:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: User identifier.
-        email:
-          type: string
-          format: email
-          description: The email address of the user.
-        first_name:
-          type: string
-          description: The user's first name.
-        last_name:
-          type: string
-          nullable: true
-          description: The user's last name.
-        status:
-          type: string
-          enum:
-          - active
-          - invited
-          - deactivated
-          description: Current lifecycle state of the user.
-        scim_managed:
-          type: boolean
-          description: '`false` for API-created users. `true` for SCIM-provisioned users.'
-        external_id:
-          type: string
-          nullable: true
-          description: Idempotency key supplied by the calling system.
-        created_at:
-          type: string
-          format: date-time
-          description: ISO 8601 UTC.
-        created_by:
-          type: string
-          format: uuid
-          nullable: true
-          description: User ID of the creator. null for SCIM-provisioned users.
-    CollectionEnvelope:
-      type: object
-      properties:
-        limit:
-          type: integer
-          description: Maximum number of items per page as requested.
-        next_cursor:
-          type: string
-          nullable: true
-          description: Pagination cursor for the next page. null when no further pages exist. Total count is not returned.
     UserWorkspaceRoleAssignment:
       type: object
       description: A workspace-scoped role assignment for a user.
@@ -1132,93 +1057,16 @@ components:
           type: string
           format: uuid
           description: The user who granted the workspace role.
-    UserRoleAssignment:
-      type: object
-      description: A direct role assignment made via POST /users/{id}/roles.
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Assignment identifier.
-        user_id:
-          type: string
-          format: uuid
-          description: The user this role is assigned to.
-        role_id:
-          type: string
-          format: uuid
-          description: The role identifier.
-        role_name:
-          type: string
-          description: The name of the role.
-        role_type:
-          type: string
-          enum:
-          - system_role
-          description: Always `system_role` (admin) for assignments made via this endpoint.
-        grant_type:
-          type: string
-          enum:
-          - direct
-          description: Always `direct` for assignments made via this endpoint.
-        granted_at:
-          type: string
-          format: date-time
-          description: ISO 8601 UTC.
-        granted_by:
-          type: string
-          format: uuid
-          description: The user who granted the role.
-    UserCollection:
+    UserDetail:
       allOf:
-      - $ref: '#/components/schemas/CollectionEnvelope'
+      - $ref: '#/components/schemas/User'
       - type: object
         properties:
-          items:
+          permissions:
             type: array
             items:
-              $ref: '#/components/schemas/User'
-    AssignPermissionRequest:
-      type: object
-      required:
-      - resource
-      - operations
-      - type
-      properties:
-        resource:
-          type: string
-          description: 'The name of the specific connection instance this permission applies to. This is the connection name as defined in Connect AI, not the connector type.
-
-            '
-        operations:
-          type: array
-          items:
-            type: string
-            enum:
-            - create
-            - read
-            - update
-            - delete
-            - execute
-          description: One or more operations to permit on the resource.
-        type:
-          type: string
-          enum:
-          - connection
-          description: Always `connection`. Classifies what category of resource the permission governs.
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          description: Error details.
-          properties:
-            code:
-              type: string
-              description: SCREAMING_SNAKE_CASE error code.
-            message:
-              type: string
-              description: Human-readable error description.
+              $ref: '#/components/schemas/UserPermissionAssignment'
+            description: Direct permissions assigned to this user.
     BatchCreateUsersResponse:
       type: object
       properties:
@@ -1291,6 +1139,98 @@ components:
             failed:
               type: integer
               description: Number of records that failed.
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          description: Error details.
+          properties:
+            code:
+              type: string
+              description: SCREAMING_SNAKE_CASE error code.
+            message:
+              type: string
+              description: Human-readable error description.
+    UserRoleItem:
+      type: object
+      description: 'A role held by a user, with full provenance. Returned by GET /users/{id}/roles.
+
+        '
+      properties:
+        role_id:
+          type: string
+          format: uuid
+          description: The role identifier.
+        role_name:
+          type: string
+          description: The name of the role.
+        role_type:
+          type: string
+          enum:
+          - system_role
+          - access_role
+          description: The type of the role.
+        grant_type:
+          type: string
+          enum:
+          - direct
+          - group_derived
+          - workspace_derived
+          description: 'How this role was conferred. `direct`: assigned explicitly. `group_derived`: inherited via a group membership. `workspace_derived`: inherited via workspace configuration (placeholder term; exact name is subject to change).
+
+            '
+        group_id:
+          type: string
+          format: uuid
+          nullable: true
+          description: 'Set for `grant_type: group_derived`: the group that conferred this role. null for direct grants.'
+        group_name:
+          type: string
+          nullable: true
+          description: Group display name. null for direct grants.
+        granted_at:
+          type: string
+          format: date-time
+          description: ISO 8601 UTC.
+    UserWorkspaceRoleCollection:
+      allOf:
+      - $ref: '#/components/schemas/CollectionEnvelope'
+      - type: object
+        properties:
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/UserWorkspaceRoleAssignment'
+    UpdateUserRequest:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: 'The user''s first name. Not accepted for `scim_managed: true` users; name fields are owned by the IdP.
+
+            '
+        last_name:
+          type: string
+          nullable: true
+          description: 'The user''s last name. null for users with a single name. Not accepted for `scim_managed: true` users.
+
+            '
+        status:
+          type: string
+          enum:
+          - active
+          - deactivated
+          description: Lifecycle state. Deactivating immediately revokes all PATs.
+    UserCollection:
+      allOf:
+      - $ref: '#/components/schemas/CollectionEnvelope'
+      - type: object
+        properties:
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/User'
     AssignRoleRequest:
       type: object
       required:
@@ -1300,15 +1240,75 @@ components:
           type: string
           format: uuid
           description: Role to assign. Must exist in the organization.
-    UserRoleCollection:
-      allOf:
-      - $ref: '#/components/schemas/CollectionEnvelope'
-      - type: object
-        properties:
+    AssignPermissionRequest:
+      type: object
+      required:
+      - resource
+      - operations
+      - type
+      properties:
+        resource:
+          type: string
+          description: 'The name of the specific connection instance this permission applies to. This is the connection name as defined in Connect AI, not the connector type.
+
+            '
+        operations:
+          type: array
           items:
-            type: array
-            items:
-              $ref: '#/components/schemas/UserRoleItem'
+            type: string
+            enum:
+            - create
+            - read
+            - update
+            - delete
+            - execute
+          description: One or more operations to permit on the resource.
+        type:
+          type: string
+          enum:
+          - connection
+          description: Always `connection`. Classifies what category of resource the permission governs.
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: User identifier.
+        email:
+          type: string
+          format: email
+          description: The email address of the user.
+        first_name:
+          type: string
+          description: The user's first name.
+        last_name:
+          type: string
+          nullable: true
+          description: The user's last name.
+        status:
+          type: string
+          enum:
+          - active
+          - invited
+          - deactivated
+          description: Current lifecycle state of the user.
+        scim_managed:
+          type: boolean
+          description: '`false` for API-created users. `true` for SCIM-provisioned users.'
+        external_id:
+          type: string
+          nullable: true
+          description: Idempotency key supplied by the calling system.
+        created_at:
+          type: string
+          format: date-time
+          description: ISO 8601 UTC.
+        created_by:
+          type: string
+          format: uuid
+          nullable: true
+          description: User ID of the creator. null for SCIM-provisioned users.
   responses:
     ValidationError:
       description: Bad Request

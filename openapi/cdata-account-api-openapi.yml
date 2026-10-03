@@ -144,6 +144,18 @@ paths:
           description: OK
 components:
   schemas:
+    CreateAccountRequest:
+      type: object
+      properties:
+        externalId:
+          type: string
+          description: (Optional) The external Id of the account to be created.
+          nullable: true
+        accountName:
+          type: string
+          description: (Optional) The display name of the account to be created.
+          nullable: true
+      additionalProperties: false
     AccountInfo:
       type: object
       required:
@@ -166,13 +178,16 @@ components:
           format: date-time
           description: The time this account was created.
       additionalProperties: false
-    AccountListResult:
+    UpdateAccountRequest:
       type: object
       properties:
-        accounts:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountInfo'
+        externalId:
+          type: string
+          description: (Optional) The new external Id for the sub-account.
+          nullable: true
+        accountName:
+          type: string
+          description: (Optional) The new display name for the sub-account.
           nullable: true
       additionalProperties: false
     CreateAccountResult:
@@ -193,28 +208,13 @@ components:
           format: date-time
           description: The time when the account was created.
       additionalProperties: false
-    UpdateAccountRequest:
+    AccountListResult:
       type: object
       properties:
-        externalId:
-          type: string
-          description: (Optional) The new external Id for the sub-account.
-          nullable: true
-        accountName:
-          type: string
-          description: (Optional) The new display name for the sub-account.
-          nullable: true
-      additionalProperties: false
-    CreateAccountRequest:
-      type: object
-      properties:
-        externalId:
-          type: string
-          description: (Optional) The external Id of the account to be created.
-          nullable: true
-        accountName:
-          type: string
-          description: (Optional) The display name of the account to be created.
+        accounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountInfo'
           nullable: true
       additionalProperties: false
   securitySchemes:
