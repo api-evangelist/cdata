@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cdata/main/json-schema/cdata-json-rpc-request-schema.json",
+  "title": "JsonRpcRequest",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cdata-mcp-api-openapi.yml#/components/schemas/JsonRpcRequest",
+  "type": "object",
+  "required": [
+    "jsonrpc",
+    "method"
+  ],
+  "properties": {
+    "jsonrpc": {
+      "type": "string",
+      "enum": [
+        "2.0"
+      ],
+      "description": "JSON-RPC protocol version. Must be `\"2.0\"`."
+    },
+    "method": {
+      "type": "string",
+      "description": "MCP method name (for example, `initialize`, `tools/list`, `tools/call`)."
+    },
+    "params": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Method-specific parameters. May be omitted for parameterless methods."
+    },
+    "id": {
+      "description": "Request identifier echoed in the response. Use a string or integer.\nOmit entirely to send a notification (no response will be returned).\n",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "integer"
+        }
+      ]
+    }
+  }
+}

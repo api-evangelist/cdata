@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cdata/main/json-schema/cdata-edit-connection-request-schema.json",
+  "title": "EditConnectionRequest",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cdata-cache-api-openapi.yml#/components/schemas/EditConnectionRequest",
+  "type": "object",
+  "required": [
+    "redirectURL"
+  ],
+  "properties": {
+    "redirectURL": {
+      "type": "string",
+      "description": "The URL to redirect the customer once the customer has edited the connection through the Connect AI UI. This URL maps to the **Return to** button on the **Edit Connection** page in the Connect AI UI."
+    },
+    "name": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "(Optional) If provided, the connection name. By default, this is a suggested default that the end user can change on the **Edit Connection** form. Set `editableName` to `false` to lock the field and enforce the supplied value server-side."
+    },
+    "editableName": {
+      "type": "boolean",
+      "description": "(Optional) The default value is `true`. When `true`, any `name` you supply is shown as a suggested default value, and the end user can change it. When `false`, the **Connection Name** field is rendered read-only, and the server enforces the supplied `name` on submit. Has no effect when `name` is omitted.",
+      "default": true
+    }
+  },
+  "additionalProperties": false
+}

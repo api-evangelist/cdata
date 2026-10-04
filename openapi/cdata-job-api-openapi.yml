@@ -287,74 +287,7 @@ paths:
         description: Production base URL for job endpoints
 components:
   schemas:
-    JobParams:
-      type: object
-      description: An object containing job parameters. Caching jobs use the fields below; other job types may include additional properties.
-      properties:
-        sourceConnection:
-          type: string
-          format: uuid
-          description: The Id of the source connection.
-        sourceConnectionName:
-          type: string
-          description: The name of the source connection. Returned in responses.
-        sourceName:
-          type: string
-          description: The source driver name (for example, "Asana", "MailChimp").
-        sourceSchema:
-          type: string
-          description: The schema in the source connection that contains the table being cached.
-        sourceTable:
-          type: string
-          description: The name of the table in the source connection to cache.
-        timeCheckColumn:
-          type: string
-          description: The column used to detect changes for incremental caching. Leave empty to refresh the full table.
-        autoTruncateStrings:
-          type: string
-          description: Whether to truncate string values that exceed the destination column length. Accepted as a string by the API ("true" or "false").
-          example: 'false'
-        mergeKeys:
-          type: array
-          description: 'The columns used to match source rows against cached rows during a merge. Mark each column that is part of the primary key with `isPrimaryKey: true`; supplying more than one such entry defines a composite primary key.'
-          items:
-            $ref: '#/components/schemas/MergeKey'
-      additionalProperties: true
-    JobLastRun:
-      type: object
-      description: The last run metrics for the job, including the date and time, duration, status, rows affected, and next run time.
-      properties:
-        dateTime:
-          type: string
-          format: date-time
-          nullable: true
-        duration:
-          type: integer
-          format: int64
-          nullable: true
-        status:
-          type: string
-          nullable: true
-        rowsAffected:
-          type: integer
-          format: int64
-          nullable: true
-        nextRunTime:
-          type: string
-          format: date-time
-          nullable: true
-          description: The date and time the job is scheduled to be run next.
-      additionalProperties: false
-    JobListResult:
-      type: object
-      properties:
-        jobs:
-          type: array
-          items:
-            $ref: '#/components/schemas/JobInfo'
-          nullable: true
-      additionalProperties: false
-    CreateJobRequest:
+    UpdateJobRequest:
       type: object
       required:
       - jobType
@@ -388,20 +321,7 @@ components:
           $ref: '#/components/schemas/JobParams'
           description: An object containing job-specific parameters.
       additionalProperties: false
-    MergeKey:
-      type: object
-      properties:
-        colName:
-          type: string
-          description: The name of the column.
-        colType:
-          type: string
-          description: The column's data type (for example, "varchar").
-        isPrimaryKey:
-          type: boolean
-          description: Whether the column is part of the primary key. Set `true` on multiple columns to define a composite primary key.
-      additionalProperties: false
-    UpdateJobRequest:
+    CreateJobRequest:
       type: object
       required:
       - jobType
@@ -488,6 +408,86 @@ components:
           $ref: '#/components/schemas/JobLastRun'
         params:
           $ref: '#/components/schemas/JobParams'
+      additionalProperties: false
+    JobLastRun:
+      type: object
+      description: The last run metrics for the job, including the date and time, duration, status, rows affected, and next run time.
+      properties:
+        dateTime:
+          type: string
+          format: date-time
+          nullable: true
+        duration:
+          type: integer
+          format: int64
+          nullable: true
+        status:
+          type: string
+          nullable: true
+        rowsAffected:
+          type: integer
+          format: int64
+          nullable: true
+        nextRunTime:
+          type: string
+          format: date-time
+          nullable: true
+          description: The date and time the job is scheduled to be run next.
+      additionalProperties: false
+    JobListResult:
+      type: object
+      properties:
+        jobs:
+          type: array
+          items:
+            $ref: '#/components/schemas/JobInfo'
+          nullable: true
+      additionalProperties: false
+    JobParams:
+      type: object
+      description: An object containing job parameters. Caching jobs use the fields below; other job types may include additional properties.
+      properties:
+        sourceConnection:
+          type: string
+          format: uuid
+          description: The Id of the source connection.
+        sourceConnectionName:
+          type: string
+          description: The name of the source connection. Returned in responses.
+        sourceName:
+          type: string
+          description: The source driver name (for example, "Asana", "MailChimp").
+        sourceSchema:
+          type: string
+          description: The schema in the source connection that contains the table being cached.
+        sourceTable:
+          type: string
+          description: The name of the table in the source connection to cache.
+        timeCheckColumn:
+          type: string
+          description: The column used to detect changes for incremental caching. Leave empty to refresh the full table.
+        autoTruncateStrings:
+          type: string
+          description: Whether to truncate string values that exceed the destination column length. Accepted as a string by the API ("true" or "false").
+          example: 'false'
+        mergeKeys:
+          type: array
+          description: 'The columns used to match source rows against cached rows during a merge. Mark each column that is part of the primary key with `isPrimaryKey: true`; supplying more than one such entry defines a composite primary key.'
+          items:
+            $ref: '#/components/schemas/MergeKey'
+      additionalProperties: true
+    MergeKey:
+      type: object
+      properties:
+        colName:
+          type: string
+          description: The name of the column.
+        colType:
+          type: string
+          description: The column's data type (for example, "varchar").
+        isPrimaryKey:
+          type: boolean
+          description: Whether the column is part of the primary key. Set `true` on multiple columns to define a composite primary key.
       additionalProperties: false
   securitySchemes:
     BearerAuth:

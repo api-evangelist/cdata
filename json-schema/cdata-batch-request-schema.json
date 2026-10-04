@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cdata/main/json-schema/cdata-batch-request-schema.json",
+  "title": "BatchRequest",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cdata-query-api-openapi.yml#/components/schemas/BatchRequest",
+  "required": [
+    "query"
+  ],
+  "type": "object",
+  "properties": {
+    "defaultCatalog": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "defaultSchema": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "parameters": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/$defs/Parameter"
+        }
+      }
+    },
+    "query": {
+      "description": "The SQL query to execute. Must be a valid SQL query.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "timeout": {
+      "maximum": 300,
+      "minimum": 1,
+      "type": "integer",
+      "format": "int32"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "DataType": {
+      "enum": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "type": "integer",
+      "description": "The parameter's [data type](/en/API/REST-API#data-types).",
+      "format": "int32"
+    },
+    "Parameter": {
+      "type": "object",
+      "properties": {
+        "dataType": {
+          "$ref": "#/$defs/DataType"
+        },
+        "value": {
+          "nullable": true
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -72,43 +72,46 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ErrorDetail:
+    DataType:
+      enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      - 16
+      - 17
+      - 18
+      type: integer
+      description: The parameter's [data type](/en/API/REST-API#data-types).
+      format: int32
+    Direction:
+      enum:
+      - 1
+      - 2
+      - 4
+      - 5
+      type: integer
+      format: int32
+    ExecParameter:
       type: object
       properties:
-        code:
-          $ref: '#/components/schemas/ErrorCode'
-        message:
-          type: string
+        direction:
+          $ref: '#/components/schemas/Direction'
+        dataType:
+          $ref: '#/components/schemas/DataType'
+        value:
           nullable: true
-          description: The error message.
-      additionalProperties: false
-    BatchRequest:
-      required:
-      - query
-      type: object
-      properties:
-        defaultCatalog:
-          type: string
-          nullable: true
-        defaultSchema:
-          type: string
-          nullable: true
-        parameters:
-          type: array
-          items:
-            type: object
-            additionalProperties:
-              $ref: '#/components/schemas/Parameter'
-          nullable: true
-        query:
-          description: The SQL query to execute. Must be a valid SQL query.
-          minLength: 1
-          type: string
-        timeout:
-          maximum: 300
-          minimum: 1
-          type: integer
-          format: int32
       additionalProperties: false
     ColumnInfo:
       type: object
@@ -161,24 +164,53 @@ components:
           nullable: true
           description: The name of the table containing the column.
       additionalProperties: false
-    ResultSet:
+    QueryRequest:
+      required:
+      - query
       type: object
       properties:
-        affectedRows:
+        defaultCatalog:
+          type: string
+          nullable: true
+          description: The default catalog to use for the query if none is specified in the query itself.
+        defaultSchema:
+          type: string
+          nullable: true
+        parameters:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Parameter'
+          nullable: true
+        query:
+          description: The SQL query to execute. Must be a valid SQL query.
+          minLength: 1
+          type: string
+        schemaOnly:
+          type: boolean
+          description: If true, only the schema of the result set is returned without any data rows. The default value is false.
+        timeout:
+          maximum: 300
+          minimum: 1
           type: integer
           format: int32
-          description: The number of rows affected by the query, or -1 if not applicable.
-        schema:
-          type: array
-          items:
-            $ref: '#/components/schemas/ColumnInfo'
+      additionalProperties: false
+    Parameter:
+      type: object
+      properties:
+        dataType:
+          $ref: '#/components/schemas/DataType'
+        value:
           nullable: true
-        rows:
-          type: array
-          items:
-            type: array
-            items: {}
+      additionalProperties: false
+    ErrorDetail:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/ErrorCode'
+        message:
+          type: string
           nullable: true
+          description: The error message.
       additionalProperties: false
     ErrorCode:
       enum:
@@ -264,44 +296,6 @@ components:
       - 79
       type: integer
       format: int32
-    QueryRequest:
-      required:
-      - query
-      type: object
-      properties:
-        defaultCatalog:
-          type: string
-          nullable: true
-          description: The default catalog to use for the query if none is specified in the query itself.
-        defaultSchema:
-          type: string
-          nullable: true
-        parameters:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/Parameter'
-          nullable: true
-        query:
-          description: The SQL query to execute. Must be a valid SQL query.
-          minLength: 1
-          type: string
-        schemaOnly:
-          type: boolean
-          description: If true, only the schema of the result set is returned without any data rows. The default value is false.
-        timeout:
-          maximum: 300
-          minimum: 1
-          type: integer
-          format: int32
-      additionalProperties: false
-    Direction:
-      enum:
-      - 1
-      - 2
-      - 4
-      - 5
-      type: integer
-      format: int32
     ExecRequest:
       required:
       - procedure
@@ -328,29 +322,6 @@ components:
           type: integer
           format: int32
       additionalProperties: false
-    DataType:
-      enum:
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
-      - 6
-      - 7
-      - 8
-      - 9
-      - 10
-      - 11
-      - 12
-      - 13
-      - 14
-      - 15
-      - 16
-      - 17
-      - 18
-      type: integer
-      description: The parameter's [data type](/en/API/REST-API#data-types).
-      format: int32
     QueryResult:
       type: object
       properties:
@@ -362,22 +333,51 @@ components:
         error:
           $ref: '#/components/schemas/ErrorDetail'
       additionalProperties: false
-    ExecParameter:
+    BatchRequest:
+      required:
+      - query
       type: object
       properties:
-        direction:
-          $ref: '#/components/schemas/Direction'
-        dataType:
-          $ref: '#/components/schemas/DataType'
-        value:
+        defaultCatalog:
+          type: string
           nullable: true
+        defaultSchema:
+          type: string
+          nullable: true
+        parameters:
+          type: array
+          items:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/Parameter'
+          nullable: true
+        query:
+          description: The SQL query to execute. Must be a valid SQL query.
+          minLength: 1
+          type: string
+        timeout:
+          maximum: 300
+          minimum: 1
+          type: integer
+          format: int32
       additionalProperties: false
-    Parameter:
+    ResultSet:
       type: object
       properties:
-        dataType:
-          $ref: '#/components/schemas/DataType'
-        value:
+        affectedRows:
+          type: integer
+          format: int32
+          description: The number of rows affected by the query, or -1 if not applicable.
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColumnInfo'
+          nullable: true
+        rows:
+          type: array
+          items:
+            type: array
+            items: {}
           nullable: true
       additionalProperties: false
   securitySchemes:

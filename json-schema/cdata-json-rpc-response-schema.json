@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cdata/main/json-schema/cdata-json-rpc-response-schema.json",
+  "title": "JsonRpcResponse",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cdata-mcp-api-openapi.yml#/components/schemas/JsonRpcResponse",
+  "type": "object",
+  "required": [
+    "jsonrpc",
+    "id"
+  ],
+  "properties": {
+    "jsonrpc": {
+      "type": "string",
+      "enum": [
+        "2.0"
+      ],
+      "description": "JSON-RPC protocol version."
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Present on success; mutually exclusive with `error`."
+    },
+    "error": {
+      "$ref": "#/$defs/JsonRpcError"
+    },
+    "id": {
+      "description": "Matches the `id` from the request. Null if the server could not determine the request id.",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "integer"
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "JsonRpcError": {
+      "type": "object",
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "description": "JSON-RPC error code (for example, `-32600` invalid request, `-32601` method not found, `32602` tool filter parse error)."
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable error description."
+        },
+        "data": {
+          "description": "Optional additional error context."
+        }
+      }
+    }
+  }
+}

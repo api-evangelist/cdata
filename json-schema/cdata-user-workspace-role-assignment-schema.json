@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cdata/main/json-schema/cdata-user-workspace-role-assignment-schema.json",
+  "title": "UserWorkspaceRoleAssignment",
+  "description": "A workspace-scoped role assignment for a user.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cdata-users-api-openapi.yml#/components/schemas/UserWorkspaceRoleAssignment",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Assignment identifier."
+    },
+    "user_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The user this workspace role is assigned to."
+    },
+    "workspace_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The workspace this role is assigned to."
+    },
+    "role_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The role identifier."
+    },
+    "role_name": {
+      "type": "string",
+      "description": "The name of the role."
+    },
+    "role_type": {
+      "type": "string",
+      "enum": [
+        "system_role",
+        "access_role"
+      ],
+      "description": "`system_role`: built-in, non-modifiable. `access_role`: custom, fully manageable."
+    },
+    "granted_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 UTC."
+    },
+    "granted_by": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The user who granted the workspace role."
+    }
+  }
+}

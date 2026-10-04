@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cdata/main/json-schema/cdata-batch-create-users-response-schema.json",
+  "title": "BatchCreateUsersResponse",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cdata-users-api-openapi.yml#/components/schemas/BatchCreateUsersResponse",
+  "type": "object",
+  "properties": {
+    "created": {
+      "type": "array",
+      "description": "Users successfully created.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "User identifier."
+          },
+          "email": {
+            "type": "string",
+            "description": "Email address of the created user."
+          },
+          "external_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Idempotency key supplied by the caller. null if not provided."
+          }
+        }
+      }
+    },
+    "updated": {
+      "type": "array",
+      "description": "Records matched via `external_id` and updated.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "User identifier."
+          },
+          "email": {
+            "type": "string",
+            "description": "Email address of the updated user."
+          },
+          "external_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Idempotency key supplied by the caller."
+          }
+        }
+      }
+    },
+    "failed": {
+      "type": "array",
+      "description": "Records that could not be created or updated.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Email address from the failed record."
+          },
+          "external_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Idempotency key from the failed record. null if not provided."
+          },
+          "error_code": {
+            "type": "string",
+            "description": "SCREAMING_SNAKE_CASE error code for the failure."
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable description of the failure."
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "description": "Aggregate counts for the batch operation.",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "description": "Total number of records submitted."
+        },
+        "created": {
+          "type": "integer",
+          "description": "Number of records successfully created."
+        },
+        "updated": {
+          "type": "integer",
+          "description": "Number of records successfully updated."
+        },
+        "failed": {
+          "type": "integer",
+          "description": "Number of records that failed."
+        }
+      }
+    }
+  }
+}

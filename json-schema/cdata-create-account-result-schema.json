@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cdata/main/json-schema/cdata-create-account-result-schema.json",
+  "title": "CreateAccountResult",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cdata-account-api-openapi.yml#/components/schemas/CreateAccountResult",
+  "type": "object",
+  "required": [
+    "accountId",
+    "externalId",
+    "createdTime"
+  ],
+  "properties": {
+    "accountId": {
+      "type": "string",
+      "description": "The internal Connect AI account Id."
+    },
+    "externalId": {
+      "type": "string",
+      "description": "The customer's identifier."
+    },
+    "createdTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The time when the account was created."
+    }
+  },
+  "additionalProperties": false
+}

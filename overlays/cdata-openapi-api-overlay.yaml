@@ -2,7 +2,7 @@ overlay: 1.0.0
 info:
   title: API Evangelist enrichment overlay — CData Connect AI OpenAPI API
   version: 1.0.0
-extends: cdata-openapi-api-openapi.yml
+extends: ../openapi/_original/cdata-openapi-api-openapi.yml
 x-generated: '2026-09-05'
 x-method: generated
 x-source: Generated from openapi/cdata-openapi-api-openapi.yml (CData's own document, saved verbatim from

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cdata/main/json-schema/cdata-create-user-request-schema.json",
+  "title": "CreateUserRequest",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cdata-users-api-openapi.yml#/components/schemas/CreateUserRequest",
+  "type": "object",
+  "required": [
+    "email",
+    "first_name"
+  ],
+  "properties": {
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Must be globally unique across all Connect AI orgs."
+    },
+    "first_name": {
+      "type": "string",
+      "description": "The user's first name."
+    },
+    "last_name": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "The user's last name. Omit for users with a single name."
+    },
+    "external_id": {
+      "type": "string",
+      "description": "Idempotency key supplied by the calling system (for example, an HR system employee ID or Terraform resource ID). A second POST with the same key returns the existing user instead of creating a duplicate. Connect AI does not generate this value; the caller provides it.\n"
+    }
+  }
+}

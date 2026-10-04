@@ -1,78 +1,66 @@
-# CData
+# CData Software
 
-> Connect AI documentation
+> CData delivers a comprehensive suite of connectivity solutions that empower businesses to access, integrate, and work with real-time data across cloud, on-premises, and hybrid environments. Our mission is to simplify data connectivity for everyone — from developers to data engineers to enterprise IT.
 
-- [Connect AI (467 pages)](https://docs.cloud.cdata.com/_llms/en/connect-ai.md): Documentation for Connect AI.
-- [Connect AI Embed (365 pages)](https://docs.cloud.cdata.com/_llms/en/connect-ai-embed.md): Documentation for Connect AI Embed.
-- [API Reference (101 pages)](https://docs.cloud.cdata.com/_llms/en/api-reference.md): Documentation for API Reference.
+CData products are built on standardized interfaces and support hundreds of data sources, enabling organizations to overcome data silos, accelerate integration, and innovate faster.
 
-## Home
+## Products
 
-- [CData Docs](https://docs.cloud.cdata.com/en/index.md)
+### Universal Connectivity & Integration
 
-## SQL Reference
+- [CData Drivers](https://www.cdata.com/drivers/): High-performance ODBC, JDBC, ADO.NET, and Python connectors for accessing over 300+ SaaS, database, and NoSQL sources.
+- [CData Connect AI](https://www.cdata.com/ai/): A zero-install, cloud-native connectivity platform that provides live data access for analytics, integration, and workflow tools.
+- [CData Sync](https://www.cdata.com/sync/): A flexible, agent-based ETL/ELT tool to replicate and move data between databases, cloud services, and warehouses.
 
-### Overview
+### Application Integration & Automation
 
-- [SQL Reference](https://docs.cloud.cdata.com/en/SQL-Reference/SQL-Reference.md): Connect AI supports a wide range of standard [DDL Commands](/en/SQL-Reference/DDL), [SQL Commands](/en/SQL-Reference/SQL-Commands), and [SQL Functions](/en/SQL-Reference/SQL-Functions) for querying data sources. This page outlines the Connect AI data model, supported data types, and naming requireme…
+- [CData Arc](https://www.cdata.com/arc/): A modern B2B automation platform supporting secure MFT, EDI, and API-based workflow automation.
+- [CData API Server](https://www.cdata.com/apiserver/): Instantly create secure, RESTful APIs from existing on-premises or cloud-based databases with no coding.
 
-### DDL Commands
+### Productivity & Collaboration
 
-- [CREATE DERIVED VIEW Statements](https://docs.cloud.cdata.com/en/SQL-Reference/CREATE-DERIVED-VIEW.md): To create new derived views, use CREATE DERIVED VIEW statements.
-- [DROP DERIVED VIEW Statements](https://docs.cloud.cdata.com/en/SQL-Reference/DROP-DERIVED-VIEW.md): Use DROP DERIVED VIEW statements to delete a derived view.
-- [ALTER DERIVED VIEW Statements](https://docs.cloud.cdata.com/en/SQL-Reference/ALTER-DERIVED-VIEW.md): Use the ALTER DERIVED VIEW statement to assign a new SQL query to a derived view.
+- [CData Connect Spreadsheets](https://www.cdata.com/ai/spreadsheets/): Enables real-time querying and updating of external data sources from Excel and Google Sheets.
 
-### SQL Commands
+### Embedded & OEM Connectivity
 
-- [SELECT Statements](https://docs.cloud.cdata.com/en/SQL-Reference/SELECT.md): A SELECT statement can consist of the following basic clauses:
-- [INSERT Statements](https://docs.cloud.cdata.com/en/SQL-Reference/INSERT.md): To create new records, use INSERT statements.
-- [UPDATE Statements](https://docs.cloud.cdata.com/en/SQL-Reference/UPDATE.md): To modify existing records, use UPDATE statements.
-- [UPSERT Statements](https://docs.cloud.cdata.com/en/SQL-Reference/UPSERT.md): An UPSERT statement updates an existing record or creates a new record if an existing record is not identified.
-- [DELETE Statements](https://docs.cloud.cdata.com/en/SQL-Reference/DELETE.md): To delete information from a table, use DELETE statements.
-- [GETDELETED Statements](https://docs.cloud.cdata.com/en/SQL-Reference/GETDELETED.md): You can issue the GETDELETED query to retrieve all records deleted from the live data for the time range specified. This query accepts a datetime value as a filter, as shown in the following example:
-- [EXECUTE Statements](https://docs.cloud.cdata.com/en/SQL-Reference/EXECUTE.md): To execute stored procedures, you can use EXECUTE or EXEC statements.
-- [INSERT INTO SELECT Statements](https://docs.cloud.cdata.com/en/SQL-Reference/INSERT-INTO-SELECT.md): To perform multiple inserts in a single request, use the INSERT … SELECT syntax to insert from a temporary table of data. This works by first populating a temporary table with the data you are going to submit to the data source. Once you have all of the data you want to insert, the temporary table i…
-- [UPDATE SELECT Statements](https://docs.cloud.cdata.com/en/SQL-Reference/UPDATE-SELECT.md): To perform multiple updates in a single request, use the UPDATE … SELECT syntax to update from a temporary table of data into the destination table. This works by first populating a temporary table with the data you are going to submit to the data source. Once you have all of the data you want to up…
-- [DELETE SELECT Statements](https://docs.cloud.cdata.com/en/SQL-Reference/DELETE-SELECT.md): To perform multiple deletes in a single request, use the DELETE … SELECT syntax to delete from a temporary table of data. This works by first populating a temporary table with the data you are going to submit. Once you have all of the data you want to delete, the temporary table is then passed into…
+- [CData Embedded Connectors](https://www.cdata.com/embed/connectors/): White-label, embeddable drivers and SDKs that integrate directly into third-party platforms and SaaS products.
 
-### SQL Functions
+### Specialized Integration
 
-- [String](https://docs.cloud.cdata.com/en/SQL-Reference/String-Functions.md): String functions are used to manipulate, search, and format data stored in string columns.
-- [Date](https://docs.cloud.cdata.com/en/SQL-Reference/Date-Functions.md): Date functions can be used to construct, extract, or modify date, time, and timestamp data.
-- [Math](https://docs.cloud.cdata.com/en/SQL-Reference/Math-Functions.md): Math functions perform various mathematical operations on the data.
-- [Conversion](https://docs.cloud.cdata.com/en/SQL-Reference/Conversion-Functions.md): Conversion functions can be used to convert the value of one data type into another data type.
-- [Aggregate](https://docs.cloud.cdata.com/en/SQL-Reference/Aggregate-Functions.md): Aggregate functions operate on values across rows to make calculations such as sum, average, minimum/maximum, and count. These functions take 0 or more rows and produce a single output.
-- [Window](https://docs.cloud.cdata.com/en/SQL-Reference/Window-Functions.md): Window functions allow you to create computed fields from a group of rows (a window) that return a result for each row, as opposed to one computed result for a set of rows, as is the case with [aggregate functions](Aggregate-Functions). The driver supports the following window function syntax.
-- [Table-Valued](https://docs.cloud.cdata.com/en/SQL-Reference/Table-Valued-Functions.md): Table-valued functions are functions that return a table (rowset).
+- [CData DBAmp](https://www.cdata.com/dbamp/): Bi-directional integration between Salesforce and SQL Server using T-SQL.
 
-### DV Engine SQL Reference
+## Supported Technologies
 
-- [Data Virtuality Engine SQL Reference](https://docs.cloud.cdata.com/en/SQL-Reference/DV-Engine.md): Additional SQL commands, syntax, and functions available when the Data Virtuality (DV) Engine is active for your account.
+### Data Management & Analytics
 
-## OpenAPI Specs
+- **ETL / ELT & Data Replication**: Reliable and scalable replication to Snowflake, BigQuery, Redshift, Databricks, and others.
+- **Data Virtualization & Federation**: Live querying without moving data, across hybrid environments.
+- **Semantic Layer Modeling**: Organize disparate schemas into a unified, consistent business view.
+- **Governance-Ready Access**: Fine-grained access controls, auditing, and secure encryption.
 
-- [MCP-API](/en/API/MCP-API.yaml)
-- [REST-API](/en/API/REST-API.yaml)
-- [Management-API](/en/API/Management-API.yaml)
-- [MCP-API-Embedded](/en/API/MCP-API-Embedded.yaml)
-- [REST-API-Embedded](/en/API/REST-API-Embedded.yaml)
-- [OData-API](/en/API/OData-API.yaml)
-- [OpenAPI-API](/en/API/OpenAPI-API.yaml)
-- [OData-API](/ja/API/OData-API.yaml)
-- [OpenAPI-API](/ja/API/OpenAPI-API.yaml)
+### API & Application Integration
 
-## Optional
+- **API Enablement**: Create REST endpoints from any data source with CData API Server.
+- **EDI & MFT**: Secure file transfers and standards-based message exchange with CData Arc.
+- **Workflow Automation**: Visual data flow builders for building integrations without code.
 
-- [Community](https://community.cdata.com/?utm_source=cdata&utm_medium=referral)
-- [Blog](https://www.cdata.com/blog/?tag=CData Connect AI)
+### Embedded Connectivity
 
-> The links below point to documentation indexes. Follow each `/_llms/` index recursively until you reach documentation pages.
+- **ISV/OEM Integration**: Use CData SDKs and drivers to embed branded data access into your app or platform.
+- **Multi-language Support**: Interfaces for .NET, Java, Python, Node.js, Go, and more.
+- **Cross-Platform Distribution**: Available on Windows, Linux, macOS, and containerized environments.
 
-## Indexes
+### Ecosystem Compatibility
 
-- [English / Connect AI (467 pages)](https://docs.cloud.cdata.com/_llms/en/connect-ai.md): Documentation for English / Connect AI.
-- [English / Connect AI Embed (365 pages)](https://docs.cloud.cdata.com/_llms/en/connect-ai-embed.md): Documentation for English / Connect AI Embed.
-- [English / API Reference (101 pages)](https://docs.cloud.cdata.com/_llms/en/api-reference.md): Documentation for English / API Reference.
-- [Japanese (956 pages)](https://docs.cloud.cdata.com/_llms/ja.md): Documentation for Japanese.
-- [Japanese / Connect AI (467 pages)](https://docs.cloud.cdata.com/_llms/ja/connect-ai.md): Documentation for Japanese / Connect AI.
-- [Japanese / Connect AI Embed (365 pages)](https://docs.cloud.cdata.com/_llms/ja/connect-ai-embed.md): Documentation for Japanese / Connect AI Embed.
+- **Databases**: SQL Server, PostgreSQL, Oracle, MySQL, SQLite, MongoDB, Cassandra, and more.
+- **Cloud Warehouses**: Snowflake, Google BigQuery, Amazon Redshift, Azure Synapse.
+- **SaaS Applications**: Salesforce, NetSuite, Workday, HubSpot, Dynamics 365, QuickBooks, Zendesk, ServiceNow, and others.
+- **BI & Analytics**: Power BI, Tableau, Looker, Qlik, Excel, Google Sheets.
+- **iPaaS Tools**: MuleSoft, Boomi, Zapier, Workato, Make.com.
+
+## Optional Resources
+
+- [Knowledge Base](https://www.cdata.com/kb/): How-tos and troubleshooting.
+- [Blog](https://www.cdata.com/blog/): Insights on modern data integration trends.
+- [Community Forum](https://community.cdata.com/): Peer support and Q&A.
+- [Support Portal](https://www.cdata.com/support/): Contact support and open tickets.

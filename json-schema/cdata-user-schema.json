@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cdata/main/json-schema/cdata-user-schema.json",
+  "title": "User",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cdata-users-api-openapi.yml#/components/schemas/User",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "User identifier."
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "The email address of the user."
+    },
+    "first_name": {
+      "type": "string",
+      "description": "The user's first name."
+    },
+    "last_name": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "The user's last name."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "invited",
+        "deactivated"
+      ],
+      "description": "Current lifecycle state of the user."
+    },
+    "scim_managed": {
+      "type": "boolean",
+      "description": "`false` for API-created users. `true` for SCIM-provisioned users."
+    },
+    "external_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Idempotency key supplied by the calling system."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 UTC."
+    },
+    "created_by": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uuid",
+      "description": "User ID of the creator. null for SCIM-provisioned users."
+    }
+  }
+}

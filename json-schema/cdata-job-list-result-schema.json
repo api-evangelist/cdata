@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cdata/main/json-schema/cdata-job-list-result-schema.json",
+  "title": "JobListResult",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cdata-job-api-openapi.yml#/components/schemas/JobListResult",
+  "type": "object",
+  "properties": {
+    "jobs": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/$defs/JobInfo"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "JobInfo": {
+      "type": "object",
+      "required": [
+        "jobType",
+        "id",
+        "name",
+        "enabled",
+        "created",
+        "lastModified",
+        "nextRunTime",
+        "intervalUnit",
+        "intervalValue",
+        "logVerbosity"
+      ],
+      "properties": {
+        "jobType": {
+          "type": "string",
+          "description": "The type of job (Caching)."
+        },
+        "id": {
+          "type": "string",
+          "description": "The job's Id."
+        },
+        "name": {
+          "type": "string",
+          "description": "The job's name."
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "A Boolean value indicating whether the job is enabled."
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time the job was created."
+        },
+        "lastModified": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time the job was last modified."
+        },
+        "nextRunTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time the job is scheduled to be run next."
+        },
+        "intervalUnit": {
+          "type": "string",
+          "description": "A string representing the interval unit for the job (Hour/Day/Week/Month)."
+        },
+        "intervalValue": {
+          "type": "integer",
+          "format": "int32",
+          "description": "An integer that represents how many of the selected interval unit the job should wait before running again."
+        },
+        "logVerbosity": {
+          "type": "integer",
+          "format": "int32",
+          "description": "A number indicating the level of log verbosity (1-5)."
+        },
+        "lastRun": {
+          "$ref": "#/$defs/JobLastRun"
+        },
+        "params": {
+          "$ref": "#/$defs/JobParams"
+        }
+      },
+      "additionalProperties": false
+    },
+    "JobLastRun": {
+      "type": "object",
+      "description": "The last run metrics for the job, including the date and time, duration, status, rows affected, and next run time.",
+      "properties": {
+        "dateTime": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "duration": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int64"
+        },
+        "status": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rowsAffected": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int64"
+        },
+        "nextRunTime": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time",
+          "description": "The date and time the job is scheduled to be run next."
+        }
+      },
+      "additionalProperties": false
+    },
+    "JobParams": {
+      "type": "object",
+      "description": "An object containing job parameters. Caching jobs use the fields below; other job types may include additional properties.",
+      "properties": {
+        "sourceConnection": {
+          "type": "string",
+          "format": "uuid",
+          "description": "The Id of the source connection."
+        },
+        "sourceConnectionName": {
+          "type": "string",
+          "description": "The name of the source connection. Returned in responses."
+        },
+        "sourceName": {
+          "type": "string",
+          "description": "The source driver name (for example, \"Asana\", \"MailChimp\")."
+        },
+        "sourceSchema": {
+          "type": "string",
+          "description": "The schema in the source connection that contains the table being cached."
+        },
+        "sourceTable": {
+          "type": "string",
+          "description": "The name of the table in the source connection to cache."
+        },
+        "timeCheckColumn": {
+          "type": "string",
+          "description": "The column used to detect changes for incremental caching. Leave empty to refresh the full table."
+        },
+        "autoTruncateStrings": {
+          "type": "string",
+          "description": "Whether to truncate string values that exceed the destination column length. Accepted as a string by the API (\"true\" or \"false\")."
+        },
+        "mergeKeys": {
+          "type": "array",
+          "description": "The columns used to match source rows against cached rows during a merge. Mark each column that is part of the primary key with `isPrimaryKey: true`; supplying more than one such entry defines a composite primary key.",
+          "items": {
+            "$ref": "#/$defs/MergeKey"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "MergeKey": {
+      "type": "object",
+      "properties": {
+        "colName": {
+          "type": "string",
+          "description": "The name of the column."
+        },
+        "colType": {
+          "type": "string",
+          "description": "The column's data type (for example, \"varchar\")."
+        },
+        "isPrimaryKey": {
+          "type": "boolean",
+          "description": "Whether the column is part of the primary key. Set `true` on multiple columns to define a composite primary key."
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

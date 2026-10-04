@@ -16,23 +16,7 @@ auth:
   detail: authentication/cdata-authentication.yml
   scopes: scopes/cdata-scopes.yml
 idempotency:
-  coverage: partial
-  mechanism: natural-key
-  header: null
-  retention: null
-  scope:
-  - operationId: createServiceAccount
-    operation: POST /service-accounts
-    basis: >-
-      "This endpoint is idempotent by external_id: a second POST with the same external_id
-      returns the existing service account."
-    source: https://docs.cloud.cdata.com/en/API/Create-Service-Account.md
-  - operationId: batchCreateUsers
-    operation: POST /users/batch
-    basis: >-
-      "Batch Create or Update Users" — an explicit upsert, so a replay converges rather than
-      duplicating.
-    source: https://docs.cloud.cdata.com/en/API/Create-User.md
+  coverage: none
   note: >-
     There is no Idempotency-Key header anywhere in CData's contract. Replay safety exists on
     exactly two of the write operations across the whole published surface, and it comes from

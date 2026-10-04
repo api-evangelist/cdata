@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cdata/main/json-schema/cdata-connection-list-result-schema.json",
+  "title": "ConnectionListResult",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cdata-connection-api-openapi.yml#/components/schemas/ConnectionListResult",
+  "type": "object",
+  "properties": {
+    "connections": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ConnectionListItem"
+      },
+      "description": "A list of connections for the account."
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "ConnectionListItem": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "dataSource",
+        "lastModified",
+        "mcpUrl",
+        "status"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "The connection Id."
+        },
+        "name": {
+          "type": "string",
+          "description": "The connection name."
+        },
+        "dataSource": {
+          "type": "string",
+          "description": "The data source type (for example, ExcelOnline, MailChimp)."
+        },
+        "lastModified": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time the connection was last modified."
+        },
+        "externalId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Optional externalId set when the connection was created via redirect. Your identifier for this connection in your own system. Unique within a sub-account (null values are excluded from the uniqueness constraint). Use this field to correlate Connect AI connections with records in your own database. Distinct from the `external_identity` JWT claim, which is a per-request user-level audit identifier.\n"
+        },
+        "mcpUrl": {
+          "type": "string",
+          "description": "The per-connection MCP endpoint URL, for example, /mcp/connections/{id}."
+        },
+        "status": {
+          "type": "string",
+          "description": "Connection status. Possible values include Authenticated, NotAuthenticated, and Conditional."
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

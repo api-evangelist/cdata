@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cdata/main/json-schema/cdata-account-list-result-schema.json",
+  "title": "AccountListResult",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cdata-account-api-openapi.yml#/components/schemas/AccountListResult",
+  "type": "object",
+  "properties": {
+    "accounts": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/$defs/AccountInfo"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "AccountInfo": {
+      "type": "object",
+      "required": [
+        "id",
+        "externalId",
+        "created"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The internal Connect AI account Id."
+        },
+        "externalId": {
+          "type": "string",
+          "description": "The Connect AI Embed external account identifier."
+        },
+        "accountName": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The display name of the account."
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time this account was created."
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

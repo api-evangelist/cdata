@@ -16,6 +16,8 @@ note: >-
   category has to a sandbox. Recorded honestly as such rather than stretched into
   test-credential language CData does not use.
 sandbox_available: true
+description: "CData provides a free Connect AI Developer Edition sandbox via real live connections."
+
 mode: free-tier
 free_tier:
   name: Connect AI Developer Edition
@@ -76,3 +78,7 @@ free_driver_trials:
 maintainers:
 - FN: Kin Lane
   email: info@apievangelist.com
+docs:
+  - https://www.cdata.com/developers/ai/developer-edition/
+  - https://cloud.cdata.com/developer
+  - https://docs.cloud.cdata.com/en/Playground.md

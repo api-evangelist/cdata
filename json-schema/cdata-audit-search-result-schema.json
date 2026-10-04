@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cdata/main/json-schema/cdata-audit-search-result-schema.json",
+  "title": "AuditSearchResult",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cdata-log-api-openapi.yml#/components/schemas/AuditSearchResult",
+  "type": "object",
+  "properties": {
+    "events": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/$defs/AuditEvent"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "AuditEvent": {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "$ref": "#/$defs/AuditEventType",
+          "description": "The audit event type, such as user login, user PAT created, or permission created."
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp of the audit event."
+        },
+        "relatedId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The Id of the related entity, if applicable."
+        },
+        "relatedName": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The name of the related entity, if applicable."
+        },
+        "relatedType": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int32",
+          "description": "The type of the related entity, if applicable."
+        },
+        "targetId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The Id of the event target, such as the Query Id."
+        },
+        "targetName": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The target resource name, such as a user's email or a connection name."
+        },
+        "targetType": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int32",
+          "description": "The type of the event target, such as a query or connection change."
+        },
+        "userId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The Id of user who performed the event."
+        },
+        "userName": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The name of user who performed the event."
+        },
+        "userType": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int32",
+          "description": "The type of user who performed the event."
+        }
+      },
+      "additionalProperties": false
+    },
+    "AuditEventType": {
+      "enum": [
+        0,
+        500,
+        501,
+        502,
+        1000,
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1050,
+        1051,
+        1052,
+        1060,
+        1061,
+        1062,
+        1063,
+        1070,
+        1071,
+        1072,
+        1073,
+        1080,
+        1081,
+        1082,
+        1083,
+        1084,
+        1085,
+        1090,
+        1091,
+        1092,
+        1093,
+        1094,
+        1100,
+        1101,
+        1102,
+        1103,
+        1105,
+        1106,
+        1107,
+        1108,
+        1109,
+        1110,
+        1111,
+        1112,
+        1113,
+        1114,
+        1115,
+        1116,
+        1200,
+        1201,
+        1202,
+        1220,
+        1221,
+        1222,
+        1223,
+        1224,
+        1230,
+        1231
+      ],
+      "type": "integer",
+      "format": "int32"
+    }
+  }
+}

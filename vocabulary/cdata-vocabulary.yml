@@ -1,0 +1,350 @@
+generated: '2026-10-04'
+method: derived
+generator: derive-vocabulary.py
+source:
+- openapi/cdata-account-api-openapi.yml
+- openapi/cdata-cache-api-openapi.yml
+- openapi/cdata-connection-api-openapi.yml
+- openapi/cdata-data-explorer-api-openapi.yml
+- openapi/cdata-job-api-openapi.yml
+vocabulary:
+  name: CData Domain Vocabulary
+  description: 'Terms declared by CData''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions.
+    Derived, not authored.'
+  version: '2026-10-04'
+  terms:
+  - term: Service Accounts
+    definition: Full lifecycle management for machine identities (CI/CD pipelines, IaC tooling, Terraform automation). Service accounts are not
+      SCIM-owned and authenticate via OAuth 2.0 client credentials using the `client_id` returned on creation.
+    tags:
+    - Resource Group
+    source: openapi/cdata-service-accounts-api-openapi.yml
+  - term: Users
+    definition: 'Lifecycle management for human users: create, update, deprovision, and manage direct role assignments, workspace-scoped roles,
+      and direct resource permissions. SCIM handles group-based provisioning and user creation at scale; this API handles direct overrides and
+      atomic deprovisioning.'
+    tags:
+    - Resource Group
+    source: openapi/cdata-users-api-openapi.yml
+  - term: CreateAccountRequest
+    definition: 'Object declared by the contract with fields: externalId, accountName.'
+    tags:
+    - Object
+    source: openapi/cdata-account-api-openapi.yml#/components/schemas/CreateAccountRequest
+  - term: AccountInfo
+    definition: 'Object declared by the contract with fields: id, externalId, accountName, created.'
+    tags:
+    - Object
+    source: openapi/cdata-account-api-openapi.yml#/components/schemas/AccountInfo
+  - term: UpdateAccountRequest
+    definition: 'Object declared by the contract with fields: externalId, accountName.'
+    tags:
+    - Object
+    source: openapi/cdata-account-api-openapi.yml#/components/schemas/UpdateAccountRequest
+  - term: CreateAccountResult
+    definition: 'Object declared by the contract with fields: accountId, externalId, createdTime.'
+    tags:
+    - Object
+    source: openapi/cdata-account-api-openapi.yml#/components/schemas/CreateAccountResult
+  - term: AccountListResult
+    definition: 'Object declared by the contract with fields: accounts.'
+    tags:
+    - Object
+    source: openapi/cdata-account-api-openapi.yml#/components/schemas/AccountListResult
+  - term: EditConnectionRequest
+    definition: 'Object declared by the contract with fields: redirectURL, name, editableName.'
+    tags:
+    - Object
+    source: openapi/cdata-cache-api-openapi.yml#/components/schemas/EditConnectionRequest
+  - term: CacheConnectionRequest
+    definition: 'Object declared by the contract with fields: connectionString.'
+    tags:
+    - Object
+    source: openapi/cdata-cache-api-openapi.yml#/components/schemas/CacheConnectionRequest
+  - term: RedirectURLResponse
+    definition: 'Object declared by the contract with fields: redirectURL.'
+    tags:
+    - Object
+    source: openapi/cdata-cache-api-openapi.yml#/components/schemas/RedirectURLResponse
+  - term: DataSourceListResult
+    definition: 'Object declared by the contract with fields: dataSources.'
+    tags:
+    - Object
+    source: openapi/cdata-connection-api-openapi.yml#/components/schemas/DataSourceListResult
+  - term: ConnectionListItem
+    definition: 'Object declared by the contract with fields: id, name, dataSource, lastModified, externalId, mcpUrl, status.'
+    tags:
+    - Object
+    source: openapi/cdata-connection-api-openapi.yml#/components/schemas/ConnectionListItem
+  - term: DataSourceListItem
+    definition: 'Object declared by the contract with fields: dataSource.'
+    tags:
+    - Object
+    source: openapi/cdata-connection-api-openapi.yml#/components/schemas/DataSourceListItem
+  - term: CreateConnectionRequest
+    definition: 'Object declared by the contract with fields: dataSource, redirectURL, name, externalId, editableName.'
+    tags:
+    - Object
+    source: openapi/cdata-connection-api-openapi.yml#/components/schemas/CreateConnectionRequest
+  - term: ConnectionListResult
+    definition: 'Object declared by the contract with fields: connections.'
+    tags:
+    - Object
+    source: openapi/cdata-connection-api-openapi.yml#/components/schemas/ConnectionListResult
+  - term: JobParams
+    definition: An object containing job parameters. Caching jobs use the fields below; other job types may include additional properties.
+    tags:
+    - Object
+    source: openapi/cdata-job-api-openapi.yml#/components/schemas/JobParams
+  - term: JobLastRun
+    definition: The last run metrics for the job, including the date and time, duration, status, rows affected, and next run time.
+    tags:
+    - Object
+    source: openapi/cdata-job-api-openapi.yml#/components/schemas/JobLastRun
+  - term: JobListResult
+    definition: 'Object declared by the contract with fields: jobs.'
+    tags:
+    - Object
+    source: openapi/cdata-job-api-openapi.yml#/components/schemas/JobListResult
+  - term: CreateJobRequest
+    definition: 'Object declared by the contract with fields: jobType, intervalUnit, intervalValue, logVerbosity, enabled, definedNextRun, params.'
+    tags:
+    - Object
+    source: openapi/cdata-job-api-openapi.yml#/components/schemas/CreateJobRequest
+  - term: MergeKey
+    definition: 'Object declared by the contract with fields: colName, colType, isPrimaryKey.'
+    tags:
+    - Object
+    source: openapi/cdata-job-api-openapi.yml#/components/schemas/MergeKey
+  - term: UpdateJobRequest
+    definition: 'Object declared by the contract with fields: jobType, intervalUnit, intervalValue, logVerbosity, enabled, definedNextRun, params.'
+    tags:
+    - Object
+    source: openapi/cdata-job-api-openapi.yml#/components/schemas/UpdateJobRequest
+  - term: JobInfo
+    definition: 'Object declared by the contract with fields: jobType, id, name, enabled, created, lastModified, nextRunTime, intervalUnit, intervalValue,
+      logVerbosity, lastRun, params.'
+    tags:
+    - Object
+    source: openapi/cdata-job-api-openapi.yml#/components/schemas/JobInfo
+  - term: AuditSearchResult
+    definition: 'Object declared by the contract with fields: events.'
+    tags:
+    - Object
+    source: openapi/cdata-log-api-openapi.yml#/components/schemas/AuditSearchResult
+  - term: QuerySearchResult
+    definition: 'Object declared by the contract with fields: queries.'
+    tags:
+    - Object
+    source: openapi/cdata-log-api-openapi.yml#/components/schemas/QuerySearchResult
+  - term: QueryRecord
+    definition: 'Object declared by the contract with fields: credential, duration, drivers, errorCode, errorMessage, logVerbosity, query, queryId,
+      queryType, rowsAffected, rowsReturned, timestamp. (1 more)'
+    tags:
+    - Object
+    source: openapi/cdata-log-api-openapi.yml#/components/schemas/QueryRecord
+  - term: QueryType
+    definition: '| Value | Name | |-------|------| | 0 | Drivers | | 1 | DriverInfo | | 2 | TestConnection | | 3 | GetOAuthAuthorizationUrl |
+      | 4 | GetOAuthAccessToken | | 5 | CustomReportInfo | | 6 | GenerateCustomReport | | 7 | GetAPIRootPaths | | 8 | GetAPIColumns | | 9 | GetAPIRows
+      | | 10 | GetTimeCheckColumns | | 11 | GetDynamicPropValues | | 20 | DisconnectOAuthAccessToken | | 100 | Catalogs | | 101 | Schema'
+    tags:
+    - Enumeration
+    source: openapi/cdata-log-api-openapi.yml#/components/schemas/QueryType
+  - term: AuditEventType
+    definition: 'Enumeration declared by the contract with values: 0, 500, 501, 502, 1000, 1001, 1002, 1003, 1004, 1005, 1050, 1051. (46 more)'
+    tags:
+    - Enumeration
+    source: openapi/cdata-log-api-openapi.yml#/components/schemas/AuditEventType
+  - term: AuditEvent
+    definition: 'Object declared by the contract with fields: eventType, timestamp, relatedId, relatedName, relatedType, targetId, targetName,
+      targetType, userId, userName, userType.'
+    tags:
+    - Object
+    source: openapi/cdata-log-api-openapi.yml#/components/schemas/AuditEvent
+  - term: QuerySearchCriteria
+    definition: 'Object declared by the contract with fields: endTime, queryType, startTime.'
+    tags:
+    - Object
+    source: openapi/cdata-log-api-openapi.yml#/components/schemas/QuerySearchCriteria
+  - term: JsonRpcRequest
+    definition: 'Object declared by the contract with fields: jsonrpc, method, params, id.'
+    tags:
+    - Object
+    source: openapi/cdata-mcp-api-openapi.yml#/components/schemas/JsonRpcRequest
+  - term: JsonRpcError
+    definition: 'Object declared by the contract with fields: code, message, data.'
+    tags:
+    - Object
+    source: openapi/cdata-mcp-api-openapi.yml#/components/schemas/JsonRpcError
+  - term: JsonRpcResponse
+    definition: 'Object declared by the contract with fields: jsonrpc, result, error, id.'
+    tags:
+    - Object
+    source: openapi/cdata-mcp-api-openapi.yml#/components/schemas/JsonRpcResponse
+  - term: ToolFilterParseError
+    definition: Returned when a `tools` or `ops` query parameter is empty or contains an unrecognized value.
+    tags:
+    - Object
+    source: openapi/cdata-mcp-api-openapi.yml#/components/schemas/ToolFilterParseError
+  - term: ErrorDetail
+    definition: 'Object declared by the contract with fields: code, message.'
+    tags:
+    - Object
+    source: openapi/cdata-metadata-api-openapi.yml#/components/schemas/ErrorDetail
+  - term: ErrorCode
+    definition: 'Enumeration declared by the contract with values: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11. (68 more)'
+    tags:
+    - Enumeration
+    source: openapi/cdata-metadata-api-openapi.yml#/components/schemas/ErrorCode
+  - term: ColumnInfo
+    definition: 'Object declared by the contract with fields: catalogName, columnLabel, columnName, dataType, dataTypeName, length, nullable,
+      ordinal, precision, scale, schemaName, tableName.'
+    tags:
+    - Object
+    source: openapi/cdata-metadata-api-openapi.yml#/components/schemas/ColumnInfo
+  - term: ResultSet
+    definition: 'Object declared by the contract with fields: affectedRows, schema, rows.'
+    tags:
+    - Object
+    source: openapi/cdata-metadata-api-openapi.yml#/components/schemas/ResultSet
+  - term: QueryResult
+    definition: 'Object declared by the contract with fields: results, error.'
+    tags:
+    - Object
+    source: openapi/cdata-metadata-api-openapi.yml#/components/schemas/QueryResult
+  - term: DataType
+    definition: The parameter's [data type](/en/API/REST-API#data-types).
+    tags:
+    - Enumeration
+    source: openapi/cdata-metadata-api-openapi.yml#/components/schemas/DataType
+  - term: BatchRequest
+    definition: 'Object declared by the contract with fields: defaultCatalog, defaultSchema, parameters, query, timeout.'
+    tags:
+    - Object
+    source: openapi/cdata-query-api-openapi.yml#/components/schemas/BatchRequest
+  - term: QueryRequest
+    definition: 'Object declared by the contract with fields: defaultCatalog, defaultSchema, parameters, query, schemaOnly, timeout.'
+    tags:
+    - Object
+    source: openapi/cdata-query-api-openapi.yml#/components/schemas/QueryRequest
+  - term: Direction
+    definition: 'Enumeration declared by the contract with values: 1, 2, 4, 5.'
+    tags:
+    - Enumeration
+    source: openapi/cdata-query-api-openapi.yml#/components/schemas/Direction
+  - term: ExecRequest
+    definition: 'Object declared by the contract with fields: defaultCatalog, defaultSchema, parameters, procedure, timeout.'
+    tags:
+    - Object
+    source: openapi/cdata-query-api-openapi.yml#/components/schemas/ExecRequest
+  - term: ExecParameter
+    definition: 'Object declared by the contract with fields: direction, dataType, value.'
+    tags:
+    - Object
+    source: openapi/cdata-query-api-openapi.yml#/components/schemas/ExecParameter
+  - term: Parameter
+    definition: 'Object declared by the contract with fields: dataType, value.'
+    tags:
+    - Object
+    source: openapi/cdata-query-api-openapi.yml#/components/schemas/Parameter
+  - term: UpdateServiceAccountRequest
+    definition: 'Object declared by the contract with fields: name, description, status.'
+    tags:
+    - Object
+    source: openapi/cdata-service-accounts-api-openapi.yml#/components/schemas/UpdateServiceAccountRequest
+  - term: ErrorResponse
+    definition: 'Object declared by the contract with fields: error.'
+    tags:
+    - Object
+    source: openapi/cdata-service-accounts-api-openapi.yml#/components/schemas/ErrorResponse
+  - term: CollectionEnvelope
+    definition: 'Object declared by the contract with fields: limit, next_cursor.'
+    tags:
+    - Object
+    source: openapi/cdata-service-accounts-api-openapi.yml#/components/schemas/CollectionEnvelope
+  - term: ServiceAccountPermissionAssignment
+    definition: 'Object declared by the contract with fields: id, service_account_id, resource, operations, type, assigned_at, assigned_by.'
+    tags:
+    - Object
+    source: openapi/cdata-service-accounts-api-openapi.yml#/components/schemas/ServiceAccountPermissionAssignment
+  - term: CreateServiceAccountRequest
+    definition: 'Object declared by the contract with fields: name, description, external_id.'
+    tags:
+    - Object
+    source: openapi/cdata-service-accounts-api-openapi.yml#/components/schemas/CreateServiceAccountRequest
+  - term: ServiceAccountRoleAssignment
+    definition: A direct role assignment made via POST /service-accounts/{id}/roles.
+    tags:
+    - Object
+    source: openapi/cdata-service-accounts-api-openapi.yml#/components/schemas/ServiceAccountRoleAssignment
+  - term: ServiceAccountRoleItem
+    definition: A role held by a service account, with provenance.
+    tags:
+    - Object
+    source: openapi/cdata-service-accounts-api-openapi.yml#/components/schemas/ServiceAccountRoleItem
+  - term: AssignPermissionRequest
+    definition: 'Object declared by the contract with fields: resource, operations, type.'
+    tags:
+    - Object
+    source: openapi/cdata-service-accounts-api-openapi.yml#/components/schemas/AssignPermissionRequest
+  - term: AssignRoleRequest
+    definition: 'Object declared by the contract with fields: role_id.'
+    tags:
+    - Object
+    source: openapi/cdata-service-accounts-api-openapi.yml#/components/schemas/AssignRoleRequest
+  - term: ServiceAccountWorkspaceRoleAssignment
+    definition: A workspace-scoped role assignment for a service account.
+    tags:
+    - Object
+    source: openapi/cdata-service-accounts-api-openapi.yml#/components/schemas/ServiceAccountWorkspaceRoleAssignment
+  - term: ServiceAccount
+    definition: 'Object declared by the contract with fields: id, name, description, status, client_id, external_id, created_at, created_by.'
+    tags:
+    - Object
+    source: openapi/cdata-service-accounts-api-openapi.yml#/components/schemas/ServiceAccount
+  - term: UserRoleAssignment
+    definition: A direct role assignment made via POST /users/{id}/roles.
+    tags:
+    - Object
+    source: openapi/cdata-users-api-openapi.yml#/components/schemas/UserRoleAssignment
+  - term: CreateUserRequest
+    definition: 'Object declared by the contract with fields: email, first_name, last_name, external_id.'
+    tags:
+    - Object
+    source: openapi/cdata-users-api-openapi.yml#/components/schemas/CreateUserRequest
+  - term: BatchCreateUsersRequest
+    definition: 'Object declared by the contract with fields: users.'
+    tags:
+    - Object
+    source: openapi/cdata-users-api-openapi.yml#/components/schemas/BatchCreateUsersRequest
+  - term: UserPermissionAssignment
+    definition: 'Object declared by the contract with fields: id, user_id, resource, operations, type, assigned_at, assigned_by.'
+    tags:
+    - Object
+    source: openapi/cdata-users-api-openapi.yml#/components/schemas/UserPermissionAssignment
+  - term: UserWorkspaceRoleAssignment
+    definition: A workspace-scoped role assignment for a user.
+    tags:
+    - Object
+    source: openapi/cdata-users-api-openapi.yml#/components/schemas/UserWorkspaceRoleAssignment
+  - term: BatchCreateUsersResponse
+    definition: 'Object declared by the contract with fields: created, updated, failed, summary.'
+    tags:
+    - Object
+    source: openapi/cdata-users-api-openapi.yml#/components/schemas/BatchCreateUsersResponse
+  - term: UserRoleItem
+    definition: A role held by a user, with full provenance. Returned by GET /users/{id}/roles.
+    tags:
+    - Object
+    source: openapi/cdata-users-api-openapi.yml#/components/schemas/UserRoleItem
+  - term: UpdateUserRequest
+    definition: 'Object declared by the contract with fields: first_name, last_name, status.'
+    tags:
+    - Object
+    source: openapi/cdata-users-api-openapi.yml#/components/schemas/UpdateUserRequest
+  - term: User
+    definition: 'Object declared by the contract with fields: id, email, first_name, last_name, status, scim_managed, external_id, created_at,
+      created_by.'
+    tags:
+    - Object
+    source: openapi/cdata-users-api-openapi.yml#/components/schemas/User

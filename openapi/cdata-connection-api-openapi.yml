@@ -331,15 +331,6 @@ paths:
           description: OK
 components:
   schemas:
-    DataSourceListResult:
-      type: object
-      properties:
-        dataSources:
-          type: array
-          items:
-            $ref: '#/components/schemas/DataSourceListItem'
-          description: A list of data sources supported by Connect AI Embed.
-      additionalProperties: false
     EditConnectionRequest:
       type: object
       required:
@@ -356,6 +347,24 @@ components:
           type: boolean
           description: (Optional) The default value is `true`. When `true`, any `name` you supply is shown as a suggested default value, and the end user can change it. When `false`, the **Connection Name** field is rendered read-only, and the server enforces the supplied `name` on submit. Has no effect when `name` is omitted.
           default: true
+      additionalProperties: false
+    RedirectURLResponse:
+      type: object
+      required:
+      - redirectURL
+      properties:
+        redirectURL:
+          type: string
+          description: A string containing the CData-hosted connection URL to redirect the user to.
+      additionalProperties: false
+    DataSourceListResult:
+      type: object
+      properties:
+        dataSources:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataSourceListItem'
+          description: A list of data sources supported by Connect AI Embed.
       additionalProperties: false
     ConnectionListItem:
       type: object
@@ -394,14 +403,14 @@ components:
           type: string
           description: Connection status. Possible values include Authenticated, NotAuthenticated, and Conditional.
       additionalProperties: false
-    DataSourceListItem:
+    ConnectionListResult:
       type: object
-      required:
-      - dataSource
       properties:
-        dataSource:
-          type: string
-          description: The name of the data source.
+        connections:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConnectionListItem'
+          description: A list of connections for the account.
       additionalProperties: false
     CreateConnectionRequest:
       type: object
@@ -428,23 +437,14 @@ components:
           description: (Optional) The default value is `true`. When `true`, any `name` you supply is shown as a suggested default value, and the end user can change it. When `false`, the **Connection Name** field is rendered read-only, and the server enforces the supplied `name` on submit. Has no effect when `name` is omitted.
           default: true
       additionalProperties: false
-    RedirectURLResponse:
+    DataSourceListItem:
       type: object
       required:
-      - redirectURL
+      - dataSource
       properties:
-        redirectURL:
+        dataSource:
           type: string
-          description: A string containing the CData-hosted connection URL to redirect the user to.
-      additionalProperties: false
-    ConnectionListResult:
-      type: object
-      properties:
-        connections:
-          type: array
-          items:
-            $ref: '#/components/schemas/ConnectionListItem'
-          description: A list of connections for the account.
+          description: The name of the data source.
       additionalProperties: false
   securitySchemes:
     BearerAuth:

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cdata/main/json-schema/cdata-assign-permission-request-schema.json",
+  "title": "AssignPermissionRequest",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cdata-service-accounts-api-openapi.yml#/components/schemas/AssignPermissionRequest",
+  "type": "object",
+  "required": [
+    "resource",
+    "operations",
+    "type"
+  ],
+  "properties": {
+    "resource": {
+      "type": "string",
+      "description": "The name of the specific connection instance this permission applies to. This is the connection name as defined in Connect AI, not the connector type.\n"
+    },
+    "operations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "create",
+          "read",
+          "update",
+          "delete",
+          "execute"
+        ]
+      },
+      "description": "One or more operations to permit on the resource."
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "connection"
+      ],
+      "description": "Always `connection`. Classifies what category of resource the permission governs."
+    }
+  }
+}

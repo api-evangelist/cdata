@@ -1,0 +1,583 @@
+{
+  "@context": {
+    "@vocab": "https://cdata.com/schema#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "cdata": "https://cdata.com/schema#",
+    "CreateAccountRequest": "cdata:CreateAccountRequest",
+    "externalId": {
+      "@id": "cdata:externalId",
+      "@type": "xsd:string"
+    },
+    "accountName": {
+      "@id": "cdata:accountName",
+      "@type": "xsd:string"
+    },
+    "AccountInfo": "cdata:AccountInfo",
+    "id": {
+      "@id": "cdata:id",
+      "@type": "xsd:string"
+    },
+    "created": {
+      "@id": "cdata:created",
+      "@type": "xsd:dateTime"
+    },
+    "UpdateAccountRequest": "cdata:UpdateAccountRequest",
+    "CreateAccountResult": "cdata:CreateAccountResult",
+    "accountId": {
+      "@id": "cdata:accountId",
+      "@type": "xsd:string"
+    },
+    "createdTime": {
+      "@id": "cdata:createdTime",
+      "@type": "xsd:dateTime"
+    },
+    "AccountListResult": "cdata:AccountListResult",
+    "accounts": {
+      "@id": "cdata:accounts",
+      "@container": "@list"
+    },
+    "EditConnectionRequest": "cdata:EditConnectionRequest",
+    "redirectURL": {
+      "@id": "cdata:redirectURL",
+      "@type": "xsd:string"
+    },
+    "name": {
+      "@id": "cdata:name",
+      "@type": "xsd:string"
+    },
+    "editableName": {
+      "@id": "cdata:editableName",
+      "@type": "xsd:boolean"
+    },
+    "CacheConnectionRequest": "cdata:CacheConnectionRequest",
+    "connectionString": {
+      "@id": "cdata:connectionString",
+      "@type": "xsd:string"
+    },
+    "RedirectURLResponse": "cdata:RedirectURLResponse",
+    "DataSourceListResult": "cdata:DataSourceListResult",
+    "dataSources": {
+      "@id": "cdata:dataSources",
+      "@container": "@list"
+    },
+    "ConnectionListItem": "cdata:ConnectionListItem",
+    "dataSource": {
+      "@id": "cdata:dataSource",
+      "@type": "xsd:string"
+    },
+    "lastModified": {
+      "@id": "cdata:lastModified",
+      "@type": "xsd:dateTime"
+    },
+    "mcpUrl": {
+      "@id": "cdata:mcpUrl",
+      "@type": "xsd:string"
+    },
+    "status": {
+      "@id": "cdata:status",
+      "@type": "xsd:string"
+    },
+    "DataSourceListItem": "cdata:DataSourceListItem",
+    "CreateConnectionRequest": "cdata:CreateConnectionRequest",
+    "ConnectionListResult": "cdata:ConnectionListResult",
+    "connections": {
+      "@id": "cdata:connections",
+      "@container": "@list"
+    },
+    "JobParams": "cdata:JobParams",
+    "sourceConnection": {
+      "@id": "cdata:sourceConnection",
+      "@type": "xsd:string"
+    },
+    "sourceConnectionName": {
+      "@id": "cdata:sourceConnectionName",
+      "@type": "xsd:string"
+    },
+    "sourceName": {
+      "@id": "cdata:sourceName",
+      "@type": "xsd:string"
+    },
+    "sourceSchema": {
+      "@id": "cdata:sourceSchema",
+      "@type": "xsd:string"
+    },
+    "sourceTable": {
+      "@id": "cdata:sourceTable",
+      "@type": "xsd:string"
+    },
+    "timeCheckColumn": {
+      "@id": "cdata:timeCheckColumn",
+      "@type": "xsd:string"
+    },
+    "autoTruncateStrings": {
+      "@id": "cdata:autoTruncateStrings",
+      "@type": "xsd:string"
+    },
+    "mergeKeys": {
+      "@id": "cdata:mergeKeys",
+      "@container": "@list"
+    },
+    "JobLastRun": "cdata:JobLastRun",
+    "dateTime": {
+      "@id": "cdata:dateTime",
+      "@type": "xsd:dateTime"
+    },
+    "duration": {
+      "@id": "cdata:duration",
+      "@type": "xsd:integer"
+    },
+    "rowsAffected": {
+      "@id": "cdata:rowsAffected",
+      "@type": "xsd:integer"
+    },
+    "nextRunTime": {
+      "@id": "cdata:nextRunTime",
+      "@type": "xsd:dateTime"
+    },
+    "JobListResult": "cdata:JobListResult",
+    "jobs": {
+      "@id": "cdata:jobs",
+      "@container": "@list"
+    },
+    "CreateJobRequest": "cdata:CreateJobRequest",
+    "jobType": {
+      "@id": "cdata:jobType",
+      "@type": "xsd:string"
+    },
+    "intervalUnit": {
+      "@id": "cdata:intervalUnit",
+      "@type": "xsd:string"
+    },
+    "intervalValue": {
+      "@id": "cdata:intervalValue",
+      "@type": "xsd:integer"
+    },
+    "logVerbosity": {
+      "@id": "cdata:logVerbosity",
+      "@type": "xsd:integer"
+    },
+    "enabled": {
+      "@id": "cdata:enabled",
+      "@type": "xsd:boolean"
+    },
+    "definedNextRun": {
+      "@id": "cdata:definedNextRun",
+      "@type": "xsd:dateTime"
+    },
+    "params": {
+      "@id": "cdata:params",
+      "@type": "@id"
+    },
+    "MergeKey": "cdata:MergeKey",
+    "colName": {
+      "@id": "cdata:colName",
+      "@type": "xsd:string"
+    },
+    "colType": {
+      "@id": "cdata:colType",
+      "@type": "xsd:string"
+    },
+    "isPrimaryKey": {
+      "@id": "cdata:isPrimaryKey",
+      "@type": "xsd:boolean"
+    },
+    "UpdateJobRequest": "cdata:UpdateJobRequest",
+    "JobInfo": "cdata:JobInfo",
+    "lastRun": {
+      "@id": "cdata:lastRun",
+      "@type": "@id"
+    },
+    "AuditSearchResult": "cdata:AuditSearchResult",
+    "events": {
+      "@id": "cdata:events",
+      "@container": "@list"
+    },
+    "QuerySearchResult": "cdata:QuerySearchResult",
+    "queries": {
+      "@id": "cdata:queries",
+      "@container": "@list"
+    },
+    "QueryRecord": "cdata:QueryRecord",
+    "credential": {
+      "@id": "cdata:credential",
+      "@type": "xsd:string"
+    },
+    "drivers": {
+      "@id": "cdata:drivers",
+      "@type": "xsd:string"
+    },
+    "errorCode": {
+      "@id": "cdata:errorCode",
+      "@type": "xsd:string"
+    },
+    "errorMessage": {
+      "@id": "cdata:errorMessage",
+      "@type": "xsd:string"
+    },
+    "query": {
+      "@id": "cdata:query",
+      "@type": "xsd:string"
+    },
+    "queryId": {
+      "@id": "cdata:queryId",
+      "@type": "xsd:string"
+    },
+    "queryType": {
+      "@id": "cdata:queryType",
+      "@type": "@id"
+    },
+    "rowsReturned": {
+      "@id": "cdata:rowsReturned",
+      "@type": "xsd:integer"
+    },
+    "timestamp": {
+      "@id": "cdata:timestamp",
+      "@type": "xsd:dateTime"
+    },
+    "userAgent": {
+      "@id": "cdata:userAgent",
+      "@type": "xsd:string"
+    },
+    "QueryType": "cdata:QueryType",
+    "AuditEventType": "cdata:AuditEventType",
+    "AuditEvent": "cdata:AuditEvent",
+    "eventType": {
+      "@id": "cdata:eventType",
+      "@type": "@id"
+    },
+    "relatedId": {
+      "@id": "cdata:relatedId",
+      "@type": "xsd:string"
+    },
+    "relatedName": {
+      "@id": "cdata:relatedName",
+      "@type": "xsd:string"
+    },
+    "relatedType": {
+      "@id": "cdata:relatedType",
+      "@type": "xsd:integer"
+    },
+    "targetId": {
+      "@id": "cdata:targetId",
+      "@type": "xsd:string"
+    },
+    "targetName": {
+      "@id": "cdata:targetName",
+      "@type": "xsd:string"
+    },
+    "targetType": {
+      "@id": "cdata:targetType",
+      "@type": "xsd:integer"
+    },
+    "userId": {
+      "@id": "cdata:userId",
+      "@type": "xsd:string"
+    },
+    "userName": {
+      "@id": "cdata:userName",
+      "@type": "xsd:string"
+    },
+    "userType": {
+      "@id": "cdata:userType",
+      "@type": "xsd:integer"
+    },
+    "QuerySearchCriteria": "cdata:QuerySearchCriteria",
+    "endTime": {
+      "@id": "cdata:endTime",
+      "@type": "xsd:dateTime"
+    },
+    "startTime": {
+      "@id": "cdata:startTime",
+      "@type": "xsd:dateTime"
+    },
+    "JsonRpcRequest": "cdata:JsonRpcRequest",
+    "jsonrpc": {
+      "@id": "cdata:jsonrpc",
+      "@type": "xsd:string"
+    },
+    "method": {
+      "@id": "cdata:method",
+      "@type": "xsd:string"
+    },
+    "JsonRpcError": "cdata:JsonRpcError",
+    "code": {
+      "@id": "cdata:code",
+      "@type": "xsd:integer"
+    },
+    "message": {
+      "@id": "cdata:message",
+      "@type": "xsd:string"
+    },
+    "data": {
+      "@id": "cdata:data"
+    },
+    "JsonRpcResponse": "cdata:JsonRpcResponse",
+    "result": {
+      "@id": "cdata:result"
+    },
+    "error": {
+      "@id": "cdata:error",
+      "@type": "@id"
+    },
+    "ToolFilterParseError": "cdata:ToolFilterParseError",
+    "ErrorDetail": "cdata:ErrorDetail",
+    "ErrorCode": "cdata:ErrorCode",
+    "ColumnInfo": "cdata:ColumnInfo",
+    "catalogName": {
+      "@id": "cdata:catalogName",
+      "@type": "xsd:string"
+    },
+    "columnLabel": {
+      "@id": "cdata:columnLabel",
+      "@type": "xsd:string"
+    },
+    "columnName": {
+      "@id": "cdata:columnName",
+      "@type": "xsd:string"
+    },
+    "dataType": {
+      "@id": "cdata:dataType",
+      "@type": "@id"
+    },
+    "dataTypeName": {
+      "@id": "cdata:dataTypeName",
+      "@type": "xsd:string"
+    },
+    "length": {
+      "@id": "cdata:length",
+      "@type": "xsd:integer"
+    },
+    "nullable": {
+      "@id": "cdata:nullable",
+      "@type": "xsd:boolean"
+    },
+    "ordinal": {
+      "@id": "cdata:ordinal",
+      "@type": "xsd:integer"
+    },
+    "precision": {
+      "@id": "cdata:precision",
+      "@type": "xsd:integer"
+    },
+    "scale": {
+      "@id": "cdata:scale",
+      "@type": "xsd:integer"
+    },
+    "schemaName": {
+      "@id": "cdata:schemaName",
+      "@type": "xsd:string"
+    },
+    "tableName": {
+      "@id": "cdata:tableName",
+      "@type": "xsd:string"
+    },
+    "ResultSet": "cdata:ResultSet",
+    "affectedRows": {
+      "@id": "cdata:affectedRows",
+      "@type": "xsd:integer"
+    },
+    "rows": {
+      "@id": "cdata:rows",
+      "@container": "@list"
+    },
+    "QueryResult": "cdata:QueryResult",
+    "results": {
+      "@id": "cdata:results",
+      "@container": "@list"
+    },
+    "DataType": "cdata:DataType",
+    "BatchRequest": "cdata:BatchRequest",
+    "defaultCatalog": {
+      "@id": "cdata:defaultCatalog",
+      "@type": "xsd:string"
+    },
+    "defaultSchema": {
+      "@id": "cdata:defaultSchema",
+      "@type": "xsd:string"
+    },
+    "parameters": {
+      "@id": "cdata:parameters",
+      "@container": "@list"
+    },
+    "timeout": {
+      "@id": "cdata:timeout",
+      "@type": "xsd:integer"
+    },
+    "QueryRequest": "cdata:QueryRequest",
+    "schemaOnly": {
+      "@id": "cdata:schemaOnly",
+      "@type": "xsd:boolean"
+    },
+    "Direction": "cdata:Direction",
+    "ExecRequest": "cdata:ExecRequest",
+    "procedure": {
+      "@id": "cdata:procedure",
+      "@type": "xsd:string"
+    },
+    "ExecParameter": "cdata:ExecParameter",
+    "direction": {
+      "@id": "cdata:direction",
+      "@type": "@id"
+    },
+    "value": {
+      "@id": "cdata:value"
+    },
+    "Parameter": "cdata:Parameter",
+    "UpdateServiceAccountRequest": "cdata:UpdateServiceAccountRequest",
+    "description": {
+      "@id": "cdata:description",
+      "@type": "xsd:string"
+    },
+    "ErrorResponse": "cdata:ErrorResponse",
+    "CollectionEnvelope": "cdata:CollectionEnvelope",
+    "limit": {
+      "@id": "cdata:limit",
+      "@type": "xsd:integer"
+    },
+    "next_cursor": {
+      "@id": "cdata:next_cursor",
+      "@type": "xsd:string"
+    },
+    "ServiceAccountPermissionAssignment": "cdata:ServiceAccountPermissionAssignment",
+    "service_account_id": {
+      "@id": "cdata:service_account_id",
+      "@type": "xsd:string"
+    },
+    "resource": {
+      "@id": "cdata:resource",
+      "@type": "xsd:string"
+    },
+    "operations": {
+      "@id": "cdata:operations",
+      "@container": "@list"
+    },
+    "type": {
+      "@id": "cdata:type",
+      "@type": "xsd:string"
+    },
+    "assigned_at": {
+      "@id": "cdata:assigned_at",
+      "@type": "xsd:dateTime"
+    },
+    "assigned_by": {
+      "@id": "cdata:assigned_by",
+      "@type": "xsd:string"
+    },
+    "CreateServiceAccountRequest": "cdata:CreateServiceAccountRequest",
+    "external_id": {
+      "@id": "cdata:external_id",
+      "@type": "xsd:string"
+    },
+    "ServiceAccountRoleAssignment": "cdata:ServiceAccountRoleAssignment",
+    "role_id": {
+      "@id": "cdata:role_id",
+      "@type": "xsd:string"
+    },
+    "role_name": {
+      "@id": "cdata:role_name",
+      "@type": "xsd:string"
+    },
+    "role_type": {
+      "@id": "cdata:role_type",
+      "@type": "xsd:string"
+    },
+    "grant_type": {
+      "@id": "cdata:grant_type",
+      "@type": "xsd:string"
+    },
+    "granted_at": {
+      "@id": "cdata:granted_at",
+      "@type": "xsd:dateTime"
+    },
+    "granted_by": {
+      "@id": "cdata:granted_by",
+      "@type": "xsd:string"
+    },
+    "ServiceAccountRoleItem": "cdata:ServiceAccountRoleItem",
+    "group_id": {
+      "@id": "cdata:group_id",
+      "@type": "xsd:string"
+    },
+    "group_name": {
+      "@id": "cdata:group_name",
+      "@type": "xsd:string"
+    },
+    "AssignPermissionRequest": "cdata:AssignPermissionRequest",
+    "AssignRoleRequest": "cdata:AssignRoleRequest",
+    "ServiceAccountWorkspaceRoleAssignment": "cdata:ServiceAccountWorkspaceRoleAssignment",
+    "workspace_id": {
+      "@id": "cdata:workspace_id",
+      "@type": "xsd:string"
+    },
+    "ServiceAccount": "cdata:ServiceAccount",
+    "client_id": {
+      "@id": "cdata:client_id",
+      "@type": "xsd:string"
+    },
+    "created_at": {
+      "@id": "cdata:created_at",
+      "@type": "xsd:dateTime"
+    },
+    "created_by": {
+      "@id": "cdata:created_by",
+      "@type": "xsd:string"
+    },
+    "UserRoleAssignment": "cdata:UserRoleAssignment",
+    "user_id": {
+      "@id": "cdata:user_id",
+      "@type": "xsd:string"
+    },
+    "CreateUserRequest": "cdata:CreateUserRequest",
+    "email": {
+      "@id": "cdata:email",
+      "@type": "xsd:string"
+    },
+    "first_name": {
+      "@id": "cdata:first_name",
+      "@type": "xsd:string"
+    },
+    "last_name": {
+      "@id": "cdata:last_name",
+      "@type": "xsd:string"
+    },
+    "BatchCreateUsersRequest": "cdata:BatchCreateUsersRequest",
+    "users": {
+      "@id": "cdata:users",
+      "@container": "@list"
+    },
+    "UserPermissionAssignment": "cdata:UserPermissionAssignment",
+    "UserWorkspaceRoleAssignment": "cdata:UserWorkspaceRoleAssignment",
+    "BatchCreateUsersResponse": "cdata:BatchCreateUsersResponse",
+    "updated": {
+      "@id": "cdata:updated",
+      "@container": "@list"
+    },
+    "failed": {
+      "@id": "cdata:failed",
+      "@container": "@list"
+    },
+    "summary": {
+      "@id": "cdata:summary"
+    },
+    "UserRoleItem": "cdata:UserRoleItem",
+    "UpdateUserRequest": "cdata:UpdateUserRequest",
+    "User": "cdata:User",
+    "scim_managed": {
+      "@id": "cdata:scim_managed",
+      "@type": "xsd:boolean"
+    }
+  },
+  "@type": "schema:Dataset",
+  "schema:name": "CData API JSON-LD context",
+  "schema:description": "A JSON-LD @context for the objects CData's own API contract declares: one class per component schema, one property per declared field, typed from the contract. Derived by script (derive-json-ld.py, 2026-10-04) from openapi/cdata-account-api-openapi.yml, openapi/cdata-cache-api-openapi.yml, openapi/cdata-connection-api-openapi.yml.",
+  "dcterms:created": "2026-10-04",
+  "dcterms:source": [
+    "openapi/cdata-account-api-openapi.yml",
+    "openapi/cdata-cache-api-openapi.yml",
+    "openapi/cdata-connection-api-openapi.yml",
+    "openapi/cdata-data-explorer-api-openapi.yml",
+    "openapi/cdata-job-api-openapi.yml"
+  ]
+}

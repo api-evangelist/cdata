@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cdata/main/json-schema/cdata-update-account-request-schema.json",
+  "title": "UpdateAccountRequest",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cdata-account-api-openapi.yml#/components/schemas/UpdateAccountRequest",
+  "type": "object",
+  "properties": {
+    "externalId": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "(Optional) The new external Id for the sub-account."
+    },
+    "accountName": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "(Optional) The new display name for the sub-account."
+    }
+  },
+  "additionalProperties": false
+}

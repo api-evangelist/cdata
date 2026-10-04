@@ -1,5 +1,5 @@
 ---
-name: Cdata
+name: cdata-connect-ai-published-skill
 description: Use when connecting applications to real-time data sources, querying data via SQL/REST/OData, building AI agents with MCP, managing data access and permissions, or integrating with BI tools, ETL platforms, and no-code applications. Agents should reach for this skill when users need to access live data from cloud apps, databases, APIs, or services without moving data to separate locations.
 metadata:
     mintlify-proj: cdata

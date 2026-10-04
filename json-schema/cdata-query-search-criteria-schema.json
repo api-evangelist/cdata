@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cdata/main/json-schema/cdata-query-search-criteria-schema.json",
+  "title": "QuerySearchCriteria",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cdata-log-api-openapi.yml#/components/schemas/QuerySearchCriteria",
+  "type": "object",
+  "properties": {
+    "endTime": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time",
+      "description": "The end time of the query."
+    },
+    "queryType": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/$defs/QueryType"
+      },
+      "default": 2,
+      "description": "The type of query."
+    },
+    "startTime": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time",
+      "description": "The start time of the query."
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "QueryType": {
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        20,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        200,
+        201,
+        202,
+        203,
+        204,
+        205,
+        210,
+        211,
+        212,
+        220,
+        230,
+        231,
+        232
+      ],
+      "type": "integer",
+      "format": "int32",
+      "description": "| Value | Name |\n|-------|------|\n| 0 | Drivers |\n| 1 | DriverInfo |\n| 2 | TestConnection |\n| 3 | GetOAuthAuthorizationUrl |\n| 4 | GetOAuthAccessToken |\n| 5 | CustomReportInfo |\n| 6 | GenerateCustomReport |\n| 7 | GetAPIRootPaths |\n| 8 | GetAPIColumns |\n| 9 | GetAPIRows |\n| 10 | GetTimeCheckColumns |\n| 11 | GetDynamicPropValues |\n| 20 | DisconnectOAuthAccessToken |\n| 100 | Catalogs |\n| 101 | Schemas |\n| 102 | Tables |\n| 103 | Columns |\n| 104 | PrimaryKeys |\n| 105 | ImportedKeys |\n| 106 | ExportedKeys |\n| 107 | Procedures |\n| 108 | ProcedureParameters |\n| 109 | Indexes |\n| 200 | Query |\n| 201 | QuerySchemaOnly |\n| 202 | Batch |\n| 203 | Exec |\n| 204 | Caching |\n| 205 | ScheduledQuery |\n| 210 | ODataServiceDocument |\n| 211 | ODataMetadata |\n| 212 | ODataQuery |\n| 220 | OpenAPIDocument |\n| 230 | CreateDerivedView |\n| 231 | AlterDerivedView |\n| 232 | DropDerivedView |\n"
+    }
+  }
+}

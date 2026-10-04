@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cdata/main/json-schema/cdata-user-permission-assignment-schema.json",
+  "title": "UserPermissionAssignment",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cdata-users-api-openapi.yml#/components/schemas/UserPermissionAssignment",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Permission identifier."
+    },
+    "user_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The user this permission is assigned to."
+    },
+    "resource": {
+      "type": "string",
+      "description": "The connection name this permission applies to."
+    },
+    "operations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "create",
+          "read",
+          "update",
+          "delete",
+          "execute"
+        ]
+      },
+      "description": "Allowed operations on the resource."
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "connection"
+      ],
+      "description": "Always `connection`. Classifies what category of resource the permission governs."
+    },
+    "assigned_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 UTC."
+    },
+    "assigned_by": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The user who assigned this permission."
+    }
+  }
+}

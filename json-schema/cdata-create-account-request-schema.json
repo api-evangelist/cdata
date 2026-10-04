@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cdata/main/json-schema/cdata-create-account-request-schema.json",
+  "title": "CreateAccountRequest",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cdata-account-api-openapi.yml#/components/schemas/CreateAccountRequest",
+  "type": "object",
+  "properties": {
+    "externalId": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "(Optional) The external Id of the account to be created."
+    },
+    "accountName": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "(Optional) The display name of the account to be created."
+    }
+  },
+  "additionalProperties": false
+}
