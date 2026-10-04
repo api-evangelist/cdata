@@ -536,6 +536,8 @@ apis:
   humanURL: https://docs.cloud.cdata.com/en/API/MCP
   baseURL: https://mcp.cloud.cdata.com
   tags:
+  - OpenAPI
+  tags_raw:
   - Open API
   properties:
   - type: OpenAPI
@@ -595,6 +597,9 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cdata.png
 access: 3rd-Party
 common:
+- type: CapabilityMap
+  url: capabilities/cdata-capability-edges.yml
+  name: CData Business Capability Map
 - type: Overlay
   url: overlays/cdata-odata-api-overlay.yaml
 - type: Overlay
