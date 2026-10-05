@@ -1,0 +1,36 @@
+slug: cdata
+provider: CData
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: Users
+  spec_file: cdata-users-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.82
+  evidence: POST /users createUser Create User; POST /users/{id}/roles assignUserRole Assign User Role;
+    DELETE /users/{id}/permissions/{permission_id} removeUserPermission
+  reason: User account creation/deletion plus role and permission assignment under an 'enterprise platform
+    administration' management API — classic IAM, not HR employee records.
+- tag: Service Accounts
+  spec_file: cdata-service-accounts-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: POST /service-accounts/{id}/roles assignServiceAccountRole; POST /service-accounts/{id}/permissions
+    assignServiceAccountPermission; DELETE /service-accounts/{id}/roles/{role_id} removeServiceAccountRole
+  reason: Lifecycle of non-human principals with role and permission assignment, including workspace-scoped
+    roles. This is identity and access management for the platform; the alternative reading (developer
+    credential issuance) is less supported since no OAuth client or key artefacts appear.
