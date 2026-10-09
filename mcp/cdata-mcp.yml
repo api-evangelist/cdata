@@ -155,3 +155,19 @@ clients:
 maintainers:
 - FN: Kin Lane
   email: info@apievangelist.com
+rfc9728:
+  endpoint: https://mcp.cloud.cdata.com/mcp
+  metadata_url: https://mcp.cloud.cdata.com/.well-known/oauth-protected-resource/mcp
+  discovered_via: WWW-Authenticate resource_metadata on an anonymous POST initialize
+  fetched: '2026-09-25'
+  http_status: 200
+  content_type: application/json
+  document:
+    resource: https://mcp.cloud.cdata.com/mcp
+    authorization_servers:
+    - https://mcp.cloud.cdata.com
+    scopes_supported:
+    - openid
+    - profile
+    - email
+    resource_documentation: https://cloud.cdata.com/docs/MCP.html

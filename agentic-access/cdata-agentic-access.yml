@@ -1,4 +1,4 @@
-generated: '2026-09-16'
+generated: '2026-09-23'
 method: generated
 source: openapi/cdata-account-api-openapi.yml, openapi/cdata-cache-api-openapi.yml, openapi/cdata-connection-api-openapi.yml,
   openapi/cdata-data-explorer-api-openapi.yml, openapi/cdata-job-api-openapi.yml, openapi/cdata-jobs-api-openapi.yml,
@@ -11,11 +11,11 @@ description: Recommended x-agentic-access execution contracts, classified heuris
 summary:
   operations: 76
   by_action_class:
-    connected: 31
-    acting: 45
+    connected: 33
+    acting: 43
   by_consequence:
-    read: 31
-    write: 44
+    read: 33
+    write: 42
     safety-critical: 1
   human_in_the_loop_required: 1
 operations:
@@ -339,18 +339,12 @@ operations:
   method: post
   operationId: listQueryLog
   x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /log/query/get/{queryId}
   method: get
   operationId: getQueryLog
@@ -365,18 +359,12 @@ operations:
   method: post
   operationId: listAuditLog
   x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /mcp
   method: post
   operationId: postMcp
