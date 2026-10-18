@@ -1,6 +1,7 @@
 generated: '2026-10-13'
 method: searched
 checked:
+- google-workspace/integrations/google-workspace-integration-edges.yml
 - https://a2aregistry.org/api/agents
 - https://azuremarketplace.microsoft.com/
 - https://registry.modelcontextprotocol.io/v0/servers
@@ -86,5 +87,22 @@ edges:
     detected: '2026-10-15'
   detected_by: sweep-ai-agents.py
   first_seen: '2026-10-15'
+- partner_name: Google Workspace (own)
+  partner: google-workspace
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://workspace.google.com/marketplace/app/connect_spreadsheets_salesforce_sage_qui/53950082621
+  mirror_of: google-workspace/integrations/google-workspace-integration-edges.yml
+  apps:
+  - 'Connect Spreadsheets: Salesforce, Sage, QuickBooks'
+  listing_count: 1
+  detected: '2026-10-18'
+  detected_by: mirror-platform-listings.py
+  category: Google Workspace app
 source:
 - https://a2aregistry.org/api/agents
