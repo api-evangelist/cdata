@@ -1146,6 +1146,8 @@ apis:
   humanURL: https://docs.cloud.cdata.com/en/API/MCP
   baseURL: https://mcp.cloud.cdata.com
   tags:
+  - OpenAPI
+  tags_raw:
   - Open API
   properties:
   - type: OpenAPI
