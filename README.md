@@ -1,4 +1,4 @@
-# CData (cdata)
+# CData
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,205 +66,231 @@
 
 CData Software is a leading provider of data access and connectivity solutions. Our standards-based connectors streamline data access and insulate customers from the complexities of integrating with on-premise or cloud databases, SaaS, APIs, NoSQL, and Big Data.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/cdata/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/cdata/refs/heads/main/apis.yml)
+**Areas:** Data · Data Access · Data Connectivity · Database · NoSQL · SQL · A2A
 
-## Scope
+## CData on APIs.io
 
-- **Position:** Consumer
-- **Access:** 3rd-Party
+Everything profiled for CData is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/cdata/](https://apis.io/providers/cdata/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (14)
 
-- Data
-- Data Access
-- Data Connectivity
-- Databases
-- NoSQL
-- SQL
+- [CData Connect AI MCP Server](https://apis.io/apis/cdata/mcp/) — A hosted, remote Model Context Protocol server that exposes every data source connected to a CData Connect AI account as MCP tools — catalog, schema, table,…
+- [CData Account API](https://apis.io/apis/cdata/cdata-account-api/) — The Account API from CData — 5 operation(s) for account.
+- [CData Cache API](https://apis.io/apis/cdata/cdata-cache-api/) — The Cache API from CData — 2 operation(s) for cache.
+- [CData Connection API](https://apis.io/apis/cdata/cdata-connection-api/) — The Connection API from CData — 6 operation(s) for connection.
+- [CData Data Explorer API](https://apis.io/apis/cdata/cdata-data-explorer-api/) — The Data Explorer API from CData — 1 operation(s) for data explorer.
+- [CData Job API](https://apis.io/apis/cdata/cdata-job-api/) — The Job API from CData — 7 operation(s) for job.
+- [CData Jobs API](https://apis.io/apis/cdata/cdata-jobs-api/) — The Jobs API from CData — 1 operation(s) for jobs.
+- [CData Log API](https://apis.io/apis/cdata/cdata-log-api/) — The Log API from CData — 3 operation(s) for log.
+- [CData Metadata API](https://apis.io/apis/cdata/cdata-metadata-api/) — The Metadata API from CData — 10 operation(s) for metadata.
+- [CData Query API](https://apis.io/apis/cdata/cdata-query-api/) — The Query API from CData — 3 operation(s) for query.
+- [CData Service Accounts API](https://apis.io/apis/cdata/cdata-service-accounts-api/) — Full lifecycle management for machine identities (CI/CD pipelines, IaC tooling, Terraform automation). Service accounts are not SCIM-owned and authenticate…
+- [CData Users API](https://apis.io/apis/cdata/cdata-users-api/) — Lifecycle management for human users: create, update, deprovision, and manage direct role assignments, workspace-scoped roles, and direct resource…
+- [CData O Data API](https://apis.io/apis/cdata/cdata-odata-api/) — The OData API from CData — 3 operation(s) for odata.
+- [CData Open API](https://apis.io/apis/cdata/cdata-open-api-api/) — The Open API API from CData — 1 operation(s) for open api.
+
+### Published properties
 
-## Timestamps
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-- **Created:** 2025-06-05
-- **Modified:** 2026-04-23
+#### AsyncAPI (1)
 
-## APIs
+Event-driven and webhook contracts.
 
-### CData SQL API
+- [Cdata Audit Event Forwarding](https://apis.io/asyncapis/cdata/cdata-audit-event-forwarding/)
 
-The CData Cloud SQL API provides HTTP-based access to execute SQL queries, batch operations, and stored procedures across all data sources configured in a CData Connect Cloud account. Real-time data access across enterprise apps.
+#### MCP servers (1)
 
-- **Human URL:** [https://cloud.cdata.com/docs/SQL-API.html](https://cloud.cdata.com/docs/SQL-API.html)
+Model Context Protocol servers that expose the API to agents.
 
-#### Tags
+- [CData Connect AI MCP](https://apis.io/servers/cdata/cdata-connect-ai-mcp/)
 
-- Data Access
-- Query
-- REST
-- SQL
+#### Agentic access (1)
 
-#### Properties
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- [Documentation](https://cloud.cdata.com/docs/SQL-API.html)
-- [Overview](https://cloud.cdata.com/docs/API.html)
-- [Authentication](https://cloud.cdata.com/docs/Authentication.html)
-- [Postman Collection](collections/cdata.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cdata.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Cdata Agentic Access](https://apis.io/agentic-access/cdata/cdata-agentic-access/)
 
-### CData Metadata API
+#### JSON Schema (36)
 
-The CData Cloud Metadata API exposes catalog information including schemas, tables, columns, keys, and stored procedures across every configured data source, enabling tools to introspect the connected sources before querying.
+The data models the API reads and writes.
 
-- **Human URL:** [https://cloud.cdata.com/docs/Metadata-API.html](https://cloud.cdata.com/docs/Metadata-API.html)
+- [AccountInfo](https://apis.io/schemas/cdata/cdata-account-info/)
+- [AccountListResult](https://apis.io/schemas/cdata/cdata-account-list-result/)
+- [AssignPermissionRequest](https://apis.io/schemas/cdata/cdata-assign-permission-request/)
+- [AuditSearchResult](https://apis.io/schemas/cdata/cdata-audit-search-result/)
+- [BatchCreateUsersResponse](https://apis.io/schemas/cdata/cdata-batch-create-users-response/)
+- [BatchRequest](https://apis.io/schemas/cdata/cdata-batch-request/)
+- [CacheConnectionRequest](https://apis.io/schemas/cdata/cdata-cache-connection-request/)
+- [ConnectionListResult](https://apis.io/schemas/cdata/cdata-connection-list-result/)
+- [CreateAccountRequest](https://apis.io/schemas/cdata/cdata-create-account-request/)
+- [CreateAccountResult](https://apis.io/schemas/cdata/cdata-create-account-result/)
+- [CreateConnectionRequest](https://apis.io/schemas/cdata/cdata-create-connection-request/)
+- [CreateJobRequest](https://apis.io/schemas/cdata/cdata-create-job-request/)
+- [CreateServiceAccountRequest](https://apis.io/schemas/cdata/cdata-create-service-account-request/)
+- [CreateUserRequest](https://apis.io/schemas/cdata/cdata-create-user-request/)
+- [DataSourceListResult](https://apis.io/schemas/cdata/cdata-data-source-list-result/)
+- [EditConnectionRequest](https://apis.io/schemas/cdata/cdata-edit-connection-request/)
+- [ExecRequest](https://apis.io/schemas/cdata/cdata-exec-request/)
+- [JobInfo](https://apis.io/schemas/cdata/cdata-job-info/)
+- [JobListResult](https://apis.io/schemas/cdata/cdata-job-list-result/)
+- [JsonRpcRequest](https://apis.io/schemas/cdata/cdata-json-rpc-request/)
+- [JsonRpcResponse](https://apis.io/schemas/cdata/cdata-json-rpc-response/)
+- [QueryRequest](https://apis.io/schemas/cdata/cdata-query-request/)
+- [QueryResult](https://apis.io/schemas/cdata/cdata-query-result/)
+- [QuerySearchCriteria](https://apis.io/schemas/cdata/cdata-query-search-criteria/)
+- [QuerySearchResult](https://apis.io/schemas/cdata/cdata-query-search-result/)
+- …and 11 more published on APIs.io
 
-#### Tags
+#### JSON-LD (1)
 
-- Catalog
-- Data Access
-- Metadata
-- Schemas
+Linked-data contexts for the provider's vocabulary.
 
-#### Properties
+- [Cdata Context](https://apis.io/jsonld/cdata/cdata-context/)
 
-- [Documentation](https://cloud.cdata.com/docs/Metadata-API.html)
-- [Postman Collection](collections/cdata.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cdata.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Collections (4)
 
-### CData Log API
+Postman and Open Collection request collections.
 
-The CData Cloud Log API retrieves operational logs for queries, jobs, and connection events, enabling observability of the CData Connect Cloud service.
+- [Moved to /providers/cdata/](https://apis.io/collections/cdata/open-cdata/)
+- [Moved to /providers/cdata/](https://apis.io/collections/cdata/open-cdata-metadata-api/)
+- [Moved to /providers/cdata/](https://apis.io/collections/cdata/open-cdata-procedures-api/)
+- [Moved to /providers/cdata/](https://apis.io/collections/cdata/open-cdata-query-api/)
 
-- **Human URL:** [https://cloud.cdata.com/docs/Log-API.html](https://cloud.cdata.com/docs/Log-API.html)
+#### Overlays (21)
 
-#### Tags
+OpenAPI overlays, including conversational phrasing for each operation.
 
-- Audit
-- Logs
-- Observability
+- [Cdata Account Api Phrasing Overlay](https://apis.io/overlays/cdata/cdata-account-api-phrasing-overlay/)
+- [Cdata Cache Api Phrasing Overlay](https://apis.io/overlays/cdata/cdata-cache-api-phrasing-overlay/)
+- [Cdata Connection Api Phrasing Overlay](https://apis.io/overlays/cdata/cdata-connection-api-phrasing-overlay/)
+- [Cdata Data Explorer Api Phrasing Overlay](https://apis.io/overlays/cdata/cdata-data-explorer-api-phrasing-overlay/)
+- [Cdata Job Api Phrasing Overlay](https://apis.io/overlays/cdata/cdata-job-api-phrasing-overlay/)
+- [Cdata Jobs Api Phrasing Overlay](https://apis.io/overlays/cdata/cdata-jobs-api-phrasing-overlay/)
+- [Cdata Log Api Phrasing Overlay](https://apis.io/overlays/cdata/cdata-log-api-phrasing-overlay/)
+- [Cdata Management Api Overlay](https://apis.io/overlays/cdata/cdata-management-api-overlay/)
+- [Cdata Mcp Api Embedded Overlay](https://apis.io/overlays/cdata/cdata-mcp-api-embedded-overlay/)
+- [Cdata Mcp Api Overlay](https://apis.io/overlays/cdata/cdata-mcp-api-overlay/)
+- [Cdata Mcp Api Phrasing Overlay](https://apis.io/overlays/cdata/cdata-mcp-api-phrasing-overlay/)
+- [Cdata Metadata Api Phrasing Overlay](https://apis.io/overlays/cdata/cdata-metadata-api-phrasing-overlay/)
+- [Cdata Odata Api Overlay](https://apis.io/overlays/cdata/cdata-odata-api-overlay/)
+- [Cdata Odata Api Phrasing Overlay](https://apis.io/overlays/cdata/cdata-odata-api-phrasing-overlay/)
+- [Cdata Open Api Api Phrasing Overlay](https://apis.io/overlays/cdata/cdata-open-api-api-phrasing-overlay/)
+- [Cdata Openapi Api Overlay](https://apis.io/overlays/cdata/cdata-openapi-api-overlay/)
+- [Cdata Query Api Phrasing Overlay](https://apis.io/overlays/cdata/cdata-query-api-phrasing-overlay/)
+- [Cdata Rest Api Embedded Overlay](https://apis.io/overlays/cdata/cdata-rest-api-embedded-overlay/)
+- [Cdata Rest Api Overlay](https://apis.io/overlays/cdata/cdata-rest-api-overlay/)
+- [Cdata Service Accounts Api Phrasing Overlay](https://apis.io/overlays/cdata/cdata-service-accounts-api-phrasing-overlay/)
+- [Cdata Users Api Phrasing Overlay](https://apis.io/overlays/cdata/cdata-users-api-phrasing-overlay/)
 
-#### Properties
+#### Governance rules (1)
 
-- [Documentation](https://cloud.cdata.com/docs/Log-API.html)
-- [Postman Collection](collections/cdata.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cdata.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Spectral rulesets for the provider's contracts.
 
-### CData Connection API
+- [CData API Rules](https://apis.io/rules/cdata/cdata-rules/)
 
-The CData Cloud Connection API manages data source connections programmatically, allowing administrators to create, update, test, and delete connections to databases and SaaS applications.
+#### Security (3)
 
-- **Human URL:** [https://cloud.cdata.com/docs/Connection-API.html](https://cloud.cdata.com/docs/Connection-API.html)
+Authentication, trust centre, and vulnerability disclosure.
 
-#### Tags
+- [Cdata Authentication](https://apis.io/security/cdata/cdata-authentication/)
+- [Cdata Domain Security](https://apis.io/security/cdata/cdata-domain-security/)
+- [Cdata Trust Center](https://apis.io/security/cdata/cdata-trust-center/)
 
-- Administration
-- Connections
-- Data Sources
+#### OAuth scopes (1)
 
-#### Properties
+The permissions the API asks for.
 
-- [Documentation](https://cloud.cdata.com/docs/Connection-API.html)
-- [Postman Collection](collections/cdata.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cdata.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Cdata Scopes](https://apis.io/scopes/cdata/cdata-scopes/)
 
-### CData Job API
+#### Plans and pricing (1)
 
-The CData Cloud Job API monitors background jobs such as replication, caching, and scheduled operations, exposing job state and history.
+Published plans, tiers and prices.
 
-- **Human URL:** [https://cloud.cdata.com/docs/Job-API.html](https://cloud.cdata.com/docs/Job-API.html)
+- [Cdata Plans Pricing](https://apis.io/plans/cdata/cdata-plans-pricing/)
 
-#### Tags
+#### Rate limits (1)
 
-- Background Jobs
-- Monitoring
-- Replication
+Published request limits.
 
-#### Properties
+- [Cdata Rate Limits](https://apis.io/rate-limits/cdata/cdata-rate-limits/)
 
-- [Documentation](https://cloud.cdata.com/docs/Job-API.html)
-- [Postman Collection](collections/cdata.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cdata.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### FinOps (1)
 
-### CData Account API
+What the API costs to run, by operation.
 
-The CData Cloud Account API manages account settings, workspaces, and user-level configuration for the CData Connect Cloud tenant.
+- [Cdata Finops](https://apis.io/finops/cdata/cdata-finops/)
 
-- **Human URL:** [https://cloud.cdata.com/docs/Account-API.html](https://cloud.cdata.com/docs/Account-API.html)
+## Where to find this API
 
-#### Tags
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-- Account Management
-- Administration
-- Users
-
-#### Properties
-
-- [Documentation](https://cloud.cdata.com/docs/Account-API.html)
-- [Postman Collection](collections/cdata.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cdata.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### CData Audit API
-
-The CData Cloud Audit API tracks system activities and administrative events, supporting compliance and security monitoring requirements such as SOC 2 and GDPR.
-
-- **Human URL:** [https://cloud.cdata.com/docs/Audit-API.html](https://cloud.cdata.com/docs/Audit-API.html)
-
-#### Tags
-
-- Audit
-- Compliance
-- Security
-
-#### Properties
-
-- [Documentation](https://cloud.cdata.com/docs/Audit-API.html)
-- [Postman Collection](collections/cdata.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cdata.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### CData OData API
-
-CData Connect Cloud exposes an OData v4 compatible API that allows any OData client to browse metadata and query data from any configured source, including Excel, Power BI, and other BI tools.
-
-- **Human URL:** [https://cloud.cdata.com/docs/OData.html](https://cloud.cdata.com/docs/OData.html)
-
-#### Tags
-
-- Data Access
-- OData
-- REST
-
-#### Properties
-
-- [Documentation](https://cloud.cdata.com/docs/OData.html)
-- [Specification](https://www.odata.org/documentation/)
-- [Postman Collection](collections/cdata.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cdata.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [GitHub Organization](https://github.com/cdatasoftware)
-- [LinkedIn](https://www.linkedin.com/company/cdatasoftware)
-- [About](https://www.cdata.com/company/)
-- [Partners](https://www.cdata.com/embedded/customers/)
-- [Testimonials](https://www.cdata.com/company/testimonials.aspx)
-- [Case Studies](https://www.cdata.com/case-study/)
+- [Website](https://www.cdata.com/)
+- [Documentation](https://docs.cloud.cdata.com/)
+- [Getting started](https://www.cdata.com/developers/ai/quickstart/)
+- [API reference](https://docs.cloud.cdata.com/en/API/API)
+- [Pricing](https://www.cdata.com/ai/pricing/)
+- [Sign up](https://cloud.cdata.com/developer)
 - [Support](https://www.cdata.com/support/)
-- [Knowledgebase](https://www.cdata.com/kb/)
 - [Blog](https://www.cdata.com/blog/)
-- [White Papers](https://www.cdata.com/resources/)
-- [Webinars](https://www.cdata.com/resources/)
-- [Events](https://www.cdata.com/events/)
-- [Portal](https://www.cdata.com/developers/)
-- [Glossary](https://www.cdata.com/glossary/)
-- [Videos](https://www.cdata.com/kb/video/)
-- [Press Releases](https://www.cdata.com/company/press.aspx)
-- [Terms of Service](https://www.cdata.com/company/legal/terms/)
-- [Privacy Policy](https://www.cdata.com/company/legal/privacy/)
 - [Security](https://www.cdata.com/security/)
 - [Compliance](https://www.cdata.com/security/)
-- [A W S Marketplace](https://aws.amazon.com/marketplace/pp/prodview-jizwvan7n7sn6)
-- [Features](undefined)
-- [Integrations](undefined)
+- [Terms of service](https://www.cdata.com/company/legal/terms/)
+- [Privacy policy](https://www.cdata.com/company/legal/privacy/)
+- [GitHub](https://github.com/cdatasoftware)
+- [Status](https://status.cdata.com/)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** info@apievangelist.com
+**Kin Score 82.9** — exemplar · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 81.7 |
+| Contract quality | 72.6 |
+| Contract governance | 35.6 |
+| Operational transparency | 92.1 |
+| Developer ergonomics | 83.3 |
+| Access clarity | 78.9 |
+
+**Agent readiness 67.3** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | verified |
+| Auth Clarity | served (partial credit) |
+| Idempotency | documented (partial credit) |
+| Error Semantics | verified |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | yes |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 39.2** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/cdata/](https://apis.io/providers/cdata/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for CData: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/cdata/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
