@@ -1,0 +1,148 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-28'
+method: searched
+source: https://www.cdata.com/ai/pricing/
+sources:
+- https://www.cdata.com/ai/pricing/
+provenance:
+  tool: engine/economics/harvest_pricing.py
+  run: 20261028T120612
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: tiered-subscription
+delivery:
+  delivery: managed
+  method: page
+  read: '2026-10-28'
+  managed_tier: Standard
+published: true
+note: Annual billing shown with 20% savings (79/159 billed annually); add-on prices listed as annual pricing.
+  Trial ends after 14 days.
+plan_count: 8
+currency: USD
+plans:
+- name: Standard
+  price_text: $99/month
+  price: 99
+  currency: USD
+  period: month
+  included_quota: 1 user included, 1 data source included, Standard support, Standard data sources only
+  overage: Add-on users and sources available
+- name: Growth
+  price_text: $199/month
+  price: 199
+  currency: USD
+  period: month
+  included_quota: Everything in standard, plus Standard, Growth, and Premium sources available, Derived
+    views, Toolkits
+  overage: Add-on users and sources available
+- name: Business Plans
+  price_text: Annual contract
+  period: year
+  included_quota: Everything in growth, plus custom number of data sources, pooled tool calls, premium
+    support, SCIM 2.0, Enterprise SSO
+  overage: Volume discounts available
+- name: Additional users (Standard)
+  price_text: $ 29
+  price: 29
+  currency: USD
+  period: month
+  unit: user
+- name: Additional users (Growth)
+  price_text: $ 49
+  price: 49
+  currency: USD
+  period: month
+  unit: user
+- name: Additional Standard sources (Standard)
+  price_text: $ 59
+  price: 59
+  currency: USD
+  period: month
+  unit: source
+- name: Additional Standard sources (Growth)
+  price_text: $ 129
+  price: 129
+  currency: USD
+  period: month
+  unit: source
+- name: Additional Premium sources
+  price_text: $ 299
+  price: 299
+  currency: USD
+  period: month
+  unit: source
+rate_limit_statements:
+- There is a monthly limit of 100M records outlined in our fair use policy
+x-canonical:
+  generated: '2026-11-01'
+  vocabulary: engine/economics/plans-canonical.yml
+  models:
+  - hybrid
+  - metered
+  - seat
+  - subscription
+  units:
+  - seat
+  plans:
+  - name: Standard
+    access: other
+    model: hybrid
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Growth
+    access: other
+    model: hybrid
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Business Plans
+    access: other
+    model: metered
+    model_how: derived
+    units: []
+    periods:
+    - year
+  - name: Additional users (Standard)
+    access: other
+    model: seat
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - month
+  - name: Additional users (Growth)
+    access: other
+    model: seat
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - month
+  - name: Additional Standard sources (Standard)
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Additional Standard sources (Growth)
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Additional Premium sources
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
